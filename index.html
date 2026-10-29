@@ -712,8 +712,8 @@
     window.scrollTo({top:0, behavior:'smooth'});
   });
 
-  /* ---------- 6. 滾動揭示 ---------- */
-  document.querySelectorAll('.lede, .body-text p, .body-text h2, .stats, .notes h2, .notes p, figure.wide, figure.pic, .tool-block').forEach(function(el){
+   /* ---------- 6. 滾動揭示 ---------- */
+  document.querySelectorAll('.lede, .body-text p, .body-text h2, .stats, .notes h2, .notes h3, .notes p, .notes ul, figure.wide, figure.pic, .tool-block').forEach(function(el){
     el.classList.add('reveal');
   });
   var revealIO = new IntersectionObserver(function(entries){
