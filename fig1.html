@@ -1,0 +1,315 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>圖一｜全港非本地生人數趨勢</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Source+Sans+3:wght@400;700&family=Source+Serif+4:wght@700&family=Noto+Sans+TC:wght@400;700&family=Noto+Serif+TC:wght@700&display=swap" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/echarts@5.5.0/dist/echarts.min.js"></script>
+<style>
+  :root{
+    --rust:#C4502A; --grey:#B5BAC1; --grid:#E4E7EB; --ink:#16293F; --paper:#FFFFFF;
+  }
+  *{margin:0;padding:0;box-sizing:border-box;}
+  html{-webkit-text-size-adjust:100%;}
+  body{
+    font-family:"Source Sans 3","Noto Sans TC","PingFang HK","Microsoft JhengHei",Arial,sans-serif;
+    color:var(--ink); background:var(--paper);
+    max-width:720px; 
+    margin:0 auto; padding:clamp(12px,2.5vw,24px) clamp(10px,2vw,20px) 44px;
+  }
+  
+  .kicker{font-size:clamp(13px,1.5vw,14px);font-weight:700;letter-spacing:.08em;color:#1F3A5F;text-transform:uppercase;margin-bottom:6px;}
+  h1{font-size:clamp(17px,2vw,18px);line-height:1.3;font-weight:700;font-family:"Source Sans 3","Noto Sans TC",sans-serif;margin-bottom:8px;}
+  .dek{font-size:15px;color:#5B6573;line-height:1.55;margin-bottom:24px;}
+
+  /* 圖表容器 */
+  #chart-container {
+    width: 100%;
+    height: 460px; 
+    margin-bottom: 20px;
+  }
+
+  /* 編輯注與資料來源 */
+  .note{margin-top:18px;font-size:13px;color:#5B6573;line-height:1.6;}
+  .note h3{font-size:14px;color:#16293F;margin-bottom:6px;}
+  .note ul{padding-left:1.2em;}
+  .note li{margin-bottom:4px;}
+  .source{margin-top:14px;font-size:12px;color:#5B6573;line-height:1.5;}
+
+  /* 圖注按鈕與展開區域樣式 */
+  .caption-toggle-btn {
+    margin-top: 16px;
+    background-color: #F7F6F3;
+    color: #5B6573;
+    border: 1px solid #E4E7EB;
+    padding: 6px 16px;
+    border-radius: 4px;
+    font-size: 13px;
+    cursor: pointer;
+    font-family: inherit;
+    transition: background-color 0.2s;
+  }
+  .caption-toggle-btn:hover {
+    background-color: #EFECE6;
+  }
+  .caption-text {
+    display: none;
+    margin-top: 12px;
+    padding: 12px 16px;
+    background-color: #F7F6F3;
+    border-left: 3px solid #C4502A;
+    font-size: 13px;
+    color: #16293F;
+    line-height: 1.6;
+  }
+
+  @media (max-width: 768px) {
+    #chart-container { height: 380px; }
+  }
+</style>
+</head>
+<body>
+
+<h1>全港非本地生兩年增 45.5%，2029/30 目標 10 萬人</h1>
+<p class="dek">經本地評審全日制專上課程非本地學生，含資助及自資課程。2024/25 學年起上限升至 40%，2026/27 學年進一步升至 50%。</p>
+
+<div id="chart-container"></div>
+
+<div class="note">
+  <h3>註</h3>
+  <ul>
+    <li>本圖不包含政策上限百分比；79,300 人為全港數據，不等於八校非本地生，不能反推上限是否用滿。</li>
+    <li>2025/26 至 2028/29 學年缺乏官方完整數據，圖中留空處理。</li>
+    <li>2029/30 的 10 萬人為《2024年施政報告》設立的目標，並非官方預測數據。</li>
+  </ul>
+</div>
+<div class="source">資料來源：香港教育局提交立法會文件、《2024年施政報告》 ｜ 製圖：于子淇</div>
+
+<!-- 圖注按鈕及隱藏內容 -->
+<button class="caption-toggle-btn" onclick="toggleCaption('fig1-caption', this)">顯示圖注 (Alt Text)</button>
+<div id="fig1-caption" class="caption-text">
+  圖注：折線圖展示了全港非本地生人數從2020/21至2024/25學年的增長趨勢，兩年間大增45.5%，並標示了《施政報告》定下2029/30學年達10萬人的目標虛線。
+</div>
+
+<script>
+    var myChart = echarts.init(document.getElementById('chart-container'));
+
+    const xData = [
+        '2020/21', '2021/22', '2022/23', '2023/24', '2024/25', 
+        '2025/26', '2026/27', '2027/28', '2028/29', '2029/30'
+    ];
+
+    // 實際數據：隱藏 66100 的標籤，因為由下方的白底卡片代替
+    const actualData = [
+        { value: 47800, label: { show: false } },
+        { value: 51200, label: { show: false } },
+        { value: 54500, label: { show: false } },
+        { value: 66100, label: { show: false } }, 
+        { value: 79300, label: { show: true, position: 'top', offset: [0, -12], color: '#C4502A', fontSize: 15, fontWeight: 'bold', formatter: '約 {c}' } },
+        null, null, null, null, null
+    ];
+
+    // 目標虛線數據
+    const targetData = [null, null, null, null, 79300, null, null, null, null, 100000];
+
+    var option = {
+        tooltip: {
+            trigger: 'axis',
+            backgroundColor: '#FFFFFF',
+            borderColor: '#E4E7EB',
+            textStyle: { color: '#16293F', fontFamily: 'Source Sans 3, Noto Sans TC' },
+            formatter: function (params) {
+                let res = params[0].name + '<br/>';
+                params.forEach(item => {
+                    if (item.value) {
+                        res += `${item.marker} ${item.seriesName}: 約 ${item.value.toLocaleString()} 人<br/>`;
+                    }
+                });
+                return res;
+            }
+        },
+        grid: {
+            left: '3%',
+            right: '8%', 
+            bottom: '12%',
+            top: '15%',
+            containLabel: true
+        },
+        xAxis: {
+            type: 'category',
+            data: xData,
+            boundaryGap: false,
+            axisLabel: {
+                fontFamily: 'Source Sans 3, Noto Sans TC',
+                color: '#5B6573',
+                fontSize: 12,
+                margin: 16
+            },
+            axisLine: { lineStyle: { color: '#E4E7EB' } },
+            axisTick: { show: false }
+        },
+        yAxis: {
+            type: 'value',
+            min: 0,
+            max: 110000,
+            interval: 20000,
+            axisLabel: {
+                fontFamily: 'Source Sans 3, Noto Sans TC',
+                color: '#5B6573',
+                formatter: function (value) {
+                    return value === 0 ? '0' : (value / 10000) + '萬';
+                }
+            },
+            splitLine: {
+                lineStyle: { color: '#E4E7EB', type: 'dashed' }
+            }
+        },
+        series: [
+            {
+                name: '實際人數',
+                type: 'line',
+                data: actualData,
+                itemStyle: { color: '#C4502A' },
+                lineStyle: { width: 3, color: '#C4502A' },
+                symbol: 'circle',
+                symbolSize: 8
+            },
+            {
+                name: '目標數據',
+                type: 'line',
+                data: targetData,
+                connectNulls: true,
+                itemStyle: { color: '#C4502A' },
+                lineStyle: { width: 2, color: '#C4502A', type: 'dashed' },
+                symbol: function (value, params) {
+                    return params.dataIndex === 9 ? 'emptyCircle' : 'none';
+                },
+                symbolSize: 10,
+                label: {
+                    show: true,
+                    position: 'top',
+                    formatter: function(params) {
+                        return params.value === 100000 ? '10萬目標' : '';
+                    },
+                    fontFamily: 'Source Sans 3, Noto Sans TC',
+                    fontWeight: 'bold',
+                    color: '#C4502A',
+                    fontSize: 15,
+                    offset: [0, -12]
+                }
+            }
+        ],
+        graphic: []
+    };
+
+    myChart.setOption(option);
+
+    // 增長標注框尺寸（配合字体调大略微放宽）
+    var NOTE_W = 120;
+    var NOTE_H = 26;
+
+    function updateGrowthAnnotation() {
+        var p1 = myChart.convertToPixel({ seriesIndex: 0 }, ['2022/23', 54500]);
+        var p2 = myChart.convertToPixel({ seriesIndex: 0 }, ['2024/25', 79300]);
+        if (!p1 || !p2) return;
+
+        var dx = p2[0] - p1[0];
+        var dy = p2[1] - p1[1];
+        var len = Math.sqrt(dx * dx + dy * dy);
+        if (!len) return;
+
+        var angle = Math.atan2(dy, dx);
+        var mx = (p1[0] + p2[0]) / 2;
+        var my = (p1[1] + p2[1]) / 2;
+
+        var nx = -dy / len;
+        var ny = dx / len;
+
+        // 缩小偏移量，使其离斜线更近
+        var offset = 20;
+        var cx = mx + nx * offset;
+        var cy = my + ny * offset;
+
+        myChart.setOption({
+            graphic: [
+                {
+                    id: 'target-note',
+                    type: 'text',
+                    left: '61%',
+                    top: '31%',
+                    zlevel: 10,
+                    style: {
+                        text: '目標，非預測',
+                        fontFamily: 'Source Sans 3, Noto Sans TC',
+                        fontSize: 14,
+                        fill: '#7A8899', // 修改：颜色与图1字体一致
+                        backgroundColor: '#FFFFFF',
+                        padding: [2, 4]
+                    }
+                },
+                {
+                    id: 'growth-note',
+                    type: 'group',
+                    x: cx,
+                    y: cy,
+                    z: 100,
+                    rotation: -angle,
+                    children: [
+                        {
+                            type: 'rect',
+                            x: -NOTE_W / 2,
+                            y: -NOTE_H / 2,
+                            width: NOTE_W,
+                            height: NOTE_H,
+                            style: {
+                                fill: '#FFFFFF',
+                                stroke: '#E4E7EB',
+                                lineWidth: 1,
+                                shadowColor: 'rgba(0,0,0,0.08)',
+                                shadowBlur: 6,
+                                shadowOffsetY: 2
+                            }
+                        },
+                        {
+                            type: 'text',
+                            x: 0,
+                            y: 0,
+                            style: {
+                                text: '+24,800人，+45.5%',
+                                fill: '#7A8899',
+                                fontSize: 11, // 修改：字号从9放大到11
+                                fontFamily: 'Source Sans 3, Noto Sans TC',
+                                textAlign: 'center',
+                                textVerticalAlign: 'middle'
+                            }
+                        }
+                    ]
+                }
+            ]
+        }, { replaceMerge: ['graphic'] });
+    }
+
+    updateGrowthAnnotation();
+
+    window.addEventListener('resize', function () {
+        myChart.resize();
+        updateGrowthAnnotation();
+    });
+
+    function toggleCaption(id, btn) {
+        const el = document.getElementById(id);
+        if (el.style.display === 'block') {
+            el.style.display = 'none';
+            btn.textContent = '顯示圖注 (Alt Text)';
+        } else {
+            el.style.display = 'block';
+            btn.textContent = '隱藏圖注';
+        }
+    }
+</script>
+
+</body>
+</html>

@@ -1,0 +1,721 @@
+<!DOCTYPE html>
+<html lang="zh-HK">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>你的预算能Hold住哪种房</title>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --ink: #16293F;      
+            --slate: #5B6573;    
+            --red: #C4502A;      
+            --gray: #B5BAC1;     
+            --warm: #F7F6F3;     
+            --active-bg: rgba(196, 80, 42, 0.06);
+            --paper: #FFFFFF;    
+        }
+        
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        
+        body {
+            font-family: 'Noto Sans TC', sans-serif;
+            background-color: var(--paper);
+            color: var(--ink);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .app-container {
+            width: 100%;
+            max-width: 760px;
+            background: var(--paper);
+            border-radius: 24px;
+            border: 1px solid #EAEAEA;
+            box-shadow: 0 8px 40px rgba(0, 0, 0, 0.04);
+            min-height: 600px;
+            display: flex;
+            flex-direction: column;
+            position: relative;
+            overflow: hidden;
+        }
+
+        @media (max-width: 768px) {
+            body { padding: 0; align-items: flex-start; }
+            .app-container { min-height: 100vh; border-radius: 0; border: none; box-shadow: none; }
+        }
+
+        .page {
+            display: none;
+            flex-direction: column;
+            padding: 48px 32px;
+            height: 100%;
+            flex: 1;
+            text-align: center;
+            animation: fadeIn 0.4s ease forwards;
+        }
+        .page.active { display: flex; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+
+        /* --- 頁面 1: 封面 --- */
+        #page-1 { justify-content: center; align-items: center; position: relative; }
+        
+        .title-wrapper { position: relative; margin-bottom: 60px; }
+        .title-main {
+            font-size: 40px;
+            font-weight: 700;
+            line-height: 1.4;
+            color: var(--ink);
+            position: relative;
+            z-index: 10;
+        }
+
+        .float-emoji { position: absolute; font-size: 32px; z-index: 1; opacity: 0.85; }
+        .emoji-1 { top: -30px; left: -40px; animation: float 3s ease-in-out infinite; }
+        .emoji-2 { top: 20px; right: -50px; animation: float 4s ease-in-out infinite 0.5s; }
+        .emoji-3 { bottom: -30px; left: 10px; animation: float 3.5s ease-in-out infinite 1s; }
+        .emoji-4 { bottom: -40px; right: -20px; animation: float 4.5s ease-in-out infinite 1.5s; }
+        .emoji-5 { top: -40px; right: 30px; animation: float 3.2s ease-in-out infinite 0.8s; }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0) rotate(0deg); }
+            50% { transform: translateY(-12px) rotate(5deg); }
+        }
+
+        .subtitle { font-size: 18px; color: var(--slate); margin-bottom: 50px; }
+
+        .btn {
+            background: var(--red);
+            color: var(--paper);
+            border: none;
+            padding: 16px 48px;
+            font-size: 18px;
+            font-weight: 700;
+            border-radius: 30px;
+            cursor: pointer;
+            font-family: inherit;
+            transition: transform 0.2s, opacity 0.2s;
+            display: inline-block;
+        }
+        .btn:hover { opacity: 0.9; }
+        .btn:active { transform: scale(0.96); }
+        
+        .btn-secondary { background: var(--warm); color: var(--ink); }
+        .btn-secondary:hover { background: #EFECE6; }
+        
+        .step-indicator { font-size: 14px; color: var(--gray); margin-bottom: 24px; letter-spacing: 1px; }
+        .section-label { font-size: 20px; font-weight: 700; margin-bottom: 24px; color: var(--ink); }
+
+        /* --- 頁面 2: 模式選擇 --- */
+        #page-2 { justify-content: center; }
+        .mode-list {
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+            max-width: 400px;
+            margin: 0 auto 48px auto;
+            width: 100%;
+        }
+        .mode-card {
+            background: var(--warm);
+            border: 2px solid transparent;
+            border-radius: 16px;
+            padding: 24px;
+            font-size: 18px;
+            font-weight: 400; /* 恢复加粗 */
+            color: var(--slate);
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        .mode-card span { display: block; font-size: 14px; font-weight: 400; margin-top: 4px; color: var(--gray); }
+        .mode-card.active { color: var(--red); background: var(--active-bg); }
+        .mode-card.active span { color: var(--red); opacity: 0.7; }
+
+        /* --- 頁面 3: 選擇區域 --- */
+        #page-3 { justify-content: flex-start; overflow-y: auto; }
+        
+        .region-block {
+            max-width: 480px;
+            margin: 0 auto 16px auto;
+            width: 100%;
+        }
+        
+        .region-card {
+            background: var(--warm);
+            border: 2px solid transparent;
+            border-radius: 16px;
+            padding: 20px;
+            font-size: 18px;
+            font-weight: 400; /* 恢复加粗 */
+            color: var(--slate);
+            cursor: pointer;
+            transition: all 0.2s;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .region-card.active { color: var(--red); background: var(--active-bg); }
+        
+        /* 子區域樣式 */
+        .sub-regions {
+            display: none;
+            flex-direction: column;
+            gap: 8px;
+            margin-top: 8px;
+            padding-left: 16px;
+            border-left: 2px solid var(--warm);
+            margin-left: 16px;
+        }
+        .sub-regions.active { display: flex; }
+        .sub-card {
+            background: var(--paper);
+            border: 1px solid var(--warm);
+            border-radius: 12px;
+            padding: 16px;
+            font-size: 15px;
+            font-weight: 400; /* 恢复加粗 */
+            color: var(--slate);
+            cursor: pointer;
+            transition: all 0.2s;
+            display: flex;
+            justify-content: space-between;
+        }
+        .sub-card span { font-size: 13px; font-weight: 400; color: var(--gray); }
+        .sub-card.active { border-color: var(--red); color: var(--red); background: var(--active-bg); }
+
+        /* --- 頁面 4: 面積與預算 --- */
+        #page-4 { justify-content: space-between; min-height: 550px; }
+        
+        .content-center {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            flex-grow: 1;
+            width: 100%;
+        }
+
+        .type-tags {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            max-width: 400px;
+            margin: 0 auto 32px auto;
+            width: 100%;
+        }
+        .type-tag {
+            background: var(--warm);
+            border: 2px solid transparent;
+            border-radius: 12px;
+            padding: 16px;
+            color: var(--slate);
+            font-size: 16px;
+            font-weight: 400;
+            cursor: pointer;
+            transition: all 0.2s;
+            display: flex;
+            justify-content: space-between;
+        }
+        .type-tag .sqm { font-size: 13px; color: var(--gray); font-weight: 400; }
+        .type-tag.active { color: var(--red); background: var(--active-bg); }
+        .type-tag.active .sqm { color: var(--red); opacity: 0.7; }
+
+        .budget-wrapper {
+            display: inline-flex;
+            align-items: center;
+            background: var(--warm);
+            padding: 16px 40px;
+            border-radius: 20px;
+            margin-bottom: 32px;
+            border: 2px solid transparent;
+            transition: all 0.2s;
+        }
+        .budget-wrapper:focus-within { background: var(--paper); box-shadow: 0 4px 12px rgba(0,0,0,0.05); }
+        .budget-wrapper span { font-size: 32px; font-weight: 700; color: var(--slate); margin-right: 12px; }
+        .budget-wrapper input {
+            border: none;
+            font-size: 48px;
+            font-weight: 700;
+            color: var(--red);
+            width: 180px;
+            outline: none;
+            font-family: inherit;
+            background: transparent;
+            text-align: center;
+        }
+
+        .bottom-actions { display: flex; justify-content: center; gap: 16px; width: 100%;}
+
+        /* --- 頁面 5: 結果 --- */
+        #page-5 { justify-content: flex-start; }
+        .result-header { font-size: 26px; font-weight: 700; margin-bottom: 40px; }
+        .result-header span { color: var(--red); }
+
+        .result-container {
+            display: flex;
+            justify-content: center;
+            align-items: stretch; 
+            gap: 24px;
+            margin-bottom: 40px;
+            flex-wrap: wrap;
+        }
+
+        .result-box {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            width: 300px;
+            background: var(--warm); 
+            border-radius: 20px;
+            padding: 32px 24px;
+        }
+        
+        .result-title { font-size: 18px; font-weight: 700; color: var(--slate); margin-bottom: 24px; }
+        .student-box .result-title { color: var(--red); }
+        .private-box .result-title { color: var(--ink); }
+
+        .svg-house-container {
+            position: relative;
+            width: 160px;
+            height: 160px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            margin-bottom: 24px;
+        }
+        .svg-house-container svg { position: absolute; top: 0; left: 0; width: 100%; height: 100%; }
+        .house-text {
+            position: relative;
+            z-index: 10;
+            font-size: 24px;
+            font-weight: 700;
+            color: var(--ink);
+            margin-top: -10px; 
+        }
+        .house-sqm {
+            position: relative;
+            z-index: 10;
+            font-size: 12px;
+            color: var(--slate);
+            margin-top: 4px;
+            font-weight: 700;
+        }
+
+        .beds-container {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            align-items: center;
+            gap: 12px;
+            min-height: 160px;
+            margin-bottom: 24px;
+            width: 100%;
+        }
+        .bed-icon { width: 48px; height: 48px; }
+
+        .result-text {
+            font-size: 16px;
+            color: var(--slate);
+            line-height: 1.6;
+            text-align: center;
+            margin-top: auto; 
+        }
+        .result-text strong { color: var(--ink); font-size: 18px; }
+        .result-text.highlight strong { color: var(--red); }
+
+        .footnote { font-size: 12px; color: var(--gray); text-align: center; margin-top: auto; padding-top: 24px; line-height: 1.5; }
+
+    </style>
+</head>
+<body>
+
+<div class="app-container">
+    
+    <!-- 頁面 1: 封面 -->
+    <div id="page-1" class="page active">
+        <div class="title-wrapper">
+            <span class="float-emoji emoji-1">💰</span>
+            <span class="float-emoji emoji-2">🏠</span>
+            <span class="float-emoji emoji-3">🛏️</span>
+            <span class="float-emoji emoji-4">🏢</span>
+            <span class="float-emoji emoji-5">🔑</span>
+            
+            <h1 class="title-main">你的預算<br>能Hold住哪種房？</h1>
+        </div>
+        
+        <p class="subtitle">同樣的月租，租私樓和租學生公寓，差別有多大？</p>
+        <button class="btn" onclick="goToPage(2)">開始測算</button>
+    </div>
+
+    <!-- 頁面 2: 模式選擇 -->
+    <div id="page-2" class="page">
+        <div class="step-indicator">步驟 1 / 4</div>
+        <div class="section-label">你想租哪種類型的房子？</div>
+        
+        <div class="mode-list">
+            <div class="mode-card active" data-val="private" onclick="selectMode('private')">
+                租私宅
+                <span>空間更大，需要自己找室友</span>
+            </div>
+            <div class="mode-card" data-val="student" onclick="selectMode('student')">
+                租學生公寓
+                <span>拎包入住，但空間極小</span>
+            </div>
+        </div>
+
+        <button class="btn btn-secondary" onclick="goToPage(3)">下一步</button>
+    </div>
+
+    <!-- 頁面 3: 選擇區域 -->
+    <div id="page-3" class="page">
+        <div class="step-indicator">步驟 2 / 4</div>
+        <div class="section-label" id="region-title">你想租哪個大區？</div>
+        
+        <!-- 私宅的大區與小區 -->
+        <div id="private-regions" style="display: block;">
+            <!-- 九龍 -->
+            <div class="region-block">
+                <div class="region-card" onclick="toggleSubRegions('kowloon', this)">九龍 <span>▼</span></div>
+                <div class="sub-regions" id="sub-kowloon">
+                    <div class="sub-card" onclick="selectSubRegion('k1', 63, this)">九龍塘/何文田 <span>(傳統豪宅)</span></div>
+                    <div class="sub-card" onclick="selectSubRegion('k2', 58, this)">旺角/尖沙咀 <span>(核心繁華)</span></div>
+                    <div class="sub-card" onclick="selectSubRegion('k3', 50, this)">深水埗/啟德 <span>(平價老區)</span></div>
+                </div>
+            </div>
+            <!-- 港島 -->
+            <div class="region-block">
+                <div class="region-card" onclick="toggleSubRegions('hk', this)">港島 <span>▼</span></div>
+                <div class="sub-regions" id="sub-hk">
+                    <div class="sub-card" onclick="selectSubRegion('h1', 68, this)">中西區/西半山 <span>(金融核心)</span></div>
+                    <div class="sub-card" onclick="selectSubRegion('h2', 62, this)">灣仔/銅鑼灣 <span>(商業旺區)</span></div>
+                    <div class="sub-card" onclick="selectSubRegion('h3', 52, this)">太古城/鰂魚涌 <span>(中產社區)</span></div>
+                </div>
+            </div>
+            <!-- 新界 -->
+            <div class="region-block">
+                <div class="region-card" onclick="toggleSubRegions('nt', this)">新界 <span>▼</span></div>
+                <div class="sub-regions" id="sub-nt">
+                    <div class="sub-card" onclick="selectSubRegion('n1', 48, this)">沙田/大圍/荃灣 <span>(交通樞紐)</span></div>
+                    <div class="sub-card" onclick="selectSubRegion('n2', 38, this)">將軍澳/元朗 <span>(新市鎮)</span></div>
+                    <div class="sub-card" onclick="selectSubRegion('n3', 33, this)">大埔/粉嶺/上水 <span>(偏遠平價)</span></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 學生公寓的片區 -->
+        <div id="student-regions" style="display: none;">
+            <div class="region-block">
+                <div class="region-card" onclick="selectStudentRegion('s1', '港島西', 'HongKong', this)">港島西區 <span>港大周邊</span></div>
+            </div>
+            <div class="region-block">
+                <div class="region-card" onclick="selectStudentRegion('s2', '尖沙咀', 'Kowloon', this)">尖沙咀/油尖旺 <span>理大周邊</span></div>
+            </div>
+            <div class="region-block">
+                <div class="region-card" onclick="selectStudentRegion('s3', '啟德', 'Kowloon', this)">啟德/九龍城 <span>城大浸大</span></div>
+            </div>
+            <div class="region-block">
+                <div class="region-card" onclick="selectStudentRegion('s4', '葵涌', 'NewTerritories', this)">葵涌區 <span>交通樞紐</span></div>
+            </div>
+        </div>
+
+        <div class="bottom-actions" style="margin-top:auto;">
+            <button class="btn btn-secondary" onclick="goToPage(2)">上一步</button>
+            <button class="btn" onclick="goToPage(4)">下一步</button>
+        </div>
+    </div>
+
+    <!-- 頁面 4: 面積與預算 -->
+    <div id="page-4" class="page">
+        <div class="content-center">
+            <!-- 👈 步骤提示移出 area-selection-block，绝对居中且不随其隐藏 -->
+            <div class="step-indicator" style="margin-bottom: 24px;">步驟 3 / 4</div>
+
+            <div id="area-selection-block" style="width:100%;">
+                <div class="section-label">選擇理想租住單位「總面積」</div>
+                <div style="font-size:14px; color:var(--slate); margin-bottom:16px;">（整個房子的面積，非人均面積）</div>
+                
+                <div class="type-tags">
+                    <div class="type-tag active" data-val="A_Small" onclick="selectArea('A_Small')">
+                        <span>&lt; 430 呎</span>
+                        <span class="sqm">約 40 平方米以下</span>
+                    </div>
+                    <div class="type-tag" data-val="A_Large" onclick="selectArea('A_Large')">
+                        <span>431 - 1075 呎</span>
+                        <span class="sqm">約 40 - 100 平方米</span>
+                    </div>
+                    <div class="type-tag" data-val="B_Group" onclick="selectArea('B_Group')">
+                        <span>1076 呎或以上</span>
+                        <span class="sqm">約 100 平方米以上</span>
+                    </div>
+                </div>
+            </div>
+
+            <div id="budget-input-block" style="width:100%;">
+                <div class="section-label" style="margin-top: 24px;">輸入月租預算（HKD）</div>
+                <div class="budget-wrapper">
+                    <span>$</span>
+                    <input type="number" id="budget-input" value="20000" min="1000" step="1000">
+                </div>
+            </div>
+        </div>
+
+        <div class="bottom-actions">
+            <button class="btn btn-secondary" onclick="goToPage(3)">上一步</button>
+            <button class="btn" onclick="calculateAndShow()">查看結果</button>
+        </div>
+    </div>
+
+    <!-- 頁面 5: 結果 -->
+    <div id="page-5" class="page">
+        <div class="result-header">你的預算 <span id="res-budget">$20,000</span></div>
+        
+        <div class="result-container" id="result-container">
+            <!-- 內容由 JS 動態注入，控制左右順序 -->
+        </div>
+
+        <div class="footnote">
+            *註：私樓數據基於2026年熱門區域實際放盤平均呎租估算；<br>學生公寓基於2026年10月媒體公開報價。1平方米≈10.764平方呎。
+        </div>
+
+        <div style="margin-top: 24px;">
+            <button class="btn btn-secondary" onclick="goToPage(1)">重新測算</button>
+        </div>
+    </div>
+
+</div>
+
+<script>
+    // 全局變量
+    let currentMode = 'private'; // 'private' or 'student'
+    let currentAreaRate = 0;     // 私宅呎租
+    let currentAreaName = '';    // 區域名稱
+    let currentAreaType = 'A_Small'; // 默認面積
+    
+    // 學生公寓對比私宅的大區映射
+    let studentToPrivateRegion = 'Kowloon'; // 默認對比九龍區
+
+    // 私宅基準數據 (保留大區，用於學生公寓對比)
+    const privateBaseline = {
+        HongKong: { A_Small: 65, A_Large: 55, B_Group: 50 },
+        Kowloon: { A_Small: 58, A_Large: 50, B_Group: 45 },
+        NewTerritories: { A_Small: 42, A_Large: 35, B_Group: 30 }
+    };
+
+    // 學生公寓數據（按截圖更新，並按最低報價從高到低排序）
+    const studentAccData = {
+        HongKong: [
+            { minPrice: 16000, maxPrice: 18000, room: "單人間", project: "西半山“一步居·38”" },
+            { minPrice: 11300, maxPrice: 14000, room: "雙人間", project: "西半山“一步居·38”" }
+        ],
+        Kowloon: [
+            { minPrice: 18000, maxPrice: 20000, room: "單人間", project: "尖沙咀“一步居·117”" },
+            { minPrice: 9900, maxPrice: 18000, room: "單人間", project: "葵涌“博譽”" }, 
+            { minPrice: 9100, maxPrice: 9100, room: "雙人間", project: "尖沙咀“一步居·117”" },
+            { minPrice: 6800, maxPrice: 7900, room: "雙人間", project: "葵涌“博譽”" },
+            { minPrice: 6100, maxPrice: 6400, room: "三人/四人間", project: "啟德“一匯居”" }
+        ],
+        NewTerritories: [
+            { minPrice: 9900, maxPrice: 18000, room: "單人間", project: "葵涌“博譽”" },
+            { minPrice: 6800, maxPrice: 7900, room: "雙人間", project: "葵涌“博譽”" }
+        ]
+    };
+
+    function goToPage(num) {
+        document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+        document.getElementById(`page-${num}`).classList.add('active');
+        window.scrollTo(0,0);
+    }
+
+    // 1. 模式切換
+    function selectMode(mode) {
+        currentMode = mode;
+        document.querySelectorAll('.mode-card').forEach(c => c.classList.remove('active'));
+        event.currentTarget.classList.add('active');
+        
+        // 重置選擇狀態
+        document.querySelectorAll('.region-card, .sub-card').forEach(c => c.classList.remove('active'));
+        document.querySelectorAll('.sub-regions').forEach(s => s.classList.remove('active'));
+        currentAreaRate = 0;
+        currentAreaName = '';
+
+        // 切換 UI 顯示
+        if (mode === 'private') {
+            document.getElementById('region-title').innerText = '你想租哪個大區？';
+            document.getElementById('private-regions').style.display = 'block';
+            document.getElementById('student-regions').style.display = 'none';
+            document.getElementById('area-selection-block').style.display = 'block';
+        } else {
+            document.getElementById('region-title').innerText = '你想租哪個學生公寓片區？';
+            document.getElementById('private-regions').style.display = 'none';
+            document.getElementById('student-regions').style.display = 'block';
+            document.getElementById('area-selection-block').style.display = 'none'; // 學生公寓不需選面積
+        }
+    }
+
+    // 2. 私宅：展開子區域
+    function toggleSubRegions(regionKey, el) {
+        // 收合其他
+        document.querySelectorAll('.region-card').forEach(c => {
+            if(c !== el) {
+                c.classList.remove('active');
+            }
+        });
+        document.querySelectorAll('.sub-regions').forEach(s => {
+            if(s.id !== 'sub-' + regionKey) s.classList.remove('active');
+        });
+        
+        el.classList.toggle('active');
+        document.getElementById('sub-' + regionKey).classList.toggle('active');
+    }
+
+    // 3. 私宅：選擇子區域
+    function selectSubRegion(id, rate, el) {
+        event.stopPropagation(); // 防止觸發大區的點擊事件
+        document.querySelectorAll('.sub-card').forEach(c => c.classList.remove('active'));
+        el.classList.add('active');
+        currentAreaRate = rate;
+        currentAreaName = el.innerText.split(' ')[0]; // 只取地名
+    }
+
+    // 4. 學生公寓：選擇片區
+    function selectStudentRegion(id, name, mapRegion, el) {
+        document.querySelectorAll('#student-regions .region-card').forEach(c => c.classList.remove('active'));
+        el.classList.add('active');
+        currentAreaName = name;
+        studentToPrivateRegion = mapRegion;
+    }
+
+    // 5. 面積選擇
+    function selectArea(val) {
+        document.querySelectorAll('.type-tag').forEach(t => t.classList.remove('active'));
+        event.currentTarget.classList.add('active');
+        currentAreaType = val;
+    }
+
+    // 6. 床位 SVG
+    function getBedSVG() {
+        return `
+        <svg class="bed-icon" viewBox="0 0 100 100">
+            <rect x="10" y="30" width="30" height="20" rx="4" fill="none" stroke="var(--red)" stroke-width="6"/>
+            <rect x="10" y="50" width="80" height="30" rx="4" fill="none" stroke="var(--red)" stroke-width="6"/>
+            <line x1="20" y1="65" x2="80" y2="65" stroke="var(--red)" stroke-width="4" stroke-dasharray="6,4"/>
+        </svg>`;
+    }
+
+    // 7. 計算與展示結果
+    function calculateAndShow() {
+        const budget = parseFloat(document.getElementById('budget-input').value) || 0;
+        if(budget < 1000) {
+            alert("請輸入大於1000的預算");
+            return;
+        }
+
+        // 判斷是否已選區域
+        if (!currentAreaName) {
+            alert(currentMode === 'private' ? "請先選擇大區和具體小區" : "請先選擇學生公寓片區");
+            goToPage(3);
+            return;
+        }
+
+        goToPage(5);
+        document.getElementById('res-budget').innerText = `$${budget.toLocaleString()}`;
+
+        // --- 計算數據 ---
+        
+        // 1. 私宅數據 (根據是否為私宅模式，取對應的呎租)
+        let rate = 0;
+        let areaNameForPrivate = '';
+        
+        if (currentMode === 'private') {
+            rate = currentAreaRate;
+            areaNameForPrivate = currentAreaName;
+        } else {
+            // 學生公寓模式，取對應大區的基準數據
+            rate = privateBaseline[studentToPrivateRegion][currentAreaType] || 55;
+            areaNameForPrivate = studentToPrivateRegion === 'HongKong' ? '港島區' : (studentToPrivateRegion === 'Kowloon' ? '九龍區' : '新界區');
+        }
+        
+        const area = Math.round(budget / rate);
+        const areaSqm = Math.round(area / 10.764);
+
+        // 2. 學生公寓數據
+        let studentHtml = '';
+        let bedsHtml = '';
+        
+        let regionData = [];
+        if (currentMode === 'private') {
+            let matchRegion = 'Kowloon';
+            if (['中西區/西半山', '灣仔/銅鑼灣', '太古城/鰂魚涌'].includes(currentAreaName)) matchRegion = 'HongKong';
+            else if (['沙田/大圍/荃灣', '將軍澳/元朗', '大埔/粉嶺/上水'].includes(currentAreaName)) matchRegion = 'NewTerritories';
+            regionData = studentAccData[matchRegion];
+        } else {
+            if (currentAreaName === '港島西') regionData = studentAccData['HongKong'];
+            else if (currentAreaName === '尖沙咀' || currentAreaName === '啟德') regionData = studentAccData['Kowloon'];
+            else regionData = studentAccData['NewTerritories']; 
+        }
+
+        const matched = regionData.find(opt => budget >= opt.minPrice);
+        
+        if (matched) {
+            const bedCount = Math.floor(budget / matched.minPrice);
+            let visualCount = Math.min(bedCount, 9); 
+            for(let i=0; i<visualCount; i++) bedsHtml += getBedSVG();
+            
+            let priceStr = matched.maxPrice ? `$${matched.minPrice.toLocaleString()}–${matched.maxPrice.toLocaleString()}` : `約$${matched.minPrice.toLocaleString()}`;
+            
+            if (bedCount === 1) {
+                studentHtml = `可以租到 <strong>1 個${matched.room}床位</strong>。<br><span style="font-size:14px;color:var(--slate)">(${matched.project}，${priceStr})</span>`;
+            } else if (bedCount > 1 && bedCount <= 3) {
+                studentHtml = `預算充足，可以租下包含 <strong>${bedCount} 個${matched.room}的套間</strong>。<br><span style="font-size:14px;color:var(--slate)">(如${matched.project}，單床${priceStr})</span>`;
+            } else {
+                studentHtml = `預算十分充裕，<strong>足夠包下多個房間</strong>。<br><span style="font-size:14px;color:var(--slate)">(相當於 ${bedCount} 個${matched.room})</span>`;
+            }
+        } else {
+            bedsHtml = `<div style="color:var(--gray); font-size:15px; margin-top:60px;">租不到床位</div>`;
+            studentHtml = `預算低於該區私營公寓最低床位價（$${regionData[regionData.length-1].minPrice.toLocaleString()}起）。<br><span style="font-size:14px; color:var(--slate)">這筆錢或可考慮大學宿舍。</span>`;
+        }
+
+        // 3. 構建 HTML 卡片
+        const privateCard = `
+            <div class="result-box private-box">
+                <div class="result-title">租私宅 (${areaNameForPrivate})</div>
+                <div class="svg-house-container">
+                    <svg viewBox="0 0 100 100">
+                        <path d="M 10 40 L 50 10 L 90 40 L 90 90 L 10 90 Z" fill="none" stroke="var(--ink)" stroke-width="3" stroke-linejoin="round"/>
+                    </svg>
+                    <div class="house-text" id="res-area">${area} 呎</div>
+                    <div class="house-sqm">約 ${areaSqm} 平方米</div>
+                </div>
+                <div class="result-text">
+                    在${areaNameForPrivate}，<br>這筆預算能租到約 <strong>${area} 呎</strong> 的空間。
+                </div>
+            </div>
+        `;
+
+        const studentCard = `
+            <div class="result-box student-box">
+                <div class="result-title">租學生公寓 (${currentMode === 'student' ? currentAreaName : '同區'})</div>
+                <div class="beds-container">
+                    ${bedsHtml}
+                </div>
+                <div class="result-text highlight">
+                    ${studentHtml}
+                </div>
+            </div>
+        `;
+
+        // 4. 根據模式決定左右順序
+        const container = document.getElementById('result-container');
+        if (currentMode === 'private') {
+            container.innerHTML = privateCard + studentCard;
+        } else {
+            container.innerHTML = studentCard + privateCard; // 反轉：左公寓，右私宅
+        }
+    }
+</script>
+</body>
+</html>

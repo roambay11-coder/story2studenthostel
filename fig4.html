@@ -1,0 +1,173 @@
+﻿<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>圖四｜一個床位貴過兩房</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Source+Sans+3:wght@400;700&family=Source+Serif+4:wght@700&family=Noto+Sans+TC:wght@400;700&family=Noto+Serif+TC:wght@700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --rust:#C4502A; --grey:#B5BAC1; --blue:#2B6CB0; --jade:#0E9474;
+    --ochre:#B8860B; --violet:#8A4FC4; --grid:#E4E7EB; --ink:#16293F;
+  }
+  *{margin:0;padding:0;box-sizing:border-box;}
+  html{-webkit-text-size-adjust:100%;}
+  body{
+    font-family:"Source Sans 3","Noto Sans TC","PingFang HK","Microsoft JhengHei",Arial,sans-serif;
+    color:var(--ink); background:#fff;
+    max-width:900px; margin:0 auto; padding:clamp(14px,3vw,28px) clamp(12px,3vw,24px) 48px;
+  }
+  .kicker{font-size:clamp(13px,1.5vw,14px);font-weight:700;letter-spacing:.08em;color:#1F3A5F;text-transform:uppercase;margin-bottom:6px;}
+  h1{font-size:clamp(17px,2vw,18px);line-height:1.3;font-weight:700;font-family:"Source Sans 3","Noto Sans TC","PingFang HK","Microsoft JhengHei",Arial,sans-serif;margin-bottom:8px;}
+  .dek{font-size:15px;color:#5B6573;line-height:1.55;margin-bottom:14px;max-width:680px;}
+
+  .legend{display:flex;flex-wrap:wrap;align-items:center;gap:10px 18px;margin-bottom:12px;color:#5B6573;font-size:13px;}
+  .legend .lt{font-weight:700;color:#16293F;margin-right:2px;}
+  .key{display:flex;align-items:center;gap:6px;}
+  .key .sw{width:12px;height:12px;border-radius:50%;flex-shrink:0;}
+  .key .ln{width:20px;height:3px;border-radius:2px;background:#B5BAC1;flex-shrink:0;}
+
+  .chart{width:100%;background:#fff;}
+  .chart svg{display:block;width:100%;height:auto;}
+  svg text{font-family:inherit;}
+  .axis{font-size:1em;fill:#5B6573;font-variant-numeric:tabular-nums;}
+  .grid{stroke:var(--grid);stroke-width:1.5;}
+  .grp{font-size:1.3em;font-weight:700;fill:#16293F;}
+  .pname{font-size:1.1em;fill:#16293F;}
+  .val{font-size:.95em;fill:#5B6573;font-variant-numeric:tabular-nums;}
+  .val.hot{fill:#16293F;font-weight:700;}
+  .refline{stroke:var(--rust);stroke-width:2;stroke-dasharray:7 6;}
+  .reftext{font-size:1em;font-weight:700;fill:#16293F;}
+  .dbar{stroke:#B5BAC1;stroke-width:5;stroke-linecap:round;}
+  .ddot{stroke:#fff;stroke-width:2.5;}
+
+  .note{margin-top:18px;font-size:13px;color:#5B6573;line-height:1.6;}
+  .note h3{font-size:14px;color:#16293F;margin-bottom:6px;}
+  .note ul{padding-left:1.2em;}
+  .note li{margin-bottom:4px;}
+  .source{margin-top:14px;font-size:12px;color:#5B6573;line-height:1.5;}
+</style>
+</head>
+<body>
+
+<div class="kicker">圖四 · 可負擔性</div>
+<h1>一個床位貴過兩房：學生公寓報價 vs 九龍私樓租金</h1>
+<p class="dek">各項目已披露月租報價（每床位）及九龍431呎兩房單位平均月租（每單位），HK$／月。</p>
+
+<div class="legend">
+  <span class="lt">項目</span>
+  <span class="key"><span class="sw" style="background:#C4502A"></span>一步居·117（尖沙咀）</span>
+  <span class="key"><span class="sw" style="background:#8A4FC4"></span>一步居·38（西半山）</span>
+  <span class="key"><span class="sw" style="background:#0E9474"></span>博譽（葵涌）</span>
+  <span class="key"><span class="sw" style="background:#2B6CB0"></span>一匯居·啟德（九龍城）</span>
+  <span class="key"><span class="ln"></span>報價區間（兩端為區間上下限）</span>
+</div>
+
+<div class="chart">
+<svg id="fig4svg" viewBox="0 0 1045 645" role="img" aria-label="學生公寓報價與九龍私樓兩房租金對比啞鈴圖">
+
+  <!-- 橫向網格與 X 軸刻度 -->
+  <g>
+    <line class="grid" x1="190" y1="88" x2="190" y2="600"></line>
+    <line class="grid" x1="390" y1="88" x2="390" y2="600"></line>
+    <line class="grid" x1="590" y1="88" x2="590" y2="600"></line>
+    <line class="grid" x1="790" y1="88" x2="790" y2="600"></line>
+    <line class="grid" x1="990" y1="88" x2="990" y2="600"></line>
+    <line x1="190" y1="600" x2="990" y2="600" stroke="#B5BAC1" stroke-width="1.5"></line>
+    <text class="axis" x="190" y="626" text-anchor="middle">HK$0</text>
+    <text class="axis" x="390" y="626" text-anchor="middle">HK$5,000</text>
+    <text class="axis" x="590" y="626" text-anchor="middle">HK$10,000</text>
+    <text class="axis" x="790" y="626" text-anchor="middle">HK$15,000</text>
+    <text class="axis" x="990" y="626" text-anchor="middle">HK$20,000</text>
+  </g>
+
+  <!-- 參考線：九龍兩房整租 HK$17,000 -->
+  <line class="refline" x1="870" y1="88" x2="870" y2="600"></line>
+  <text class="reftext" x="880" y="108">九龍431呎兩房</text>
+  <text class="reftext" x="880" y="128">整租約HK$17,000</text>
+  <!-- 參考線：大學宿舍折算月租約數千元 -->
+  <line x1="330" y1="88" x2="330" y2="600" stroke="#B5BAC1" stroke-width="2.5" stroke-dasharray="4 7" stroke-linecap="round" opacity=".9"></line>
+  <text class="reftext" x="340" y="108">大學宿舍（數千元）†</text>
+
+  <!-- 三人／四人房 -->
+  <text class="grp" x="20" y="122">三人／四人房</text>
+  <g>
+    <line class="dbar" x1="434" y1="155" x2="446" y2="155"></line>
+    <circle class="ddot" cx="434" cy="155" r="9" fill="#2B6CB0"><title>一匯居·啟德 三人/四人房：HK$6,100 起</title></circle>
+    <circle class="ddot" cx="446" cy="155" r="9" fill="#2B6CB0"><title>一匯居·啟德 三人/四人房：HK$6,400 起</title></circle>
+    <text class="pname" x="20" y="162">一匯居·啟德</text>
+    <text class="val" x="462" y="150">HK$6,100–6,400 起</text>
+  </g>
+
+  <!-- 雙人房 -->
+  <text class="grp" x="20" y="227">雙人房</text>
+  <g>
+    <line class="dbar" x1="462" y1="260" x2="506" y2="260"></line>
+    <circle class="ddot" cx="462" cy="260" r="9" fill="#0E9474"><title>博譽（城大／浸大校外宿舍）雙人房：HK$6,800</title></circle>
+    <circle class="ddot" cx="506" cy="260" r="9" fill="#0E9474"><title>博譽（城大／浸大校外宿舍）雙人房：HK$7,900</title></circle>
+    <text class="pname" x="20" y="267">博譽（葵涌）</text>
+    <text class="val" x="522" y="255">HK$6,800–7,900</text>
+  </g>
+  <g>
+    <circle class="ddot" cx="530" cy="300" r="9" fill="#2B6CB0"><title>一匯居·啟德 雙人房（部分）：約 HK$8,500</title></circle>
+    <text class="pname" x="20" y="307">一匯居·啟德</text>
+    <text class="val" x="546" y="295">約 HK$8,500</text>
+  </g>
+  <g>
+    <circle class="ddot" cx="554" cy="340" r="9" fill="#C4502A"><title>一步居·117 雙人房：HK$9,100</title></circle>
+    <text class="pname" x="20" y="347">一步居·117（尖沙咀）</text>
+    <text class="val" x="570" y="335">HK$9,100</text>
+  </g>
+  <g>
+    <line class="dbar" x1="642" y1="380" x2="750" y2="380"></line>
+    <circle class="ddot" cx="642" cy="380" r="9" fill="#8A4FC4"><title>一步居·38 雙人房：HK$11,300</title></circle>
+    <circle class="ddot" cx="750" cy="380" r="9" fill="#8A4FC4"><title>一步居·38 雙人房：HK$14,000</title></circle>
+    <text class="pname" x="20" y="387">一步居·38（西半山）</text>
+    <text class="val" x="766" y="375">HK$11,300–14,000</text>
+  </g>
+
+  <!-- 單人房 -->
+  <text class="grp" x="20" y="440">單人房</text>
+  <g>
+    <line class="dbar" x1="586" y1="473" x2="910" y2="473"></line>
+    <circle class="ddot" cx="586" cy="473" r="9" fill="#0E9474"><title>博譽（城大／浸大校外宿舍）單人房：HK$9,900</title></circle>
+    <circle class="ddot" cx="910" cy="473" r="9" fill="#0E9474"><title>博譽（城大／浸大校外宿舍）單人房：HK$18,000</title></circle>
+    <text class="pname" x="20" y="480">博譽（葵涌）</text>
+    <text class="val" x="570" y="461">HK$9,900</text>
+    <text class="val hot" x="910" y="456" text-anchor="end">HK$18,000</text>
+  </g>
+  <g>
+    <line class="dbar" x1="830" y1="513" x2="910" y2="513"></line>
+    <circle class="ddot" cx="830" cy="513" r="9" fill="#8A4FC4"><title>一步居·38 單人房：HK$16,000</title></circle>
+    <circle class="ddot" cx="910" cy="513" r="9" fill="#8A4FC4"><title>一步居·38 單人房：HK$18,000</title></circle>
+    <text class="pname" x="20" y="520">一步居·38（西半山）</text>
+    <text class="val" x="815" y="501" text-anchor="end">HK$16,000</text>
+    <text class="val hot" x="910" y="496" text-anchor="end">HK$18,000</text>
+  </g>
+  <g>
+    <line class="dbar" x1="910" y1="553" x2="985" y2="553"></line>
+    <circle class="ddot" cx="910" cy="553" r="9" fill="#C4502A"><title>一步居·117 單人房：HK$18,000</title></circle>
+    <circle class="ddot" cx="985" cy="553" r="9" fill="#C4502A"><title>一步居·117 單人房：近 HK$20,000</title></circle>
+    <text class="pname" x="20" y="560">一步居·117（尖沙咀）</text>
+    <text class="val hot" x="895" y="541" text-anchor="end">HK$18,000</text>
+    <text class="val hot" x="972" y="580" text-anchor="end">近 HK$20,000</text>
+  </g>
+
+  <!-- 大學宿舍：僅以灰色虛線參考線標示，註釋見線頂 -->
+</svg>
+</div>
+
+<div class="note">
+  <h3>編輯注</h3>
+  <ul>
+    <li>私樓 HK$17,000 為「每單位月租」，學生公寓為「每床位月租」，比較時標題寫「一個床位 vs 一個單位」。</li>
+    <li>† 大學宿舍折算月租的具體數字待補，灰色虛線僅示意「約數千元」的粗略水平；補入後需註明是否含水電、管理費。</li>
+    <li>租金為公開報價，同一項目不同房型以區間標示，不取平均；博譽為城大、浸大位於葵涌的校外學生宿舍。</li>
+  </ul>
+</div>
+<div class="source">資料來源：各項目公開報價；九龍區約431呎私人住宅單位平均月租HK$17,000據特區政府數據，轉引自中原地產陳永傑於《大公報》之撰文（2026年6月）。製圖：蔡芸菲</div>
+
+</body>
+</html>
