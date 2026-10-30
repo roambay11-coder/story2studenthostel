@@ -12,7 +12,7 @@
             --red: #C4502A;      
             --gray: #B5BAC1;     
             --warm: #F7F6F3;     
-            --active-bg: rgba(196, 80, 42, 0.06);
+            --active-bg: #FDF6F4;
             --paper: #FFFFFF;    
         }
         
@@ -43,6 +43,35 @@
             overflow: hidden;
         }
 
+        /* --- 左侧背景图层设定 --- */
+        .bg-image {
+            position: absolute;
+            top: 20%; left: 0%; width: 75%; height: 75%;
+            background-image: url('game bgp1.jpg'); 
+            background-size: cover;
+            background-position: center;
+            opacity: 0.75; 
+            z-index: 0;
+            pointer-events: none; 
+            -webkit-mask-image: radial-gradient(ellipse at center, rgba(0,0,0,1) 30%, rgba(0,0,0,0) 80%);
+            mask-image: radial-gradient(ellipse at center, rgba(0,0,0,1) 30%, rgba(0,0,0,0) 80%);
+        }
+
+        /* --- 新增：右侧背景图层设定 --- */
+        .bg-image-right {
+            position: absolute;
+            top: 10%; right: -2.5%; left: auto; width: 45%; height: 45%;
+            /* 👇 请将下方的路径替换为你刚发的那张图的真实路径 */
+            background-image: url('game bgp2.jpg'); 
+            background-size: cover;
+            background-position: center;
+            opacity: 0.75; 
+            z-index: 0;
+            pointer-events: none; 
+            -webkit-mask-image: radial-gradient(ellipse at center, rgba(0,0,0,1) 30%, rgba(0,0,0,0) 80%);
+            mask-image: radial-gradient(ellipse at center, rgba(0,0,0,1) 30%, rgba(0,0,0,0) 80%);
+        }
+
         @media (max-width: 768px) {
             body { padding: 0; align-items: flex-start; }
             .app-container { min-height: 100vh; border-radius: 0; border: none; box-shadow: none; }
@@ -56,6 +85,8 @@
             flex: 1;
             text-align: center;
             animation: fadeIn 0.4s ease forwards;
+            position: relative;
+            z-index: 2; /* 確保頁面內容浮在背景圖之上 */
         }
         .page.active { display: flex; }
         @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
@@ -87,6 +118,7 @@
 
         .subtitle { font-size: 18px; color: var(--slate); margin-bottom: 50px; }
 
+        /* --- 按鈕全局與微交互 --- */
         .btn {
             background: var(--red);
             color: var(--paper);
@@ -97,14 +129,26 @@
             border-radius: 30px;
             cursor: pointer;
             font-family: inherit;
-            transition: transform 0.2s, opacity 0.2s;
+            transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
             display: inline-block;
         }
-        .btn:hover { opacity: 0.9; }
-        .btn:active { transform: scale(0.96); }
+        .btn:hover:not(:disabled) { 
+            opacity: 0.95; 
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(196, 80, 42, 0.25);
+        }
+        .btn:active:not(:disabled) { transform: scale(0.96); }
         
         .btn-secondary { background: var(--warm); color: var(--ink); }
-        .btn-secondary:hover { background: #EFECE6; }
+        .btn-secondary:hover:not(:disabled) { background: #EFECE6; box-shadow: 0 8px 20px rgba(0,0,0,0.08); }
+        
+        /* 禁用狀態 */
+        .btn:disabled {
+            opacity: 0.4;
+            cursor: not-allowed;
+            box-shadow: none;
+            transform: none;
+        }
         
         .step-indicator { font-size: 14px; color: var(--gray); margin-bottom: 24px; letter-spacing: 1px; }
         .section-label { font-size: 20px; font-weight: 700; margin-bottom: 24px; color: var(--ink); }
@@ -125,13 +169,20 @@
             border-radius: 16px;
             padding: 24px;
             font-size: 18px;
-            font-weight: 400; /* 恢复加粗 */
+            font-weight: 400;
             color: var(--slate);
             cursor: pointer;
-            transition: all 0.2s;
+            transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
         }
+        .mode-card:hover { transform: translateY(-2px); box-shadow: 0 4px 12px rgba(0,0,0,0.05); }
         .mode-card span { display: block; font-size: 14px; font-weight: 400; margin-top: 4px; color: var(--gray); }
-        .mode-card.active { color: var(--red); background: var(--active-bg); }
+        .mode-card.active { 
+            color: var(--red); 
+            background: var(--active-bg);
+            border-color: var(--red);
+            box-shadow: 0 8px 24px rgba(196, 80, 42, 0.12);
+            transform: translateY(-1px);
+        }
         .mode-card.active span { color: var(--red); opacity: 0.7; }
 
         /* --- 頁面 3: 選擇區域 --- */
@@ -149,42 +200,66 @@
             border-radius: 16px;
             padding: 20px;
             font-size: 18px;
-            font-weight: 400; /* 恢复加粗 */
+            font-weight: 400;
             color: var(--slate);
             cursor: pointer;
-            transition: all 0.2s;
+            transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
             display: flex;
             justify-content: space-between;
             align-items: center;
         }
-        .region-card.active { color: var(--red); background: var(--active-bg); }
+        .region-card:hover { transform: translateY(-2px); box-shadow: 0 4px 12px rgba(0,0,0,0.05); }
+        .region-card.active { 
+            color: var(--red); 
+            background: var(--active-bg);
+            border-color: var(--red);
+            box-shadow: 0 8px 24px rgba(196, 80, 42, 0.12);
+            transform: translateY(-1px);
+        }
         
-        /* 子區域樣式 */
+        /* 子區域樣式 & 絲滑展開動畫 */
         .sub-regions {
-            display: none;
+            display: flex;
             flex-direction: column;
             gap: 8px;
-            margin-top: 8px;
+            max-height: 0;
+            opacity: 0;
+            overflow: hidden;
+            transition: max-height 0.4s cubic-bezier(0.25, 0.8, 0.25, 1), opacity 0.4s ease, margin-top 0.4s ease;
             padding-left: 16px;
-            border-left: 2px solid var(--warm);
+            border-left: 2px solid transparent;
             margin-left: 16px;
+            margin-top: 0;
         }
-        .sub-regions.active { display: flex; }
+        .sub-regions.active {
+            max-height: 500px;
+            opacity: 1;
+            border-left-color: var(--warm);
+            margin-top: 8px;
+        }
         .sub-card {
             background: var(--paper);
-            border: 1px solid var(--warm);
+            border: 2px solid var(--warm);
             border-radius: 12px;
             padding: 16px;
             font-size: 15px;
-            font-weight: 400; /* 恢复加粗 */
+            font-weight: 400;
             color: var(--slate);
             cursor: pointer;
-            transition: all 0.2s;
+            transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
             display: flex;
             justify-content: space-between;
+            align-items: center;
         }
+        .sub-card:hover { transform: translateY(-2px); box-shadow: 0 4px 12px rgba(0,0,0,0.05); }
         .sub-card span { font-size: 13px; font-weight: 400; color: var(--gray); }
-        .sub-card.active { border-color: var(--red); color: var(--red); background: var(--active-bg); }
+        .sub-card.active { 
+            border-color: var(--red); 
+            color: var(--red); 
+            background: var(--active-bg); 
+            box-shadow: 0 8px 24px rgba(196, 80, 42, 0.12);
+            transform: translateY(-1px);
+        }
 
         /* --- 頁面 4: 面積與預算 --- */
         #page-4 { justify-content: space-between; min-height: 550px; }
@@ -215,12 +290,20 @@
             font-size: 16px;
             font-weight: 400;
             cursor: pointer;
-            transition: all 0.2s;
+            transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
             display: flex;
             justify-content: space-between;
+            align-items: center;
         }
+        .type-tag:hover { transform: translateY(-2px); box-shadow: 0 4px 12px rgba(0,0,0,0.05); }
         .type-tag .sqm { font-size: 13px; color: var(--gray); font-weight: 400; }
-        .type-tag.active { color: var(--red); background: var(--active-bg); }
+        .type-tag.active { 
+            color: var(--red); 
+            background: var(--active-bg); 
+            border-color: var(--red);
+            box-shadow: 0 8px 24px rgba(196, 80, 42, 0.12);
+            transform: translateY(-1px);
+        }
         .type-tag.active .sqm { color: var(--red); opacity: 0.7; }
 
         .budget-wrapper {
@@ -231,9 +314,13 @@
             border-radius: 20px;
             margin-bottom: 32px;
             border: 2px solid transparent;
-            transition: all 0.2s;
+            transition: all 0.3s;
         }
-        .budget-wrapper:focus-within { background: var(--paper); box-shadow: 0 4px 12px rgba(0,0,0,0.05); }
+        .budget-wrapper:focus-within { 
+            background: var(--paper); 
+            box-shadow: 0 4px 16px rgba(196, 80, 42, 0.1); 
+            border-color: var(--red);
+        }
         .budget-wrapper span { font-size: 32px; font-weight: 700; color: var(--slate); margin-right: 12px; }
         .budget-wrapper input {
             border: none;
@@ -305,6 +392,7 @@
             font-weight: 700;
         }
 
+        /* 學生公寓床位圖示 */
         .beds-container {
             display: flex;
             flex-wrap: wrap;
@@ -323,6 +411,7 @@
             line-height: 1.6;
             text-align: center;
             margin-top: auto; 
+            width: 100%;
         }
         .result-text strong { color: var(--ink); font-size: 18px; }
         .result-text.highlight strong { color: var(--red); }
@@ -334,6 +423,10 @@
 <body>
 
 <div class="app-container">
+    <!-- 👇 背景圖片層：左側 -->
+    <div class="bg-image"></div>
+    <!-- 👇 背景圖片層：右側（新增） -->
+    <div class="bg-image-right"></div>
     
     <!-- 頁面 1: 封面 -->
     <div id="page-1" class="page active">
@@ -357,17 +450,17 @@
         <div class="section-label">你想租哪種類型的房子？</div>
         
         <div class="mode-list">
-            <div class="mode-card active" data-val="private" onclick="selectMode('private')">
+            <div class="mode-card active" data-val="private" onclick="selectMode('private', this)">
                 租私宅
                 <span>空間更大，需要自己找室友</span>
             </div>
-            <div class="mode-card" data-val="student" onclick="selectMode('student')">
+            <div class="mode-card" data-val="student" onclick="selectMode('student', this)">
                 租學生公寓
                 <span>拎包入住，但空間極小</span>
             </div>
         </div>
 
-        <button class="btn btn-secondary" onclick="goToPage(3)">下一步</button>
+        <button class="btn btn-secondary" id="btn-step2-next" onclick="goToPage(3)">下一步</button>
     </div>
 
     <!-- 頁面 3: 選擇區域 -->
@@ -424,14 +517,13 @@
 
         <div class="bottom-actions" style="margin-top:auto;">
             <button class="btn btn-secondary" onclick="goToPage(2)">上一步</button>
-            <button class="btn" onclick="goToPage(4)">下一步</button>
+            <button class="btn" id="btn-step3-next" onclick="goToPage(4)" disabled>下一步</button>
         </div>
     </div>
 
     <!-- 頁面 4: 面積與預算 -->
     <div id="page-4" class="page">
         <div class="content-center">
-            <!-- 👈 步骤提示移出 area-selection-block，绝对居中且不随其隐藏 -->
             <div class="step-indicator" style="margin-bottom: 24px;">步驟 3 / 4</div>
 
             <div id="area-selection-block" style="width:100%;">
@@ -439,15 +531,15 @@
                 <div style="font-size:14px; color:var(--slate); margin-bottom:16px;">（整個房子的面積，非人均面積）</div>
                 
                 <div class="type-tags">
-                    <div class="type-tag active" data-val="A_Small" onclick="selectArea('A_Small')">
+                    <div class="type-tag active" data-val="A_Small" onclick="selectArea('A_Small', this)">
                         <span>&lt; 430 呎</span>
                         <span class="sqm">約 40 平方米以下</span>
                     </div>
-                    <div class="type-tag" data-val="A_Large" onclick="selectArea('A_Large')">
+                    <div class="type-tag" data-val="A_Large" onclick="selectArea('A_Large', this)">
                         <span>431 - 1075 呎</span>
                         <span class="sqm">約 40 - 100 平方米</span>
                     </div>
-                    <div class="type-tag" data-val="B_Group" onclick="selectArea('B_Group')">
+                    <div class="type-tag" data-val="B_Group" onclick="selectArea('B_Group', this)">
                         <span>1076 呎或以上</span>
                         <span class="sqm">約 100 平方米以上</span>
                     </div>
@@ -458,23 +550,23 @@
                 <div class="section-label" style="margin-top: 24px;">輸入月租預算（HKD）</div>
                 <div class="budget-wrapper">
                     <span>$</span>
-                    <input type="number" id="budget-input" value="20000" min="1000" step="1000">
+                    <input type="number" id="budget-input" value="20000" min="1000" step="1000" oninput="checkStep4()">
                 </div>
             </div>
         </div>
 
         <div class="bottom-actions">
             <button class="btn btn-secondary" onclick="goToPage(3)">上一步</button>
-            <button class="btn" onclick="calculateAndShow()">查看結果</button>
+            <button class="btn" id="btn-step4-next" onclick="calculateAndShow()">查看結果</button>
         </div>
     </div>
 
     <!-- 頁面 5: 結果 -->
     <div id="page-5" class="page">
-        <div class="result-header">你的預算 <span id="res-budget">$20,000</span></div>
+        <div class="result-header">你的預算 <span id="res-budget">$0</span></div>
         
         <div class="result-container" id="result-container">
-            <!-- 內容由 JS 動態注入，控制左右順序 -->
+            <!-- 內容由 JS 動態注入 -->
         </div>
 
         <div class="footnote">
@@ -505,7 +597,7 @@
         NewTerritories: { A_Small: 42, A_Large: 35, B_Group: 30 }
     };
 
-    // 學生公寓數據（按截圖更新，並按最低報價從高到低排序）
+    // 學生公寓數據
     const studentAccData = {
         HongKong: [
             { minPrice: 16000, maxPrice: 18000, room: "單人間", project: "西半山“一步居·38”" },
@@ -524,23 +616,38 @@
         ]
     };
 
+    // 初始化檢查
+    document.addEventListener("DOMContentLoaded", () => {
+        checkStep4(); 
+    });
+
     function goToPage(num) {
         document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
         document.getElementById(`page-${num}`).classList.add('active');
+        
+        // 進入特定頁面時的狀態重置與檢查
+        if (num === 3) {
+            currentAreaName = ''; // 每次進入必須重新選區
+            checkStep3();
+        } else if (num === 4) {
+            checkStep4();
+        }
+        
         window.scrollTo(0,0);
     }
 
     // 1. 模式切換
-    function selectMode(mode) {
+    function selectMode(mode, el) {
         currentMode = mode;
         document.querySelectorAll('.mode-card').forEach(c => c.classList.remove('active'));
-        event.currentTarget.classList.add('active');
+        el.classList.add('active');
         
         // 重置選擇狀態
         document.querySelectorAll('.region-card, .sub-card').forEach(c => c.classList.remove('active'));
         document.querySelectorAll('.sub-regions').forEach(s => s.classList.remove('active'));
         currentAreaRate = 0;
         currentAreaName = '';
+        checkStep3(); // 重置後禁用下一步
 
         // 切換 UI 顯示
         if (mode === 'private') {
@@ -560,9 +667,7 @@
     function toggleSubRegions(regionKey, el) {
         // 收合其他
         document.querySelectorAll('.region-card').forEach(c => {
-            if(c !== el) {
-                c.classList.remove('active');
-            }
+            if(c !== el) c.classList.remove('active');
         });
         document.querySelectorAll('.sub-regions').forEach(s => {
             if(s.id !== 'sub-' + regionKey) s.classList.remove('active');
@@ -574,11 +679,12 @@
 
     // 3. 私宅：選擇子區域
     function selectSubRegion(id, rate, el) {
-        event.stopPropagation(); // 防止觸發大區的點擊事件
+        event.stopPropagation();
         document.querySelectorAll('.sub-card').forEach(c => c.classList.remove('active'));
         el.classList.add('active');
         currentAreaRate = rate;
-        currentAreaName = el.innerText.split(' ')[0]; // 只取地名
+        currentAreaName = el.innerText.split(' ')[0]; 
+        checkStep3();
     }
 
     // 4. 學生公寓：選擇片區
@@ -587,13 +693,44 @@
         el.classList.add('active');
         currentAreaName = name;
         studentToPrivateRegion = mapRegion;
+        checkStep3();
     }
 
     // 5. 面積選擇
-    function selectArea(val) {
+    function selectArea(val, el) {
         document.querySelectorAll('.type-tag').forEach(t => t.classList.remove('active'));
-        event.currentTarget.classList.add('active');
+        el.classList.add('active');
         currentAreaType = val;
+        checkStep4();
+    }
+
+    // --- 狀態驗證 ---
+    function checkStep3() {
+        const btn = document.getElementById('btn-step3-next');
+        btn.disabled = !currentAreaName;
+    }
+
+    function checkStep4() {
+        const btn = document.getElementById('btn-step4-next');
+        const budget = parseFloat(document.getElementById('budget-input').value);
+        btn.disabled = !(currentAreaType && budget >= 1000);
+    }
+
+    // --- 數字滾動動畫 ---
+    function animateValue(el, start, end, duration, prefix = '', suffix = '') {
+        let startTimestamp = null;
+        const step = (timestamp) => {
+            if (!startTimestamp) startTimestamp = timestamp;
+            const progress = Math.min((timestamp - startTimestamp) / duration, 1);
+            const easeOut = progress === 1 ? 1 : 1 - Math.pow(2, -10 * progress);
+            el.innerHTML = prefix + Math.floor(easeOut * (end - start) + start).toLocaleString() + suffix;
+            if (progress < 1) {
+                window.requestAnimationFrame(step);
+            } else {
+                el.innerHTML = prefix + end.toLocaleString() + suffix;
+            }
+        };
+        window.requestAnimationFrame(step);
     }
 
     // 6. 床位 SVG
@@ -609,24 +746,16 @@
     // 7. 計算與展示結果
     function calculateAndShow() {
         const budget = parseFloat(document.getElementById('budget-input').value) || 0;
-        if(budget < 1000) {
-            alert("請輸入大於1000的預算");
-            return;
-        }
-
-        // 判斷是否已選區域
-        if (!currentAreaName) {
-            alert(currentMode === 'private' ? "請先選擇大區和具體小區" : "請先選擇學生公寓片區");
-            goToPage(3);
-            return;
-        }
+        if(budget < 1000) return;
 
         goToPage(5);
-        document.getElementById('res-budget').innerText = `$${budget.toLocaleString()}`;
-
+        
+        // 數字滾動
+        animateValue(document.getElementById('res-budget'), 0, budget, 1000, '$');
+        
         // --- 計算數據 ---
         
-        // 1. 私宅數據 (根據是否為私宅模式，取對應的呎租)
+        // 1. 私宅數據
         let rate = 0;
         let areaNameForPrivate = '';
         
@@ -634,7 +763,6 @@
             rate = currentAreaRate;
             areaNameForPrivate = currentAreaName;
         } else {
-            // 學生公寓模式，取對應大區的基準數據
             rate = privateBaseline[studentToPrivateRegion][currentAreaType] || 55;
             areaNameForPrivate = studentToPrivateRegion === 'HongKong' ? '港島區' : (studentToPrivateRegion === 'Kowloon' ? '九龍區' : '新界區');
         }
@@ -663,20 +791,23 @@
         if (matched) {
             const bedCount = Math.floor(budget / matched.minPrice);
             let visualCount = Math.min(bedCount, 9); 
-            for(let i=0; i<visualCount; i++) bedsHtml += getBedSVG();
             
-            let priceStr = matched.maxPrice ? `$${matched.minPrice.toLocaleString()}–${matched.maxPrice.toLocaleString()}` : `約$${matched.minPrice.toLocaleString()}`;
+            // 生成床位圖示
+            for(let i=0; i<visualCount; i++) {
+                bedsHtml += getBedSVG();
+            }
             
+            // 精簡文字，不顯示具體公寓名稱
             if (bedCount === 1) {
-                studentHtml = `可以租到 <strong>1 個${matched.room}床位</strong>。<br><span style="font-size:14px;color:var(--slate)">(${matched.project}，${priceStr})</span>`;
+                studentHtml = `可以租到 <strong>1 個${matched.room}床位</strong>。`;
             } else if (bedCount > 1 && bedCount <= 3) {
-                studentHtml = `預算充足，可以租下包含 <strong>${bedCount} 個${matched.room}的套間</strong>。<br><span style="font-size:14px;color:var(--slate)">(如${matched.project}，單床${priceStr})</span>`;
+                studentHtml = `預算充足，可以租下包含 <strong>${bedCount} 個${matched.room}床位</strong>的套間。`;
             } else {
-                studentHtml = `預算十分充裕，<strong>足夠包下多個房間</strong>。<br><span style="font-size:14px;color:var(--slate)">(相當於 ${bedCount} 個${matched.room})</span>`;
+                studentHtml = `預算十分充裕，<strong>足夠包下 ${bedCount} 個${matched.room}床位</strong>。`;
             }
         } else {
             bedsHtml = `<div style="color:var(--gray); font-size:15px; margin-top:60px;">租不到床位</div>`;
-            studentHtml = `預算低於該區私營公寓最低床位價（$${regionData[regionData.length-1].minPrice.toLocaleString()}起）。<br><span style="font-size:14px; color:var(--slate)">這筆錢或可考慮大學宿舍。</span>`;
+            studentHtml = `預算低於該區私營公寓最低床位價。<br><span style="font-size:14px; color:var(--slate)">這筆錢或可考慮大學宿舍。</span>`;
         }
 
         // 3. 構建 HTML 卡片
@@ -687,7 +818,7 @@
                     <svg viewBox="0 0 100 100">
                         <path d="M 10 40 L 50 10 L 90 40 L 90 90 L 10 90 Z" fill="none" stroke="var(--ink)" stroke-width="3" stroke-linejoin="round"/>
                     </svg>
-                    <div class="house-text" id="res-area">${area} 呎</div>
+                    <div class="house-text" id="res-area">0 呎</div>
                     <div class="house-sqm">約 ${areaSqm} 平方米</div>
                 </div>
                 <div class="result-text">
@@ -713,8 +844,14 @@
         if (currentMode === 'private') {
             container.innerHTML = privateCard + studentCard;
         } else {
-            container.innerHTML = studentCard + privateCard; // 反轉：左公寓，右私宅
+            container.innerHTML = studentCard + privateCard;
         }
+
+        // 啟動面積的數字滾動
+        setTimeout(() => {
+            const resAreaEl = document.getElementById('res-area');
+            if (resAreaEl) animateValue(resAreaEl, 0, area, 1000, '', ' 呎');
+        }, 50);
     }
 </script>
 </body>
