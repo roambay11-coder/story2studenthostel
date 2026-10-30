@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="zh-Hant">
 <head>
 <meta charset="UTF-8">
@@ -11,6 +11,7 @@
   :root{
     --rust:#C4502A; --grey:#B5BAC1; --blue:#2B6CB0; --jade:#0E9474;
     --ochre:#B8860B; --violet:#8A4FC4; --grid:#E4E7EB; --ink:#16293F;
+    --uni:#D92B2B;
   }
   *{margin:0;padding:0;box-sizing:border-box;}
   html{-webkit-text-size-adjust:100%;}
@@ -23,151 +24,290 @@
   h1{font-size:clamp(17px,2vw,18px);line-height:1.3;font-weight:700;font-family:"Source Sans 3","Noto Sans TC","PingFang HK","Microsoft JhengHei",Arial,sans-serif;margin-bottom:8px;}
   .dek{font-size:15px;color:#5B6573;line-height:1.55;margin-bottom:14px;max-width:680px;}
 
-  .legend{display:flex;flex-wrap:wrap;align-items:center;gap:10px 18px;margin-bottom:12px;color:#5B6573;font-size:13px;}
+  .legend{display:flex;flex-wrap:wrap;align-items:center;gap:7px 15px;margin-bottom:7px;color:#5B6573;font-size:13px;}
+  .legend:last-of-type{margin-bottom:12px;}
   .legend .lt{font-weight:700;color:#16293F;margin-right:2px;}
-  .key{display:flex;align-items:center;gap:6px;}
-  .key .sw{width:12px;height:12px;border-radius:50%;flex-shrink:0;}
-  .key .ln{width:20px;height:3px;border-radius:2px;background:#B5BAC1;flex-shrink:0;}
+  .key{display:flex;align-items:center;gap:6px;white-space:nowrap;}
+  .key .ico{flex-shrink:0;display:block;overflow:visible;}
 
   .chart{width:100%;background:#fff;}
   .chart svg{display:block;width:100%;height:auto;}
   svg text{font-family:inherit;}
-  .axis{font-size:1em;fill:#5B6573;font-variant-numeric:tabular-nums;}
+  /* 與圖三共用同一套字號：基字 13px（螢幕）、名稱 14px、數值／刻度 12px、群組標題 15px */
+  #fig4svg{font-size:13px;}
+  .axis{font-size:.92em;fill:#5B6573;font-variant-numeric:tabular-nums;}
+  .axis-t{font-size:.85em;fill:#8A93A0;}
   .grid{stroke:var(--grid);stroke-width:1.5;}
-  .grp{font-size:1.3em;font-weight:700;fill:#16293F;}
-  .pname{font-size:1.1em;fill:#16293F;}
-  .val{font-size:.95em;fill:#5B6573;font-variant-numeric:tabular-nums;}
-  .val.hot{fill:#16293F;font-weight:700;}
+  .grp{font-size:1.15em;font-weight:700;fill:#16293F;}
   .refline{stroke:var(--rust);stroke-width:2;stroke-dasharray:7 6;}
-  .reftext{font-size:1em;font-weight:700;fill:#16293F;}
-  .dbar{stroke:#B5BAC1;stroke-width:5;stroke-linecap:round;}
-  .ddot{stroke:#fff;stroke-width:2.5;}
+  .reftext{font-size:1em;font-weight:700;fill:#C4502A;}
+  .pt{cursor:default;}
+  .vlab{font-size:.85em;font-weight:700;fill:#16293F;paint-order:stroke;stroke:#fff;stroke-width:3px;stroke-linejoin:round;font-variant-numeric:tabular-nums;}
 
   .note{margin-top:18px;font-size:13px;color:#5B6573;line-height:1.6;}
   .note h3{font-size:14px;color:#16293F;margin-bottom:6px;}
   .note ul{padding-left:1.2em;}
   .note li{margin-bottom:4px;}
   .source{margin-top:14px;font-size:12px;color:#5B6573;line-height:1.5;}
+  /* 圖註按鈕與展開區域樣式 */
+  .caption-toggle-btn{margin-top:16px;background-color:#F7F6F3;color:#5B6573;border:1px solid #E4E7EB;padding:6px 16px;border-radius:4px;font-size:13px;cursor:pointer;font-family:inherit;transition:background-color .2s;}
+  .caption-toggle-btn:hover{background-color:#EFECE6;}
+  .caption-text{display:none;margin-top:12px;padding:12px 16px;background-color:#F7F6F3;border-left:3px solid #C4502A;font-size:13px;color:#16293F;line-height:1.6;}
 </style>
 </head>
 <body>
+<svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false">
+  <defs>
+    <g id="bedS">
+      <path d="M0.63,6.94 L0.63,2.46 C0.63,0.90 2.03,0 6.96,0 C11.88,0 13.23,0.90 13.23,2.46 L13.23,6.05 Z" fill="currentColor" stroke="none"/>
+      <path d="M0.63,6.94 L0.63,2.46 C0.63,0.90 2.03,0 6.96,0 C11.88,0 13.23,0.90 13.23,2.46 L13.23,6.05 Z" fill="#000" fill-opacity=".10" stroke="none"/>
+      <g fill="currentColor" stroke="none"><path d="M0.90,9.55 L6.05,13.05 L6.05,13.75 L0.90,10.65 Z"/><path d="M6.05,13.05 L18.40,12.65 L18.40,13.45 L6.05,13.75 Z"/></g>
+      <g fill="#000" stroke="none"><path d="M0.90,9.55 L6.05,13.05 L6.05,13.75 L0.90,10.65 Z" fill-opacity=".42"/><path d="M6.05,13.05 L18.40,12.65 L18.40,13.45 L6.05,13.75 Z" fill-opacity=".36"/></g>
+      <g fill="currentColor" stroke="none"><path d="M0.90,6.55 Q3.3,8.45 6.05,10.30 L6.05,13.05 Q3.3,11.2 0.90,9.55 Z"/><path d="M6.05,10.30 Q12.1,10.15 18.40,9.65 L18.40,12.65 Q12.1,13.1 6.05,13.05 Z"/></g>
+      <g fill="#000" stroke="none"><path d="M0.90,6.55 Q3.3,8.45 6.05,10.30 L6.05,13.05 Q3.3,11.2 0.90,9.55 Z" fill-opacity=".30"/><path d="M6.05,10.30 Q12.1,10.15 18.40,9.65 L18.40,12.65 Q12.1,13.1 6.05,13.05 Z" fill-opacity=".17"/></g>
+      <path d="M0.90,6.55 L12.95,5.62 Q16.0,7.45 18.40,9.65 Q12.1,10.15 6.05,10.30 Q3.3,8.45 0.90,6.55 Z" fill="currentColor" stroke="none"/>
+      <path d="M0.90,6.55 L12.95,5.62 Q16.0,7.45 18.40,9.65 Q12.1,10.15 6.05,10.30 Q3.3,8.45 0.90,6.55 Z" fill="#fff" fill-opacity=".08" stroke="none"/>
+      <path d="M1.6,6.9 Q5.5,8.3 7.2,9.6 Q5.0,9.3 3.0,8.15 Q2.2,7.5 1.6,6.9 Z" fill="#fff" fill-opacity=".18" stroke="none"/>
+      <path d="M0.98,9.44 Q3.3,11.15 6.04,12.90 Q12.1,12.95 18.32,12.50" fill="none" stroke="#fff" stroke-opacity=".55" stroke-width=".8" stroke-linecap="round"/>
+      <g fill="none" stroke="#fff" stroke-width="1" stroke-linejoin="round">
+        <path d="M0.63,6.94 L0.63,2.46 C0.63,0.90 2.03,0 6.96,0 C11.88,0 13.23,0.90 13.23,2.46 L13.23,6.05 Z"/>
+        <path d="M0.90,6.55 L12.95,5.62 Q16.0,7.45 18.40,9.65 Q12.1,10.15 6.05,10.30 Q3.3,8.45 0.90,6.55 Z"/>
+        <path d="M0.90,9.55 L6.05,13.05 L6.05,13.75 L0.90,10.65 Z"/>
+        <path d="M6.05,13.05 L18.40,12.65 L18.40,13.45 L6.05,13.75 Z"/>
+      </g>
+      <g fill="currentColor" stroke="none"><rect x="5.55" y="12.40" width="2.3" height="3.20" rx="0.5"/><rect x="16.85" y="12.00" width="2.3" height="3.20" rx="0.5"/><rect x="0.90" y="9.70" width="2.0" height="3.60" rx="0.5"/></g>
+      <g fill="#000" fill-opacity=".36" stroke="none"><rect x="5.55" y="12.40" width="2.3" height="3.20" rx="0.5"/><rect x="16.85" y="12.00" width="2.3" height="3.20" rx="0.5"/><rect x="0.90" y="9.70" width="2.0" height="3.60" rx="0.5"/></g>
+      <g fill="#fff" stroke="none"><rect x="2.15" y="4.37" width="5.15" height="3.02" rx="1.51" transform="rotate(-9 4.72 5.88)"/><rect x="7.52" y="3.92" width="5.15" height="3.02" rx="1.51" transform="rotate(-9 10.10 5.43)"/></g>
+    </g>
+    <g id="bedH">
+      <path d="M0.63,6.94 L0.63,2.46 C0.63,0.90 2.03,0 6.96,0 C11.88,0 13.23,0.90 13.23,2.46 L13.23,6.05 Z" fill="#fff" stroke="currentColor" stroke-width=".9" stroke-linejoin="round"/>
+      <g fill="currentColor" stroke="currentColor" stroke-width=".9" stroke-linejoin="round">
+        <path d="M0.90,9.55 L6.05,13.05 L6.05,13.75 L0.90,10.65 Z" fill-opacity=".20"/><path d="M6.05,13.05 L18.40,12.65 L18.40,13.45 L6.05,13.75 Z" fill-opacity=".14"/>
+      </g>
+      <g fill="currentColor" stroke="currentColor" stroke-width=".9" stroke-linejoin="round">
+        <path d="M0.90,6.55 Q3.3,8.45 6.05,10.30 L6.05,13.05 Q3.3,11.2 0.90,9.55 Z" fill-opacity=".13"/><path d="M6.05,10.30 Q12.1,10.15 18.40,9.65 L18.40,12.65 Q12.1,13.1 6.05,13.05 Z" fill-opacity=".08"/>
+      </g>
+      <path d="M0.90,6.55 L12.95,5.62 Q16.0,7.45 18.40,9.65 Q12.1,10.15 6.05,10.30 Q3.3,8.45 0.90,6.55 Z" fill="#fff" stroke="currentColor" stroke-width=".9" stroke-linejoin="round"/>
+      <g fill="#fff" stroke="currentColor" stroke-width=".9"><rect x="5.55" y="12.40" width="2.3" height="3.20" rx="0.5"/><rect x="16.85" y="12.00" width="2.3" height="3.20" rx="0.5"/><rect x="0.90" y="9.70" width="2.0" height="3.60" rx="0.5"/></g>
+      <g fill="#fff" stroke="currentColor" stroke-width=".9"><rect x="2.15" y="4.37" width="5.15" height="3.02" rx="1.51" transform="rotate(-9 4.72 5.88)"/><rect x="7.52" y="3.92" width="5.15" height="3.02" rx="1.51" transform="rotate(-9 10.10 5.43)"/></g>
+    </g>
+  </defs>
+</svg>
 
-<div class="kicker">圖四 · 可負擔性</div>
 <h1>一個床位貴過兩房：學生公寓報價 vs 九龍私樓租金</h1>
-<p class="dek">各項目已披露月租報價（每床位）及九龍431呎兩房單位平均月租（每單位），HK$／月。</p>
+<p class="dek">各學生公寓每床位月租（HK$／月），與八大院校宿舍平均價及九龍431呎兩房單位的整租租金對照。每個公寓一種顏色，房型以疊床圖案的層數表示：一層代表一個床位。</p>
 
 <div class="legend">
-  <span class="lt">項目</span>
-  <span class="key"><span class="sw" style="background:#C4502A"></span>一步居·117（尖沙咀）</span>
-  <span class="key"><span class="sw" style="background:#8A4FC4"></span>一步居·38（西半山）</span>
-  <span class="key"><span class="sw" style="background:#0E9474"></span>博譽（葵涌）</span>
-  <span class="key"><span class="sw" style="background:#2B6CB0"></span>一匯居·啟德（九龍城）</span>
-  <span class="key"><span class="ln"></span>報價區間（兩端為區間上下限）</span>
+<span class="lt">項目</span>
+<span class="key"><svg class="ico" width="16.4" height="13.5" viewBox="0 0 16.4 13.5" aria-hidden="true"><g transform="translate(0.5,0.50) scale(0.80)" style="color:#B03A6E"><use href="#bedS"/></g></svg>一步居·117（尖沙咀）</span>
+<span class="key"><svg class="ico" width="16.4" height="13.5" viewBox="0 0 16.4 13.5" aria-hidden="true"><g transform="translate(0.5,0.50) scale(0.80)" style="color:#8A4FC4"><use href="#bedS"/></g></svg>一步居·38（西半山）</span>
+<span class="key"><svg class="ico" width="16.4" height="13.5" viewBox="0 0 16.4 13.5" aria-hidden="true"><g transform="translate(0.5,0.50) scale(0.80)" style="color:#0E9474"><use href="#bedS"/></g></svg>博譽（葵涌）</span>
+<span class="key"><svg class="ico" width="16.4" height="13.5" viewBox="0 0 16.4 13.5" aria-hidden="true"><g transform="translate(0.5,0.50) scale(0.80)" style="color:#B8860B"><use href="#bedS"/></g></svg>一匯居·啟德</span>
+<span class="key"><svg class="ico" width="16.4" height="13.5" viewBox="0 0 16.4 13.5" aria-hidden="true"><g transform="translate(0.5,0.50) scale(0.80)" style="color:#1F4E79"><use href="#bedS"/></g></svg>日新舍·啟德</span>
+<span class="key"><svg class="ico" width="16.4" height="13.5" viewBox="0 0 16.4 13.5" aria-hidden="true"><g transform="translate(0.5,0.50) scale(0.80)" style="color:#9AA3AE"><use href="#bedS"/></g></svg>八大院校宿舍（平均）</span>
+</div>
+<div class="legend">
+<span class="lt">房型</span>
+<span class="key"><svg class="ico" width="11.6" height="9.6" viewBox="0 0 11.6 9.6" aria-hidden="true"><g transform="translate(0.5,0.50) scale(0.55)" style="color:#4A5563"><use href="#bedS"/></g></svg>單人房＝1 床</span>
+<span class="key"><svg class="ico" width="11.6" height="10.7" viewBox="0 0 11.6 10.7" aria-hidden="true"><rect x="1.10" y="8.42" width="9.4" height="1.8" rx="1.6" fill="#4A5563"/><g transform="translate(0.5,0.50) scale(0.55)" style="color:#4A5563"><use href="#bedS"/></g></svg>雙人房＝2 床</span>
+<span class="key"><svg class="ico" width="11.6" height="13.0" viewBox="0 0 11.6 13.0" aria-hidden="true"><rect x="1.10" y="8.42" width="9.4" height="1.8" rx="1.6" fill="#4A5563"/><rect x="1.10" y="10.73" width="9.4" height="1.8" rx="1.6" fill="#4A5563"/><g transform="translate(0.5,0.50) scale(0.55)" style="color:#4A5563"><use href="#bedS"/></g></svg>三人房＝3 床</span>
+<span class="key"><svg class="ico" width="11.6" height="15.3" viewBox="0 0 11.6 15.3" aria-hidden="true"><rect x="1.10" y="8.42" width="9.4" height="1.8" rx="1.6" fill="#4A5563"/><rect x="1.10" y="10.73" width="9.4" height="1.8" rx="1.6" fill="#4A5563"/><rect x="1.10" y="13.04" width="9.4" height="1.8" rx="1.6" fill="#4A5563"/><g transform="translate(0.5,0.50) scale(0.55)" style="color:#4A5563"><use href="#bedS"/></g></svg>四人房＝4 床</span>
+</div>
+<div class="legend">
+<span class="lt">圖例</span>
+<span class="key"><svg class="ico" width="11.6" height="9.6" viewBox="0 0 11.6 9.6" aria-hidden="true"><g transform="translate(0.5,0.50) scale(0.55)" style="color:#4A5563"><use href="#bedS"/></g></svg>實心＝報價下限</span>
+<span class="key"><svg class="ico" width="19.2" height="16.1" viewBox="0 0 19.2 16.1" style="color:#4A5563"><g transform="translate(0,0.5)"><use href="#bedH"/></g></svg>空心＝報價上限</span>
 </div>
 
 <div class="chart">
-<svg id="fig4svg" viewBox="0 0 1045 645" role="img" aria-label="學生公寓報價與九龍私樓兩房租金對比啞鈴圖">
+<svg id="fig4svg" viewBox="110 40 860 570" role="img" aria-label="學生公寓每床位月租圖：每個公寓一種顏色，以疊床層數標示房型床位數，與八大院校宿舍、九龍兩房單位租金對照">
 
-  <!-- 橫向網格與 X 軸刻度 -->
+  <defs>
+    <linearGradient id="bandV" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#FFFFFF"/>
+      <stop offset="0.16" stop-color="#FAF9F5"/>
+      <stop offset="0.84" stop-color="#FAF9F5"/>
+      <stop offset="1" stop-color="#FFFFFF"/>
+    </linearGradient>
+    <linearGradient id="fadeR" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0" stop-color="#FFFFFF" stop-opacity="0"/>
+      <stop offset="1" stop-color="#FFFFFF"/>
+    </linearGradient>
+  </defs>
+  <rect x="190" y="130" width="760" height="100" fill="url(#bandV)"></rect>
+  <rect x="190" y="330" width="760" height="100" fill="url(#bandV)"></rect>
+  <rect x="885" y="130" width="65" height="400" fill="url(#fadeR)"></rect>
+
   <g>
-    <line class="grid" x1="190" y1="88" x2="190" y2="600"></line>
-    <line class="grid" x1="390" y1="88" x2="390" y2="600"></line>
-    <line class="grid" x1="590" y1="88" x2="590" y2="600"></line>
-    <line class="grid" x1="790" y1="88" x2="790" y2="600"></line>
-    <line class="grid" x1="990" y1="88" x2="990" y2="600"></line>
-    <line x1="190" y1="600" x2="990" y2="600" stroke="#B5BAC1" stroke-width="1.5"></line>
-    <text class="axis" x="190" y="626" text-anchor="middle">HK$0</text>
-    <text class="axis" x="390" y="626" text-anchor="middle">HK$5,000</text>
-    <text class="axis" x="590" y="626" text-anchor="middle">HK$10,000</text>
-    <text class="axis" x="790" y="626" text-anchor="middle">HK$15,000</text>
-    <text class="axis" x="990" y="626" text-anchor="middle">HK$20,000</text>
+    <line class="grid" x1="190" y1="130" x2="190" y2="530"></line>
+    <line class="grid" x1="362.7" y1="130" x2="362.7" y2="530"></line>
+    <line class="grid" x1="535.5" y1="130" x2="535.5" y2="530"></line>
+    <line class="grid" x1="708.2" y1="130" x2="708.2" y2="530"></line>
+    <line class="grid" x1="880.9" y1="130" x2="880.9" y2="530"></line>
+  </g>
+  <line x1="190" y1="122" x2="190" y2="538" stroke="#8B939D" stroke-width="1.5"></line>
+
+  <text class="grp" x="178" y="185" text-anchor="end">單人房</text>
+  <text class="grp" x="178" y="285" text-anchor="end">雙人房</text>
+  <text class="grp" x="178" y="385" text-anchor="end">三人房</text>
+  <text class="grp" x="178" y="485" text-anchor="end">四人房</text>
+
+  <line class="refline" x1="777.3" y1="130" x2="777.3" y2="530"></line>
+  <text class="reftext" x="787" y="96">九龍431呎兩房</text>
+  <text class="reftext" x="787" y="118">整租約HK$17,000</text>
+
+  <line x1="182" y1="530" x2="958" y2="530" stroke="#8B939D" stroke-width="1.5"></line>
+  <text class="axis" x="190" y="554" text-anchor="middle">HK$0</text>
+  <text class="axis" x="362.7" y="554" text-anchor="middle">HK$5,000</text>
+  <text class="axis" x="535.5" y="554" text-anchor="middle">HK$10,000</text>
+  <text class="axis" x="708.2" y="554" text-anchor="middle">HK$15,000</text>
+  <text class="axis" x="880.9" y="554" text-anchor="middle">HK$20,000</text>
+  <text class="axis-t" x="190" y="584">每床位月租（HK$／月）</text>
+
+<g class="pt" style="color:#9AA3AE"><title>八大院校宿舍平均 單人房：HK$4,000</title>
+  <use href="#bedS" x="318.58" y="202.40" />
+  </g>
+  <g class="pt" style="color:#0E9474"><title>博譽（葵涌） 單人房：HK$9,900 – HK$18,000</title>
+  <use href="#bedH" x="802.21" y="202.40" />
+  <use href="#bedS" x="522.40" y="202.40" />
+  </g>
+  <g class="pt" style="color:#8A4FC4"><title>一步居·38（西半山） 單人房：HK$16,000 – HK$18,000</title>
+  <use href="#bedH" x="802.21" y="178.40" />
+  <use href="#bedS" x="733.12" y="178.40" />
+  </g>
+  <g class="pt" style="color:#B03A6E"><title>一步居·117（尖沙咀） 單人房：HK$18,000 – HK$20,000</title>
+  <use href="#bedH" x="871.30" y="154.40" />
+  <use href="#bedS" x="802.21" y="154.40" />
+  </g>
+  <g class="pt" style="color:#9AA3AE"><title>八大院校宿舍平均 雙人房：HK$2,500</title>
+  <rect x="267.86" y="314.80" width="17.0" height="3.2" rx="1.6" fill="currentColor"/>
+  <use href="#bedS" x="266.76" y="300.40" />
+  </g>
+  <g class="pt" style="color:#0E9474"><title>博譽（葵涌） 雙人房：HK$6,800 – HK$7,900</title>
+  <rect x="454.41" y="314.80" width="17.0" height="3.2" rx="1.6" fill="#fff" stroke="currentColor" stroke-width="1"/>
+  <use href="#bedH" x="453.31" y="300.40" />
+  <rect x="416.41" y="314.80" width="17.0" height="3.2" rx="1.6" fill="currentColor"/>
+  <use href="#bedS" x="415.31" y="300.40" />
+  </g>
+  <g class="pt" style="color:#B8860B"><title>一匯居·啟德 雙人房：HK$8,500</title>
+  <rect x="475.13" y="288.80" width="17.0" height="3.2" rx="1.6" fill="currentColor"/>
+  <use href="#bedS" x="474.03" y="274.40" />
+  </g>
+  <g class="pt" style="color:#1F4E79"><title>日新舍·啟德 雙人房：HK$8,500</title>
+  <rect x="475.13" y="262.80" width="17.0" height="3.2" rx="1.6" fill="currentColor"/>
+  <use href="#bedS" x="474.03" y="248.40" />
+  </g>
+  <g class="pt" style="color:#B03A6E"><title>一步居·117（尖沙咀） 雙人房：HK$9,100</title>
+  <rect x="495.86" y="314.80" width="17.0" height="3.2" rx="1.6" fill="currentColor"/>
+  <use href="#bedS" x="494.76" y="300.40" />
+  </g>
+  <g class="pt" style="color:#8A4FC4"><title>一步居·38（西半山） 雙人房：HK$11,300 – HK$14,000</title>
+  <rect x="665.13" y="314.80" width="17.0" height="3.2" rx="1.6" fill="#fff" stroke="currentColor" stroke-width="1"/>
+  <use href="#bedH" x="664.03" y="300.40" />
+  <rect x="571.86" y="314.80" width="17.0" height="3.2" rx="1.6" fill="currentColor"/>
+  <use href="#bedS" x="570.76" y="300.40" />
+  </g>
+  <g class="pt" style="color:#9AA3AE"><title>八大院校宿舍平均 三人房：HK$1,500</title>
+  <rect x="233.32" y="410.60" width="17.0" height="3.2" rx="1.6" fill="currentColor"/>
+  <rect x="233.32" y="414.80" width="17.0" height="3.2" rx="1.6" fill="currentColor"/>
+  <use href="#bedS" x="232.22" y="396.20" />
+  </g>
+  <g class="pt" style="color:#B8860B"><title>一匯居·啟德 三人房：HK$6,100 – HK$6,400</title>
+  <rect x="409.01" y="410.60" width="17.0" height="3.2" rx="1.6" fill="#fff" stroke="currentColor" stroke-width="1"/>
+  <rect x="409.01" y="414.80" width="17.0" height="3.2" rx="1.6" fill="#fff" stroke="currentColor" stroke-width="1"/>
+  <use href="#bedH" x="407.91" y="396.20" />
+  <rect x="385.81" y="410.60" width="17.0" height="3.2" rx="1.6" fill="currentColor"/>
+  <rect x="385.81" y="414.80" width="17.0" height="3.2" rx="1.6" fill="currentColor"/>
+  <use href="#bedS" x="384.71" y="396.20" />
+  </g>
+  <g class="pt" style="color:#1F4E79"><title>日新舍·啟德 三人房：HK$7,838 – HK$9,057</title>
+  <rect x="494.37" y="410.60" width="17.0" height="3.2" rx="1.6" fill="#fff" stroke="currentColor" stroke-width="1"/>
+  <rect x="494.37" y="414.80" width="17.0" height="3.2" rx="1.6" fill="#fff" stroke="currentColor" stroke-width="1"/>
+  <use href="#bedH" x="493.27" y="396.20" />
+  <rect x="452.26" y="410.60" width="17.0" height="3.2" rx="1.6" fill="currentColor"/>
+  <rect x="452.26" y="414.80" width="17.0" height="3.2" rx="1.6" fill="currentColor"/>
+  <use href="#bedS" x="451.16" y="396.20" />
+  </g>
+  <g class="pt" style="color:#9AA3AE"><title>八大院校宿舍平均 四人房：HK$1,350</title>
+  <rect x="228.14" y="506.40" width="17.0" height="3.2" rx="1.6" fill="currentColor"/>
+  <rect x="228.14" y="510.60" width="17.0" height="3.2" rx="1.6" fill="currentColor"/>
+  <rect x="228.14" y="514.80" width="17.0" height="3.2" rx="1.6" fill="currentColor"/>
+  <use href="#bedS" x="227.04" y="492.00" />
+  </g>
+  <g class="pt" style="color:#B8860B"><title>一匯居·啟德 四人房：HK$6,100 – HK$6,400</title>
+  <rect x="409.01" y="506.40" width="17.0" height="3.2" rx="1.6" fill="#fff" stroke="currentColor" stroke-width="1"/>
+  <rect x="409.01" y="510.60" width="17.0" height="3.2" rx="1.6" fill="#fff" stroke="currentColor" stroke-width="1"/>
+  <rect x="409.01" y="514.80" width="17.0" height="3.2" rx="1.6" fill="#fff" stroke="currentColor" stroke-width="1"/>
+  <use href="#bedH" x="407.91" y="492.00" />
+  <rect x="385.81" y="506.40" width="17.0" height="3.2" rx="1.6" fill="currentColor"/>
+  <rect x="385.81" y="510.60" width="17.0" height="3.2" rx="1.6" fill="currentColor"/>
+  <rect x="385.81" y="514.80" width="17.0" height="3.2" rx="1.6" fill="currentColor"/>
+  <use href="#bedS" x="384.71" y="492.00" />
+  </g>
+  <g class="pt" style="color:#1F4E79"><title>日新舍·啟德 四人房：HK$7,838 – HK$9,057</title>
+  <rect x="494.37" y="506.40" width="17.0" height="3.2" rx="1.6" fill="#fff" stroke="currentColor" stroke-width="1"/>
+  <rect x="494.37" y="510.60" width="17.0" height="3.2" rx="1.6" fill="#fff" stroke="currentColor" stroke-width="1"/>
+  <rect x="494.37" y="514.80" width="17.0" height="3.2" rx="1.6" fill="#fff" stroke="currentColor" stroke-width="1"/>
+  <use href="#bedH" x="493.27" y="492.00" />
+  <rect x="452.26" y="506.40" width="17.0" height="3.2" rx="1.6" fill="currentColor"/>
+  <rect x="452.26" y="510.60" width="17.0" height="3.2" rx="1.6" fill="currentColor"/>
+  <rect x="452.26" y="514.80" width="17.0" height="3.2" rx="1.6" fill="currentColor"/>
+  <use href="#bedS" x="451.16" y="492.00" />
   </g>
 
-  <!-- 參考線：九龍兩房整租 HK$17,000 -->
-  <line class="refline" x1="870" y1="88" x2="870" y2="600"></line>
-  <text class="reftext" x="880" y="108">九龍431呎兩房</text>
-  <text class="reftext" x="880" y="128">整租約HK$17,000</text>
-  <!-- 參考線：大學宿舍折算月租約數千元 -->
-  <line x1="330" y1="88" x2="330" y2="600" stroke="#B5BAC1" stroke-width="2.5" stroke-dasharray="4 7" stroke-linecap="round" opacity=".9"></line>
-  <text class="reftext" x="340" y="108">大學宿舍（數千元）†</text>
+<text class="vlab" x="328.18" y="194.40" text-anchor="middle">HK$4,000</text>
+  <text class="vlab" x="276.36" y="292.40" text-anchor="middle">HK$2,500</text>
+  <text class="vlab" x="241.82" y="388.20" text-anchor="middle">HK$1,500</text>
+  <text class="vlab" x="236.64" y="484.00" text-anchor="middle">HK$1,350</text>
+  <text class="vlab" x="896" y="188.00" text-anchor="end">近 HK$20,000</text>
 
-  <!-- 三人／四人房 -->
-  <text class="grp" x="20" y="122">三人／四人房</text>
-  <g>
-    <line class="dbar" x1="434" y1="155" x2="446" y2="155"></line>
-    <circle class="ddot" cx="434" cy="155" r="9" fill="#2B6CB0"><title>一匯居·啟德 三人/四人房：HK$6,100 起</title></circle>
-    <circle class="ddot" cx="446" cy="155" r="9" fill="#2B6CB0"><title>一匯居·啟德 三人/四人房：HK$6,400 起</title></circle>
-    <text class="pname" x="20" y="162">一匯居·啟德</text>
-    <text class="val" x="462" y="150">HK$6,100–6,400 起</text>
-  </g>
-
-  <!-- 雙人房 -->
-  <text class="grp" x="20" y="227">雙人房</text>
-  <g>
-    <line class="dbar" x1="462" y1="260" x2="506" y2="260"></line>
-    <circle class="ddot" cx="462" cy="260" r="9" fill="#0E9474"><title>博譽（城大／浸大校外宿舍）雙人房：HK$6,800</title></circle>
-    <circle class="ddot" cx="506" cy="260" r="9" fill="#0E9474"><title>博譽（城大／浸大校外宿舍）雙人房：HK$7,900</title></circle>
-    <text class="pname" x="20" y="267">博譽（葵涌）</text>
-    <text class="val" x="522" y="255">HK$6,800–7,900</text>
-  </g>
-  <g>
-    <circle class="ddot" cx="530" cy="300" r="9" fill="#2B6CB0"><title>一匯居·啟德 雙人房（部分）：約 HK$8,500</title></circle>
-    <text class="pname" x="20" y="307">一匯居·啟德</text>
-    <text class="val" x="546" y="295">約 HK$8,500</text>
-  </g>
-  <g>
-    <circle class="ddot" cx="554" cy="340" r="9" fill="#C4502A"><title>一步居·117 雙人房：HK$9,100</title></circle>
-    <text class="pname" x="20" y="347">一步居·117（尖沙咀）</text>
-    <text class="val" x="570" y="335">HK$9,100</text>
-  </g>
-  <g>
-    <line class="dbar" x1="642" y1="380" x2="750" y2="380"></line>
-    <circle class="ddot" cx="642" cy="380" r="9" fill="#8A4FC4"><title>一步居·38 雙人房：HK$11,300</title></circle>
-    <circle class="ddot" cx="750" cy="380" r="9" fill="#8A4FC4"><title>一步居·38 雙人房：HK$14,000</title></circle>
-    <text class="pname" x="20" y="387">一步居·38（西半山）</text>
-    <text class="val" x="766" y="375">HK$11,300–14,000</text>
-  </g>
-
-  <!-- 單人房 -->
-  <text class="grp" x="20" y="440">單人房</text>
-  <g>
-    <line class="dbar" x1="586" y1="473" x2="910" y2="473"></line>
-    <circle class="ddot" cx="586" cy="473" r="9" fill="#0E9474"><title>博譽（城大／浸大校外宿舍）單人房：HK$9,900</title></circle>
-    <circle class="ddot" cx="910" cy="473" r="9" fill="#0E9474"><title>博譽（城大／浸大校外宿舍）單人房：HK$18,000</title></circle>
-    <text class="pname" x="20" y="480">博譽（葵涌）</text>
-    <text class="val" x="570" y="461">HK$9,900</text>
-    <text class="val hot" x="910" y="456" text-anchor="end">HK$18,000</text>
-  </g>
-  <g>
-    <line class="dbar" x1="830" y1="513" x2="910" y2="513"></line>
-    <circle class="ddot" cx="830" cy="513" r="9" fill="#8A4FC4"><title>一步居·38 單人房：HK$16,000</title></circle>
-    <circle class="ddot" cx="910" cy="513" r="9" fill="#8A4FC4"><title>一步居·38 單人房：HK$18,000</title></circle>
-    <text class="pname" x="20" y="520">一步居·38（西半山）</text>
-    <text class="val" x="815" y="501" text-anchor="end">HK$16,000</text>
-    <text class="val hot" x="910" y="496" text-anchor="end">HK$18,000</text>
-  </g>
-  <g>
-    <line class="dbar" x1="910" y1="553" x2="985" y2="553"></line>
-    <circle class="ddot" cx="910" cy="553" r="9" fill="#C4502A"><title>一步居·117 單人房：HK$18,000</title></circle>
-    <circle class="ddot" cx="985" cy="553" r="9" fill="#C4502A"><title>一步居·117 單人房：近 HK$20,000</title></circle>
-    <text class="pname" x="20" y="560">一步居·117（尖沙咀）</text>
-    <text class="val hot" x="895" y="541" text-anchor="end">HK$18,000</text>
-    <text class="val hot" x="972" y="580" text-anchor="end">近 HK$20,000</text>
-  </g>
-
-  <!-- 大學宿舍：僅以灰色虛線參考線標示，註釋見線頂 -->
 </svg>
 </div>
 
 <div class="note">
-  <h3>編輯注</h3>
+  <h3>註</h3>
   <ul>
-    <li>私樓 HK$17,000 為「每單位月租」，學生公寓為「每床位月租」，比較時標題寫「一個床位 vs 一個單位」。</li>
-    <li>† 大學宿舍折算月租的具體數字待補，灰色虛線僅示意「約數千元」的粗略水平；補入後需註明是否含水電、管理費。</li>
-    <li>租金為公開報價，同一項目不同房型以區間標示，不取平均；博譽為城大、浸大位於葵涌的校外學生宿舍。</li>
+    <li>私樓 HK$17,000 為「每單位月租」；學生公寓及大學宿舍均為「每床位月租」。</li>
+    <li>大學宿舍為八大院校 2025/26 學年本科生宿費按房型換算的每月每床位估值：單人房約 HK$4,000、雙人房約 HK$2,500、三人房約 HK$1,500、四人房約 HK$1,350（不含水電、冷氣及膳食；四人房主要見於中大）。</li>
+    <li>每個公寓一種顏色，不同房型以疊床圖案的層數區分（一層＝一個床位，單人房 1 床、雙人房 2 床，如此類推；疊床僅最上一張繪出細節，其下各床以整齊的床墊橫層疊放表示），同一公寓的各房型顏色一致。租金為公開報價，同一房型的報價區間以實心床（下限）與空心床（上限）並列標示；單一報價僅繪實心床，不取平均；一匯居、日新舍的三人與四人房為同一報價，故兩列同值；博譽為城大、浸大位於葵涌的校外學生宿舍。</li>
   </ul>
 </div>
-<div class="source">資料來源：各項目公開報價；九龍區約431呎私人住宅單位平均月租HK$17,000據特區政府數據，轉引自中原地產陳永傑於《大公報》之撰文（2026年6月）。製圖：蔡芸菲</div>
+<div class="source">資料來源：各項目公開報價；九龍區約431呎私人住宅單位平均月租HK$17,000據特區政府數據，轉引自中原地產陳永傑於《大公報》之撰文（2026年6月）；八大院校宿費為各校2025/26學年公佈數字，經香港文匯報整理。製圖：蔡芸菲</div>
+
+<!-- 圖註按鈕及隱藏內容 -->
+<button class="caption-toggle-btn" type="button" onclick="toggleCaption('fig4-caption', this)">顯示圖註 (Alt Text)</button>
+<div id="fig4-caption" class="caption-text">
+  圖註：按房型分列（單人房、雙人房、三人房、四人房），橫軸為每床位月租（HK$／月）。每個學生公寓使用一種固定顏色，房型以疊床圖案的層數表示：一層代表一個床位，單人房一張床、雙人房兩層、三人房三層、四人房四層（疊床僅最上一張繪出床頭細節，其下各床以整齊的床墊橫層疊放表示），同一公寓的各房型顏色一致。實心床為報價下限、空心床為報價上限，兩者並列即該房型的報價區間，單一報價僅繪實心床。灰色床形圖案為八大院校宿舍按房型的平均價（單人房約 HK$4,000、雙人房約 HK$2,500、三人房約 HK$1,500、四人房約 HK$1,350）；紅色虛線為九龍區一個約 431 平方呎兩房單位的整租租金（約 HK$17,000）。單人房中最高的報價接近 HK$20,000，已高於一個兩房單位的整租租金。
+</div>
+
+<script>
+function toggleCaption(id, btn){
+  var el = document.getElementById(id);
+  if (el.style.display === 'block'){
+    el.style.display = 'none';
+    btn.textContent = '顯示圖註 (Alt Text)';
+  } else {
+    el.style.display = 'block';
+    btn.textContent = '隱藏圖註';
+  }
+}
+
+/* 字號自適應：與圖三同一口徑，令圖內文字在任何寬度下都維持 13px 螢幕字級 */
+(function(){
+  var svg = document.getElementById('fig4svg');
+  var VBW = 860;
+  function fitText(){
+    var w = svg.getBoundingClientRect().width || svg.parentNode.clientWidth;
+    if (!w) return;
+    var k = w / VBW;
+    /* 桌面維持 13px 螢幕字級；窄螢幕時封頂，避免圖內文字擠在一塊 */
+    svg.style.fontSize = Math.min(16, Math.max(7, 13 / k)).toFixed(2) + 'px';
+  }
+  fitText();
+  window.addEventListener('resize', fitText);
+  window.addEventListener('load', fitText);
+})();
+</script>
 
 </body>
 </html>
