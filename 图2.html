@@ -1,0 +1,392 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>圖二｜政府與市場在補床位</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Source+Sans+3:wght@400;700&family=Source+Serif+4:wght@700&family=Noto+Sans+TC:wght@400;700&family=Noto+Serif+TC:wght@700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --rust:#C4502A;      /* 深色（已完成/營運） */
+    --rust-light:#E8C8BF; /* 淺色（在建/規劃） */
+    --grid:#E4E7EB;      
+    --ink:#16293F;       
+    --slate:#5B6573;
+    --paper:#FFFFFF;
+  }
+  *{margin:0;padding:0;box-sizing:border-box;}
+  body{
+    font-family:"Source Sans 3","Noto Sans TC","PingFang HK",sans-serif;
+    color:var(--ink); background:var(--paper);
+    max-width:840px; margin:0 auto; padding:24px 20px 44px;
+  }
+  
+  .kicker{font-size:14px;font-weight:700;letter-spacing:.08em;color:#1F3A5F;text-transform:uppercase;margin-bottom:6px;}
+  h1{font-size:20px;line-height:1.3;font-weight:700;margin-bottom:8px;}
+  .dek{font-size:15px;color:var(--slate);line-height:1.55;margin-bottom:24px;}
+
+  /* 圖例 */
+  .legend-row {
+    display: flex;
+    gap: 20px;
+    align-items: center;
+    margin-bottom: 24px;
+    font-size: 14px;
+    font-weight: 700;
+  }
+  .legend-item { display: flex; align-items: center; gap: 8px; }
+  .legend-icon { width: 18px; height: 18px; }
+
+  /* Waffle Chart 容器 */
+  .waffle-wrapper {
+    display: flex;
+    gap: 40px;
+    flex-wrap: wrap;
+    margin-bottom: 24px;
+    position: relative;
+  }
+
+  .matrix-section {
+    flex: 1;
+    min-width: 280px;
+    position: relative;
+  }
+
+  .matrix-header {
+    font-size: 16px;
+    font-weight: 700;
+    margin-bottom: 4px;
+  }
+  .matrix-sub {
+    font-size: 13px;
+    color: var(--slate);
+    margin-bottom: 16px;
+  }
+
+  /* 網格系統：每排 10 個小房子 */
+  .grid {
+    display: grid;
+    grid-template-columns: repeat(10, 16px);
+    gap: 4px;
+    margin-bottom: 16px;
+  }
+
+  /* 簡筆畫小房子基本樣式 */
+  .house {
+    width: 16px;
+    height: 16px;
+    display: block;
+  }
+  .house path {
+    stroke-linejoin: round;
+  }
+  .house.done path { fill: var(--rust); }
+  .house.building path { fill: var(--rust-light); }
+
+  /* ===== 在建項目：緊湊排列的小房子分組 ===== */
+  .projects-wrap {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    align-items: flex-start;
+    margin-top: 4px;
+    max-width: 300px;
+  }
+
+  .proj-group {
+    display: grid;
+    gap: 3px;
+    padding: 5px;
+    border: 1.5px solid var(--rust-light);
+    border-radius: 7px;
+    background: #FDF8F6;
+    cursor: pointer;
+    transition: border-color .2s, background-color .2s, transform .2s, box-shadow .2s;
+  }
+  .proj-group:hover {
+    border-color: var(--rust);
+    background: #FAEFEB;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 10px rgba(196,80,42,0.18);
+    z-index: 10;
+  }
+
+  /* 跟隨鼠標的懸浮卡片 */
+  #tooltip {
+    position: fixed;
+    background: var(--ink);
+    color: #fff;
+    padding: 10px 14px;
+    border-radius: 6px;
+    font-size: 13px;
+    line-height: 1.4;
+    pointer-events: none;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.15s;
+    z-index: 1000;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+    white-space: nowrap;
+  }
+  #tooltip .tt-name { font-weight: 700; font-size: 14px; margin-bottom: 2px; color: #fff; }
+  #tooltip .tt-value { color: var(--rust-light); font-weight: 700; }
+
+  /* 旁邊漂浮的文字標籤 */
+  .floating-labels {
+    flex: 0 0 160px;
+    margin-top: 60px;
+    font-size: 13px;
+    color: var(--slate);
+    border-left: 2px solid var(--grid);
+    padding-left: 16px;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+  }
+  .floating-labels strong {
+    display: block;
+    color: var(--ink);
+    font-size: 15px;
+  }
+
+  /* 編輯注與資料來源 */
+  .note{margin-top:18px;font-size:13px;color:var(--slate);line-height:1.6;}
+  .note h3{font-size:14px;color:var(--ink);margin-bottom:6px;}
+  .note ul{padding-left:1.2em;}
+  .note li{margin-bottom:4px;}
+  .source{margin-top:14px;font-size:12px;color:var(--slate);line-height:1.5;}
+
+  /* 圖注按鈕與展開區域樣式 */
+  .caption-toggle-btn {
+    margin-top: 16px;
+    background-color: #F7F6F3;
+    color: #5B6573;
+    border: 1px solid #E4E7EB;
+    padding: 6px 16px;
+    border-radius: 4px;
+    font-size: 13px;
+    cursor: pointer;
+    font-family: inherit;
+    transition: background-color 0.2s;
+  }
+  .caption-toggle-btn:hover {
+    background-color: #EFECE6;
+  }
+  .caption-text {
+    display: none;
+    margin-top: 12px;
+    padding: 12px 16px;
+    background-color: #F7F6F3;
+    border-left: 3px solid #C4502A;
+    font-size: 13px;
+    color: #16293F;
+    line-height: 1.6;
+  }
+
+  @media (max-width: 768px) {
+    .waffle-wrapper { flex-direction: column; gap: 32px; }
+    .floating-labels { flex: auto; margin-top: 0; border-left: none; border-top: 2px solid var(--grid); padding-top: 16px; padding-left: 0; flex-direction: row; }
+  }
+</style>
+</head>
+<body>
+
+<h1>政府已完工 7,800，市場已營運 6,900</h1>
+<p class="dek">政府/大學目標提供 1.35 萬個床位，市場規劃達 2.32 萬個。<br>（每個小房子代表 200 個床位；懸停淺色方框查看在建項目詳情）</p>
+
+<div class="legend-row">
+  <div class="legend-item">
+    <svg viewBox="0 0 24 24" class="legend-icon"><path d="M12 3 L2 11 L4 13 L4 21 L20 21 L20 13 L22 11 L12 3 Z" fill="var(--rust)"/></svg>
+    已完工 / 已營運
+  </div>
+  <div class="legend-item">
+    <svg viewBox="0 0 24 24" class="legend-icon"><path d="M12 3 L2 11 L4 13 L4 21 L20 21 L20 13 L22 11 L12 3 Z" fill="var(--rust-light)"/></svg>
+    在建 / 規劃中
+  </div>
+</div>
+
+<div class="waffle-wrapper">
+  <!-- 左區：政府 / 大學 -->
+  <div class="matrix-section">
+    <div class="matrix-header">政府 / 大學</div>
+    <div class="matrix-sub">總計 13,500 床位</div>
+    
+    <!-- 已完工的小房子 -->
+    <div class="grid" id="gov-grid-done"></div>
+    
+    <!-- 在建項目：小房子分組 -->
+    <div class="projects-wrap" id="gov-projects"></div>
+  </div>
+
+  <!-- 右區：市場 -->
+  <div class="matrix-section">
+    <div class="matrix-header">市場（私營學生公寓）</div>
+    <div class="matrix-sub">總計 23,200 床位</div>
+    <div class="grid" id="market-grid"></div>
+  </div>
+
+  <!-- 漂浮標籤 -->
+  <div class="floating-labels">
+    <div>
+      <strong>5,100</strong>
+      城中學舍申請（未計入）
+    </div>
+    <div>
+      <strong>4,500</strong>
+      三幅地意向（未計入）
+    </div>
+  </div>
+</div>
+
+<!-- 跟隨鼠標的 Tooltip -->
+<div id="tooltip">
+  <div class="tt-name"></div>
+  <div>提供 <span class="tt-value"></span> 床位</div>
+</div>
+
+<div class="note">
+  <h3>註</h3>
+  <ul>
+    <li>每個小房子代表 200 個床位；7 個在建項目以淺色小房子表示，並按床位數比例圈成獨立方框。</li>
+    <li>在建項目的房子數為「床位數 ÷ 200」四捨五入後所得，故與實際床位數略有出入。</li>
+    <li>方框內房子按床位從多到少排列，不代表實際地理位置。</li>
+    <li>「城中學舍」5,100 個及「三幅地」4,500 個屬申請或意向階段，未確認落地，不計入圖中。</li>
+  </ul>
+</div>
+<div class="source">資料來源：香港教育局、發展局、各大學官方資料、仲量聯行（JLL） ｜ 製圖：于子淇</div>
+
+<!-- 圖注按鈕及隱藏內容 -->
+<button class="caption-toggle-btn" onclick="toggleCaption('fig2-caption', this)">顯示圖注 (Alt Text)</button>
+<div id="fig2-caption" class="caption-text">
+  圖注：方塊矩陣圖展示了政府與市場在提供學生宿位上的巨大體量落差，左側政府僅提供1.35萬個，右側市場規劃達2.32萬個，且市場多處於未落地的規劃階段。
+</div>
+
+<script>
+  // SVG 房子代碼
+  const houseSvg = (type, width, height) => `
+    <svg viewBox="0 0 24 24" class="house ${type}" style="width:${width}px; height:${height}px;">
+      <path d="M12 3 L2 11 L4 13 L4 21 L20 21 L20 13 L22 11 L12 3 Z" stroke="none" />
+    </svg>
+  `;
+
+  // 1. 左側已完工方塊 (7800 / 200 = 39)
+  const govGridDone = document.getElementById('gov-grid-done');
+  let govHtml = '';
+  for (let i = 0; i < 39; i++) {
+    govHtml += houseSvg('done', 16, 16);
+  }
+  govGridDone.innerHTML = govHtml;
+
+  // 2. 左側 7 個在建項目：改成小房子分組
+  // 每格 = 200 床位，房子數四捨五入；數據按床位從大到小排序
+  const projectsData = [
+    { name: '城大九龍塘', beds: 1691 },  // → 8 格
+    { name: '理大九龍塘', beds: 1680 },  // → 8 格
+    { name: '理大何文田', beds: 1279 },  // → 6 格
+    { name: '港大西苑',   beds: 938  },  // → 5 格
+    { name: '第39區',     beds: 394  },  // → 2 格
+    { name: '崇基學院',   beds: 300  },  // → 2 格
+    { name: '中大伍宜孫', beds: 250  }   // → 1 格
+  ];
+
+  const projectsWrap = document.getElementById('gov-projects');
+  let projHtml = '';
+
+  projectsData.forEach(p => {
+    const count = Math.max(1, Math.round(p.beds / 200));
+    // 每組最多排 2 行，讓方框橫向發展、彼此緊湊並排
+    const cols = count <= 2 ? count : Math.ceil(count / 2);
+
+    let cells = '';
+    for (let i = 0; i < count; i++) {
+      cells += houseSvg('building', 16, 16);
+    }
+
+    projHtml += `
+      <div class="proj-group"
+           data-name="${p.name}"
+           data-beds="${p.beds}"
+           data-count="${count}"
+           style="grid-template-columns:repeat(${cols}, 16px);">
+        ${cells}
+      </div>
+    `;
+  });
+  projectsWrap.innerHTML = projHtml;
+
+  // 3. 右側市場方塊 (6900/200=35, 16300/200=82)
+  const marketGrid = document.getElementById('market-grid');
+  let marketHtml = '';
+  for (let i = 0; i < 35; i++) marketHtml += houseSvg('done', 16, 16);
+  for (let i = 0; i < 82; i++) marketHtml += houseSvg('building', 16, 16);
+  marketGrid.innerHTML = marketHtml;
+
+  // 4. Tooltip 互動邏輯
+  const tooltip = document.getElementById('tooltip');
+  const ttName = tooltip.querySelector('.tt-name');
+  const ttValue = tooltip.querySelector('.tt-value');
+  
+  const groups = document.querySelectorAll('.proj-group');
+
+  groups.forEach(box => {
+    // 桌面端懸停
+    box.addEventListener('mouseenter', (e) => {
+      ttName.textContent = e.currentTarget.dataset.name;
+      ttValue.textContent = Number(e.currentTarget.dataset.beds).toLocaleString();
+      tooltip.style.opacity = '1';
+      tooltip.style.visibility = 'visible';
+    });
+
+    box.addEventListener('mousemove', (e) => {
+      tooltip.style.left = (e.clientX + 15) + 'px';
+      tooltip.style.top = (e.clientY + 15) + 'px';
+    });
+
+    box.addEventListener('mouseleave', () => {
+      tooltip.style.opacity = '0';
+      tooltip.style.visibility = 'hidden';
+    });
+
+    // 手機端點擊
+    box.addEventListener('click', (e) => {
+      e.stopPropagation();
+      const isVisible = tooltip.style.opacity === '1';
+      if (isVisible) {
+        tooltip.style.opacity = '0';
+        tooltip.style.visibility = 'hidden';
+      } else {
+        ttName.textContent = e.currentTarget.dataset.name;
+        ttValue.textContent = Number(e.currentTarget.dataset.beds).toLocaleString();
+        const rect = e.currentTarget.getBoundingClientRect();
+        tooltip.style.left = (rect.left + 20) + 'px';
+        tooltip.style.top = (rect.top - 60) + 'px';
+        tooltip.style.opacity = '1';
+        tooltip.style.visibility = 'visible';
+      }
+    });
+  });
+
+  document.addEventListener('click', () => {
+    if (window.innerWidth <= 768) {
+      tooltip.style.opacity = '0';
+      tooltip.style.visibility = 'hidden';
+    }
+  });
+
+  // 圖注切換邏輯
+  function toggleCaption(id, btn) {
+    const el = document.getElementById(id);
+    if (el.style.display === 'block') {
+      el.style.display = 'none';
+      btn.textContent = '顯示圖注 (Alt Text)';
+    } else {
+      el.style.display = 'block';
+      btn.textContent = '隱藏圖注';
+    }
+  }
+</script>
+
+</body>
+</html>
