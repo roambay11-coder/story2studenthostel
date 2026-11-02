@@ -111,7 +111,7 @@
   .reveal.in .mark{background-size:100% 100%;}
 
   .stats{
-    display:grid; grid-template-columns:repeat(5,1fr); gap:12px;
+    display:grid; grid-template-columns:repeat(4,1fr); gap:12px;
     margin:0 0 48px; padding:28px 0;
     border-top:1px solid var(--grid); border-bottom:1px solid var(--grid);
     position:relative;z-index:2;
@@ -214,6 +214,7 @@
   .notes ul.iv-list li{padding-left:0;text-indent:0;display:flex;justify-content:space-between;gap:12px;border-bottom:1px solid var(--grid);padding-bottom:4px;}
   .notes ul.iv-list li::before{content:none;}
   .notes ul.iv-list li i{font-style:normal;color:var(--gray);font-variant-numeric:tabular-nums;}
+  .notes ul.iv-list li .role{font-size:12px;color:var(--gray);font-weight:400;}
   @media (max-width:600px){.notes ul.iv-list{grid-template-columns:1fr;}}
 
   .srclist{list-style:none;padding:0;margin:2px 0 0;}
@@ -472,13 +473,11 @@
 
     <p class="subtitle">23億元收購案背後 — 總數缺口之外，擴招之下住宿成本壓力引發學生負擔憂慮</p>
 
-    <p class="lede">一間投資機構花<span class="mark">23億港元</span>買下一家<span class="mark">550間</span>客房的酒店，卻不打算接待任何旅客。</p>
-
     <div class="byline">
       <div><span class="k">文字</span><span class="v">楊涵，周橘</span></div>
       <div><span class="k">圖表</span><span class="v">蔡芸菲，于子淇</span></div>
       <div><span class="k">網頁</span><span class="v">李家瑋，梁穎童，王朝儀</span></div>
-      <div><span class="k">查核</span><span class="v"></span></div>
+      <div><span class="k">查核</span><span class="v">蔡芸菲，梁穎童</span></div>
       <div><span class="k">責任編輯</span><span class="v">王悅</span></div>
       <div><span class="k">刊出</span><span class="v">2026/11/03</span></div>
     </div>
@@ -504,10 +503,6 @@
       <span class="lbl">兩年增幅<br>2022/23→2024/25</span>
     </div>
     <div class="stat">
-      <span class="num" data-to="5.6" data-decimals="1" data-suffix=":1">0</span>
-      <span class="lbl">港大學生<br>與宿位比例</span>
-    </div>
-    <div class="stat">
       <span class="num" data-to="1.35" data-decimals="2" data-suffix="萬">0</span>
       <span class="lbl">政府目標<br>新增宿位</span>
     </div>
@@ -518,7 +513,7 @@
   </div>
 
   <div class="col body-text">
-    <p>9月15日，新加坡凱德投資（CapitaLand Investment）與Butterfly Hospitality達成協議，收購宜必思香港中上環酒店，並計劃將其改造為學生公寓。若完成交割，這將成為自2024年下半年起，香港投資酒店改建學生公寓項目中金額最高的一宗案例。</p>
+    <p>一間投資機構花<span class="mark">23億港元</span>買下一家<span class="mark">550間</span>客房的酒店，卻不打算接待任何旅客。9月15日，新加坡凱德投資（CapitaLand Investment）與Butterfly Hospitality達成協議，收購宜必思香港中上環酒店，並計劃將其改造為學生公寓。若完成交割，這將成為自2024年下半年起，香港投資酒店改建學生公寓項目中金額最高的一宗案例。</p>
   </div>
 
   <div class="col">
@@ -539,7 +534,7 @@
   </div>
 
   <div class="col body-text">
-    <h2 id="sec1" data-sec>一、非本地生大增，宿位競爭達6.0:1</h2>
+    <h2 id="sec1" data-sec>非本地生大增，宿位競爭達6.0:1</h2>
     <p>香港行政長官李家超於《2023年施政報告》提出放寬非本地生限額，2024/25學年起，政府資助院校的非本地生自費招生上限由本地學額的20%提高至40%，2026/27學年起再升至50%。《2024年施政報告》進一步提出推廣「留學香港」品牌。</p>
     <p>全港修讀全日制專上課程的非本地學生，由2022/23學年的5.45萬人增至2024/25學年的<span class="mark">7.93萬人</span>，兩個學年增長近2.5萬人，增幅<span class="mark">45.5%</span>。</p>
     <p>赴港學生人數上升，直接令大學宿位供應受壓。根據香港八大院校官網最新公佈的學生人數與宿位數計算，校內宿位競爭普遍激烈。其中競爭壓力最高的為香港理工大學，學生人數和宿位數量比例約<span class="mark">6.0:1</span>；香港中文大學相較起來最為緩和，比例約為<span class="mark">2.2:1</span>。</p>
@@ -573,7 +568,7 @@
   </figure>
 
   <div class="col body-text">
-    <h2 id="sec2" data-sec>二、政府資助院校興建，並放寬管制鼓勵市場</h2>
+    <h2 id="sec2" data-sec>政府資助院校興建，並放寬管制鼓勵市場</h2>
     <p>港府在《2023年施政報告》提出，2027年前資助院校合共新增約<span class="mark">1.35萬個</span>宿位。執行層面，政府透過宿舍發展基金，向宿位不足的六所教資會資助大學提供合共約103億港元的一次性補助金，用於15個學生宿舍項目的建設。發展局2026年2月披露，至今已有8個項目完工，合共提供約7800個學生宿位；其餘7個仍在施工，共涉6500多個宿位，預計未來數年陸續落成。</p>
     <p>2025年7月，發展局聯同教育局推出「城中學舍計劃」，免卻改劃手續，便利私營發展商或營辦商將現有商廈改裝為學生宿舍；《2025年施政報告》進一步將計劃擴展至新建及重建項目，即除了改裝舊商廈，也容許在私人土地新建、或拆卸重建學生宿舍。</p>
     <p>截至2026年2月4日，計劃共收到25宗申請，涉及約5100個宿位，並全部確認符合資格。項目大多位於紅磡、觀塘、深水埗及上環等市區，其中兩宗為私人土地興建新宿舍，其餘為現有建築物改裝，以整幢改裝為主。</p>
@@ -600,7 +595,7 @@
   </figure>
 
   <div class="col body-text">
-    <h2 id="sec3" data-sec>三、院校自建項目與市場協作並行推進</h2>
+    <h2 id="sec3" data-sec>院校自建項目與市場協作並行推進</h2>
     <p>多所院校已採取多項措施應對宿位壓力。在自建項目方面，多所院校正運用宿舍發展基金推進校內宿舍建設。例如，香港城市大學九龍塘達康路項目、香港理工大學何文田及九龍塘達康路項目、香港中文大學多個書院宿舍項目，以及香港大學西苑項目等，預計未來數年陸續提供宿位。</p>
     <p>除自建項目外，部分院校亦透過輪宿安排及與私人營辦商協作，增加可調配宿位。例如，香港中文大學持續推行輪宿制，讓更多學生有機會體驗宿舍生活；香港浸會大學與華潤隆地合作，由後者旗下位於葵涌的博譽學生公寓於2026/27學年提供<span class="mark">205個</span>宿位。</p>
     <p>儘管院校多方擴容，但在擴招帶來的龐大基數下，校內宿位依然供不應求。由於院校須優先保障新生，高年級學生的「保宿」壓力日益加劇。</p>
@@ -610,7 +605,7 @@
   </div>
 
   <div class="col body-text">
-    <h2 id="sec4" data-sec>四、市場學生公寓供應增加，租金水平分化明顯</h2>
+    <h2 id="sec4" data-sec>市場學生公寓供應增加，租金水平分化明顯</h2>
     <p>政策放寬下，私人市場逐漸加快步伐。凱德這筆交易不是孤例。2026年以來，香港酒店和商廈改建學生公寓的公開交易已超<span class="mark">80億</span>港元，中原投資旗下尖沙咀「一步居·117」亦已投入市場。</p>
   </div>
 
@@ -648,14 +643,14 @@
   </figure>
 
   <div class="col body-text">
-    <h2 id="sec5" data-sec>五、總缺口之外，「可負擔宿位」另成挑戰</h2>
+    <h2 id="sec5" data-sec>總缺口之外，「可負擔宿位」另成挑戰</h2>
     <p>香港到底缺多少宿位？官方與市場機構都作出了判斷，但統計範圍不同。</p>
     <p>立法會2026年2月4日答覆中引述早前研究報告指出，預計本港至2028年學生宿位短缺將達<span class="mark">12萬個</span>；仲量聯行則預測，全港專用學生宿舍床位缺口將由2025/26學年的<span class="mark">7.63萬個</span>，擴大至2029/30學年的<span class="mark">14.72萬個</span>，幾乎翻倍，淨增逾7萬個。</p>
     <p>前者是「學生宿位」總範圍；後者則是「專用學生宿舍」範圍。兩份估算均聚焦床位數量缺口，卻未能反映供給的價格結構差異。市場學生公寓以市場租金定價，與大學宿舍折算雙人房床位月租約2500港元的水準相比，仍存在明顯落差。</p>
     <p>發展局在2026年10月的立法會書面回覆中表示，政府未有打算訂立宿位數量具體指標，或將每年宿位的供應量與放寬非本地生限額的新增學生數量掛鈎。當局指出，「城中學舍計劃」旨在為發展管制程序拆牆鬆綁，最終是否將商廈改裝或重建為學生宿舍屬商業決定。</p>
     <p>這也帶出另一層問題：宿位短缺不只是床位數量不足，亦牽涉可負擔性。增加總床位或有助收窄整體供應缺口，但單純增加床位，未必能自動解決學生負擔能力的問題。</p>
 
-    <h2 id="sec6" data-sec>六、有限的宿位保證，學生如何選擇？</h2>
+    <h2 id="sec6" data-sec>有限的宿位保證，學生如何選擇？</h2>
     <p>香港擴招政策提高了非本地生限額，但宿位保證年限並沒有同步延長。院校的校內宿位保障一般僅覆蓋本科新生首年或首兩年；研究生則沒有穩定的住宿保障，能否分配到宿位存在不確定性。</p>
     <p>隨着年級升高，失去宿位保障的學生只能將目光投向校外市場。樹仁大學三年級生Paula許回憶，確定無法繼續住宿舍後，出於安全考慮，她曾優先尋找學生公寓或長租酒店。但在網上不斷篩選後發現，大部分學生公寓價格高昂，而長租酒店的地點又相對偏遠，最終她只能退而求其次，選擇了距離相對較近、價格更合適的私人住宅。</p>
     <p>而選擇私人住宅，往往意味着要獨自承擔繁雜的程序與潛在風險。浸大生馬逸凡指出，校外租房能擁有獨立空間，私隱性更高，住起來更自在，不過過程中需要自己聯繫中介，資訊篩選繁雜，且存在一定風險；此外，如果晚上留校做小組作業，會擔心錯過地鐵，深夜乘車也有安全顧慮。</p>
@@ -711,7 +706,7 @@
         <a href="https://www.jll.com/en-hk/newsroom/hk-student-bed-shortage-set-to-approach-150000-by-2030" target="_blank" rel="noopener">jll.com/en-hk</a></li>
 
       <li><span class="tag">市場</span>萊坊數據（PBSA 2023–2025 年均租金升約 8%）經香港商業報引述
-        <br><a href="https://www.hongkongbusiness.hk/" target="_blank" rel="noopener">Hong Kong Business，2026 年 10 月 1 日</a></li>
+        <br><a href="https://hongkongbusiness.hk/residential/in-focus/hong-kong-student-bed-gap-hit-90000-2029" target="_blank" rel="noopener">Hong Kong Business，2026 年 10 月 1 日</a></li>
 
       <li><span class="tag">交易</span>凱德收購宜必思中上環：JSM 顧問公告、MarketScreener 完成交割記錄、Mingtiandi、Dimsum Daily
         <br><a href="https://www.jsm.com/news/2026/09/jsm-advises-capitaland-investment-on-acquisition-of-ibis-hong-kong-central-sheung-wan/" target="_blank" rel="noopener">jsm.com</a> ·
@@ -764,13 +759,13 @@
     <h3>訪問</h3>
     <p>以下七位受訪者之訪談內容見正文引述，錄音存檔。訪問日期如下：</p>
     <ul class="iv-list">
-      <li>馬逸凡<i>2026.10.28</i></li>
-      <li>孫遇秋<i>2026.10.28</i></li>
-      <li>李懷林<i>2026.10.28</i></li>
-      <li>盧芯雨<i>2026.10.28</i></li>
-      <li>馬涔之<i>2026.10.29</i></li>
-      <li>李梁伶佳<i>2026.10.29</i></li>
-      <li>Paula 許<i>2026.10.31</i></li>
+      <li><span>馬逸凡 <span class="role">香港浸會大學學生</span></span><i>2026.10.28</i></li>
+      <li><span>孫遇秋 <span class="role">香港浸會大學學生</span></span><i>2026.10.28</i></li>
+      <li><span>李懷林 <span class="role">香港理工大學學生</span></span><i>2026.10.28</i></li>
+      <li><span>盧芯雨 <span class="role">香港中文大學學生</span></span><i>2026.10.28</i></li>
+      <li><span>馬涔之 <span class="role">香港大學學生</span></span><i>2026.10.29</i></li>
+      <li><span>李梁伶佳 <span class="role">香港浸會大學學生</span></span><i>2026.10.29</i></li>
+      <li><span>Paula 許 <span class="role">香港樹仁大學學生</span></span><i>2026.10.31</i></li>
     </ul>
 
     <h3>核心數字</h3>
