@@ -1,9 +1,9 @@
 <!DOCTYPE html>
-<html lang="en-HK">
+<html lang="zh-HK">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Hong Kong’s bed business: capacity is expanding, affordability is shrinking | Data</title>
+<title>香港「床位生意」：宿位在擴容，可負擔性在縮水｜【數據】</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700&family=Noto+Serif+TC:wght@700;900&family=Source+Sans+3:wght@400;700&family=Source+Serif+4:wght@700&display=swap" rel="stylesheet">
@@ -167,16 +167,19 @@
   }
   iframe.fig.loaded{opacity:1;}
 
+  /* 去掉小游戏外层灰底/圆角/阴影，只保留内容与标题 */
   .tool-block{
     position:relative; left:50%; transform:translateX(-50%);
     width:min(860px, calc(100vw - 32px));
     margin:56px 0 40px;
-    background:transparent;
-    padding:28px 24px 24px;
+    background:none;
+    padding:0;
+    border:none;
     box-shadow:none;
-    backdrop-filter:none; z-index:2;
+    backdrop-filter:none;
+    z-index:2;
   }
-  .tool-block .tool-head{max-width:640px; margin:0 auto 20px;}
+  .tool-block .tool-head{max-width:640px; margin:0 auto 20px; padding:0 4px;}
   .tool-block h3{
     font-family:"Noto Serif TC",serif; font-size:21px; line-height:1.5;
     font-weight:700; margin-bottom:8px;
@@ -185,9 +188,11 @@
     font-family:"Noto Sans TC",sans-serif; font-size:15px;
     line-height:1.7; color:var(--slate);
   }
+  /* 去掉小游戏 iframe 的所有边框/阴影/圆角 */
   .tool-block iframe.fig{
-    background:transparent; min-height:640px; box-shadow:none;
-    border:0; outline:0;
+    background:transparent; min-height:640px;
+    box-shadow:none !important; -webkit-box-shadow:none !important;
+    border:0 !important; outline:0 !important; border-radius:0;
   }
 
   .notes{
@@ -294,7 +299,7 @@
     .byline{grid-template-columns:1fr;gap:6px;}
     .byline .k{flex:0 0 68px;}
     figure.wide{width:calc(100vw - 20px);margin:36px 0;}
-    .tool-block{width:calc(100vw - 20px);padding:22px 16px;}
+    .tool-block{width:calc(100vw - 20px);padding:0;}
     .tool-block h3{font-size:19px;}
     .notes h2{font-size:19px;}
     .stats{grid-template-columns:repeat(2,1fr);gap:20px 12px;}
@@ -438,355 +443,367 @@
 
 <div class="progress" id="progress"></div>
 
-<nav class="side-nav" aria-label="Section navigation">
+<nav class="side-nav" aria-label="章節導航">
   <a href="#sec1">
     <svg class="house-icon" viewBox="0 0 24 24"><path d="M12 3 L2 11 L4 13 L4 21 L20 21 L20 13 L22 11 L12 3 Z"/></svg>
-    <em>1. Expansion</em>
+    <em>擴招</em>
   </a>
   <a href="#sec2">
     <svg class="house-icon" viewBox="0 0 24 24"><path d="M12 3 L2 11 L4 13 L4 21 L20 21 L20 13 L22 11 L12 3 Z"/></svg>
-    <em>2. Government</em>
+    <em>政府</em>
   </a>
   <a href="#sec3">
     <svg class="house-icon" viewBox="0 0 24 24"><path d="M12 3 L2 11 L4 13 L4 21 L20 21 L20 13 L22 11 L12 3 Z"/></svg>
-    <em>3. Universities</em>
+    <em>院校</em>
   </a>
   <a href="#sec4">
     <svg class="house-icon" viewBox="0 0 24 24"><path d="M12 3 L2 11 L4 13 L4 21 L20 21 L20 13 L22 11 L12 3 Z"/></svg>
-    <em>4. Market</em>
+    <em>市场</em>
   </a>
   <a href="#sec5">
     <svg class="house-icon" viewBox="0 0 24 24"><path d="M12 3 L2 11 L4 13 L4 21 L20 21 L20 13 L22 11 L12 3 Z"/></svg>
-    <em>5. Challenge</em>
+    <em>挑战</em>
   </a>
   <a href="#sec6">
     <svg class="house-icon" viewBox="0 0 24 24"><path d="M12 3 L2 11 L4 13 L4 21 L20 21 L20 13 L22 11 L12 3 Z"/></svg>
-    <em>6. Choices</em>
+    <em>選擇</em>
   </a>
 </nav>
 
 <main class="page">
 
   <div class="col">
-    <div class="kicker">【Data】</div>
+    <div class="kicker">【數據】</div>
 
-    <h1>Hong Kong’s bed business: capacity is expanding, affordability is shrinking</h1>
+    <h1>香港「床位生意」：宿位在擴容，可負擔性在縮水</h1>
 
-    <p class="subtitle">Behind the HK$2.3 billion acquisition: beyond the overall shortfall, pressure on accommodation costs under expanded enrolment raises concerns about what students can pay</p>
+    <p class="subtitle">23億元收購案背後 — 總數缺口之外，擴招之下住宿成本壓力引發學生負擔憂慮</p>
 
     <div class="byline">
-      <div><span class="k">Text</span><span class="v">Yang Han, Zhou Ju</span></div>
-      <div><span class="k">Graphics</span><span class="v">Cai Yunfei, Yu Ziqi</span></div>
-      <div><span class="k">Web</span><span class="v">Li Jiawei, Leung Wing-tung, Wang Zhaoyi</span></div>
-      <div><span class="k">Fact-checking</span><span class="v">Cai Yunfei, Leung Wing-tung</span></div>
-      <div><span class="k">Editor</span><span class="v">Wang Yue</span></div>
-      <div><span class="k">Published</span><span class="v">November 3, 2026</span></div>
+      <div><span class="k">文字</span><span class="v">楊涵，周橘</span></div>
+      <div><span class="k">圖表</span><span class="v">蔡芸菲，于子淇</span></div>
+      <div><span class="k">網頁</span><span class="v">李家瑋，梁穎童，王朝儀</span></div>
+      <div><span class="k">查核</span><span class="v">蔡芸菲，梁穎童</span></div>
+      <div><span class="k">責任編輯</span><span class="v">王悅</span></div>
+      <div><span class="k">刊出</span><span class="v">2026/11/03</span></div>
     </div>
   </div>
 
-  <!-- Key numbers -->
+  <!-- 核心數字卡片 -->
   <div class="stats">
     <div class="stat">
-      <span class="num" data-to="79300" data-decimals="0" data-suffix="">0</span>
-      <span class="lbl">Non-local students<br>2024/25 academic year</span>
+      <span class="num" data-to="7.93" data-decimals="2" data-suffix="萬">0</span>
+      <span class="lbl">非本地生<br>2024/25學年</span>
     </div>
     <div class="stat">
       <span class="num" data-to="45.5" data-decimals="1" data-suffix="%">0</span>
-      <span class="lbl">Two-year increase<br>2022/23–2024/25</span>
+      <span class="lbl">兩年增幅<br>2022/23→2024/25</span>
     </div>
     <div class="stat">
-      <span class="num" data-to="13500" data-decimals="0" data-suffix="">0</span>
-      <span class="lbl">Government target<br>new hostel places</span>
+      <span class="num" data-to="1.35" data-decimals="2" data-suffix="萬">0</span>
+      <span class="lbl">政府目標<br>新增宿位</span>
     </div>
     <div class="stat">
-      <span class="num" data-to="23200" data-decimals="0" data-suffix="">0</span>
-      <span class="lbl">Market-planned<br>beds</span>
+      <span class="num" data-to="2.32" data-decimals="2" data-suffix="萬">0</span>
+      <span class="lbl">市場規劃<br>床位總數</span>
     </div>
   </div>
 
   <div class="col body-text">
-    <p>An investment firm spent <span class="mark">HK$2.3 billion</span> buying a hotel with <span class="mark">550</span> rooms, but does not plan to welcome any guests. On September 15, Singapore’s CapitaLand Investment agreed with Butterfly Hospitality to acquire the Ibis Hong Kong Central and Sheung Wan hotel and convert it into student accommodation. If completed, it will be the largest investment in a Hong Kong hotel-to-student-accommodation conversion since the second half of 2024.</p>
+    <p>一間投資機構花<span class="mark">23億港元</span>買下一家<span class="mark">550間</span>客房的酒店，卻不打算接待任何旅客。9月15日，新加坡凱德投資（CapitaLand Investment）與Butterfly Hospitality達成協議，收購宜必思香港中上環酒店，並計劃將其改造為學生公寓。若完成交割，這將成為自2024年下半年起，香港投資酒店改建學生公寓項目中金額最高的一宗案例。</p>
   </div>
 
   <div class="col">
     <figure class="pic reveal">
       <div class="img-wrap">
-        <img src="ibis.jpeg" alt="Exterior night view of Ibis Hong Kong Central and Sheung Wan" onerror="this.src='data:image/svg+xml;charset=UTF-8,%3Csvg width=%22600%22 height=%22400%22 xmlns=%22http://www.w3.org/2000/svg%22%3E%3Crect width=%22100%25%22 height=%22100%25%22 fill=%22%23EEF2F6%22/%3E%3Ctext x=%2250%25%22 y=%2248%25%22 font-family=%22sans-serif%22 font-size=%2216%22 fill=%22%235B6573%22 text-anchor=%22middle%22 dominant-baseline=%22middle%22%3EImage placeholder | Ibis Hong Kong Central and Sheung Wan%3C/text%3E%3Ctext x=%2250%25%22 y=%2258%25%22 font-family=%22sans-serif%22 font-size=%2212%22 fill=%22%23B5BAC1%22 text-anchor=%22middle%22 dominant-baseline=%22middle%22%3EPlace ibis.jpeg in the same folder%3C/text%3E%3C/svg%3E'">
+        <img src="ibis.jpeg" alt="香港中上環宜必思酒店外觀夜景" onerror="this.src='data:image/svg+xml;charset=UTF-8,%3Csvg width=%22600%22 height=%22400%22 xmlns=%22http://www.w3.org/2000/svg%22%3E%3Crect width=%22100%25%22 height=%22100%25%22 fill=%22%23EEF2F6%22/%3E%3Ctext x=%2250%25%22 y=%2248%25%22 font-family=%22sans-serif%22 font-size=%2216%22 fill=%22%235B6573%22 text-anchor=%22middle%22 dominant-baseline=%22middle%22%3E圖片待放入｜宜必思香港中上環酒店%3C/text%3E%3Ctext x=%2250%25%22 y=%2258%25%22 font-family=%22sans-serif%22 font-size=%2212%22 fill=%22%23B5BAC1%22 text-anchor=%22middle%22 dominant-baseline=%22middle%22%3E請將 ibis.jpeg 放在同一資料夾%3C/text%3E%3C/svg%3E'">
       </div>
       <figcaption>
-        The Ibis hotel in Central and Sheung Wan, which CapitaLand Investment plans to convert into student accommodation.
-        <span class="credit">Photo: Caixin</span>
+        位於中上環的宜必思酒店，凱德投資計劃將其改造為學生公寓。
+        <span class="credit">圖片來源：財新網</span>
       </figcaption>
     </figure>
   </div>
 
   <div class="col body-text">
-    <p>Before this, Centaline Investment, China Resources Longdation and JD.com were among the institutions that had already moved into Hong Kong’s student accommodation sector.</p>
-    <p>But an expansion in bed supply does not necessarily mean more options that students can afford. Who bears the cost of this round of conversions is a question worth asking after the enrolment expansion.</p>
+    <p>在此之前，中原投資、華潤隆地及京東等多家機構已搶先佈局香港學生公寓賽道。</p>
+    <p>但床位供應擴張，未必代表學生能負擔的選項同步變多。這輪改裝的成本由誰承擔，是擴招之後值得追問的部分。</p>
   </div>
 
-  <!-- Interactive tool moved -->
+  <!-- 互動小遊戲：放在「非本地生大增」小標題上方 -->
   <div class="tool-block">
     <div class="tool-head">
-      <h3>Interactive: Same monthly rent, how different are a private flat and student accommodation?</h3>
-      <p>Choose a district and enter a monthly budget to see how much space and how many beds that money buys in a private flat versus student accommodation. Figures are estimates from 2026 public listings and media quotations, for reference only.</p>
+      <h3>互動：同樣的月租，租私樓和租學生公寓差別多大？</h3>
+      <p>選一個區域、輸入每月預算，看看這筆錢在私人住宅與學生公寓之間，能換來多少空間、幾個床位。數據為2026年公開放盤及媒體報價估算，僅供參考。</p>
     </div>
-    <iframe class="fig" src="gameeng.html" title="Same monthly rent: how different are private flats and student accommodation?" loading="lazy"></iframe>
+    <iframe class="fig" src="game.html" title="同樣的月租，租私樓和租學生公寓差別多大" loading="lazy"></iframe>
   </div>
 
   <div class="col body-text">
-    <h2 id="sec1" data-sec>Non-local students surge, hostel competition reaches 6.0:1</h2>
-    <p>Chief Executive John Lee Ka-chiu proposed relaxing the non-local student cap in the 2023 Policy Address. From 2024/25, the cap on self-financing non-local students at government-funded institutions rose from 20 per cent to 40 per cent of local places, and will rise to 50 per cent from 2026/27. The 2024 Policy Address further proposed promoting the “Study in Hong Kong” brand.</p>
-    <p>Non-local students enrolled in full-time post-secondary programmes across Hong Kong rose from 54,500 in 2022/23 to <span class="mark">79,300</span> in 2024/25, an increase of nearly 25,000, or <span class="mark">45.5 per cent</span>, over two academic years.</p>
-
-    <!-- Figure 1: Non-local student numbers across Hong Kong -->
-    <figure class="wide">
-      <iframe class="fig" src="fig1eng.html" title="Non-local student numbers across Hong Kong" loading="lazy"></iframe>
-    </figure>
-
-    <p>Rising student numbers have directly pressured university hostel supply. Based on the latest student and hostel-place figures published on the eight universities’ websites, competition for on-campus places is intense across the board. The Hong Kong Polytechnic University (PolyU) faces the highest pressure, with a student-to-hostel-place ratio of about <span class="mark">6.0:1</span>; the Chinese University of Hong Kong (CUHK) is the least strained, at about <span class="mark">2.2:1</span>.</p>
+    <h2 id="sec1" data-sec>非本地生大增，宿位競爭達6.0:1</h2>
+    <p>香港行政長官李家超於《2023年施政報告》提出放寬非本地生限額，2024/25學年起，政府資助院校的非本地生自費招生上限由本地學額的20%提高至40%，2026/27學年起再升至50%。《2024年施政報告》進一步提出推廣「留學香港」品牌。</p>
+    <p>全港修讀全日制專上課程的非本地學生，由2022/23學年的5.45萬人增至2024/25學年的<span class="mark">7.93萬人</span>，兩個學年增長近2.5萬人，增幅<span class="mark">45.5%</span>。</p>
   </div>
 
-  <!-- Figure 0: Hostel supply falls short at Hong Kong's eight universities -->
+  <!-- 圖一：折線圖 —— 全港非本地生人數趨勢 -->
   <figure class="wide">
-    <iframe class="fig" src="fig0eng.html" title="Hostel supply falls short at Hong Kong's eight universities" loading="lazy"></iframe>
+    <iframe class="fig" src="fig1.html" title="全港非本地生人數趨勢" loading="lazy"></iframe>
   </figure>
 
   <div class="col body-text">
-    <p>For postgraduates, the competition is harsher. Ma Cenzhi, who is studying for a taught master’s at the University of Hong Kong, said the university offered “very few” hostel places for postgraduates and allocated them by random draw. “The chance of winning is almost hopeless; it is very difficult.” Lu Xinyu, a master’s graduate of the Chinese University of Hong Kong, recalled that when she received her offer, the university had made clear it did not provide on-campus hostels for taught postgraduates, offering only a small number of approved off-campus places that students had to fill in a questionnaire to compete for and be allocated.</p>
-    <p>With accommodation competition intensifying, universities, the government and the market are all pushing to expand hostel supply.</p>
+    <p>赴港學生人數上升，直接令大學宿位供應受壓。根據香港八大院校官網最新公佈的學生人數與宿位數計算，校內宿位競爭普遍激烈。其中競爭壓力最高的為香港理工大學，學生人數和宿位數量比例約<span class="mark">6.0:1</span>；香港中文大學相較起來最為緩和，比例約為<span class="mark">2.2:1</span>。</p>
+  </div>
+
+  <!-- 圖0：比例圖 —— 港八大宿位供不應求 -->
+  <figure class="wide">
+    <iframe class="fig" src="fig0.html" title="港八大宿位供不應求" loading="lazy"></iframe>
+  </figure>
+
+  <div class="col body-text">
+    <p>對於研究生而言，這種競爭更為殘酷。正就讀港大授課型碩士的馬涔之表示，學校提供給研究生的宿位名額「非常少」，申請機制是隨機抽人，「中籤概率幾乎是沒有希望，難度非常大」。中大碩士畢業生盧芯雨亦回憶道，收到取錄通知時，學校已明確表示不為授課型研究生提供校內宿舍，僅提供少量需填問卷去「搶」及分配的認可校外宿舍。</p>
+    <p>住宿競爭加劇之下，院校及政府、市場正多方發力，擴充宿位供給。</p>
   </div>
 
   <div class="col">
     <figure class="pic reveal">
       <div class="img-wrap">
-        <img src="polyu-hostel.jpg" alt="PolyU student hostel exterior" onerror="this.src='data:image/svg+xml;charset=UTF-8,%3Csvg width=%22600%22 height=%22400%22 xmlns=%22http://www.w3.org/2000/svg%22%3E%3Crect width=%22100%25%22 height=%22100%25%22 fill=%22%23EEF2F6%22/%3E%3Ctext x=%2250%25%22 y=%2248%25%22 font-family=%22sans-serif%22 font-size=%2216%22 fill=%22%235B6573%22 text-anchor=%22middle%22 dominant-baseline=%22middle%22%3EImage placeholder | PolyU student hostel%3C/text%3E%3Ctext x=%2250%25%22 y=%2258%25%22 font-family=%22sans-serif%22 font-size=%2212%22 fill=%22%23B5BAC1%22 text-anchor=%22middle%22 dominant-baseline=%22middle%22%3EPlace polyu-hostel.jpg in the same folder%3C/text%3E%3C/svg%3E'">
+        <img src="polyu-hostel.jpg" alt="香港理工大學學生宿舍外觀" onerror="this.src='data:image/svg+xml;charset=UTF-8,%3Csvg width=%22600%22 height=%22400%22 xmlns=%22http://www.w3.org/2000/svg%22%3E%3Crect width=%22100%25%22 height=%22100%25%22 fill=%22%23EEF2F6%22/%3E%3Ctext x=%2250%25%22 y=%2248%25%22 font-family=%22sans-serif%22 font-size=%2216%22 fill=%22%235B6573%22 text-anchor=%22middle%22 dominant-baseline=%22middle%22%3E圖片待放入｜理工大學學生宿舍%3C/text%3E%3Ctext x=%2250%25%22 y=%2258%25%22 font-family=%22sans-serif%22 font-size=%2212%22 fill=%22%23B5BAC1%22 text-anchor=%22middle%22 dominant-baseline=%22middle%22%3E請將 polyu-hostel.jpg 放在同一資料夾%3C/text%3E%3C/svg%3E'">
       </div>
       <figcaption>
-        PolyU student hostel exterior.
-        <span class="credit">Photo: Ta Kung Wen Wei</span>
+        香港理工大學學生宿舍外觀。
+        <span class="credit">圖片來源：大公文匯網</span>
       </figcaption>
     </figure>
   </div>
 
   <div class="col body-text">
-    <h2 id="sec2" data-sec>Government-funded universities build as relaxed rules encourage the market</h2>
-    <p>The government proposed in the 2023 Policy Address that funded institutions add about <span class="mark">13,500</span> hostel places in total by 2027. In practice, it provided one-off grants totalling about HK$10.3 billion through the Hostel Development Fund to six UGC-funded universities with hostel shortfalls for 15 student hostel projects. The Development Bureau disclosed in February 2026 that eight projects had been completed, providing about 7,800 student hostel places; the other seven were under construction, involving more than 6,500 places and expected to be completed over the next few years.</p>
-    <p>In July 2025, the Development Bureau and Education Bureau launched the Urban Student Hostel Scheme, waiving rezoning procedures to make it easier for private developers or operators to convert existing commercial buildings into student hostels. The 2025 Policy Address further extended the scheme to new-build and redevelopment projects, allowing student hostels to be built on private land or created through demolition and redevelopment, in addition to converting old commercial buildings.</p>
-    <p>As of February 4, 2026, the scheme had received 25 applications involving about 5,100 places, all confirmed eligible. Most projects are in urban districts such as Hung Hom, Kwun Tong, Sham Shui Po and Sheung Wan. Two involve new hostels on private land; the rest are conversions of existing buildings, mostly whole-building conversions.</p>
-    <p>In January 2026, the government also invited the market to submit expressions of interest for three formed sites in Kai Tak, Siu Lek Yuen in Sha Tin and Tung Chung East, initially estimated to provide about 4,500 places in total. This quarter, the Development Bureau formally included a site in Siu Lek Yuen, Sha Tin, in the land sale programme, expected to provide about 600 places.</p>
+    <h2 id="sec2" data-sec>政府資助院校興建，並放寬管制鼓勵市場</h2>
+    <p>港府在《2023年施政報告》提出，2027年前資助院校合共新增約<span class="mark">1.35萬個</span>宿位。執行層面，政府透過宿舍發展基金，向宿位不足的六所教資會資助大學提供合共約103億港元的一次性補助金，用於15個學生宿舍項目的建設。發展局2026年2月披露，至今已有8個項目完工，合共提供約7800個學生宿位；其餘7個仍在施工，共涉6500多個宿位，預計未來數年陸續落成。</p>
+    <p>2025年7月，發展局聯同教育局推出「城中學舍計劃」，免卻改劃手續，便利私營發展商或營辦商將現有商廈改裝為學生宿舍；《2025年施政報告》進一步將計劃擴展至新建及重建項目，即除了改裝舊商廈，也容許在私人土地新建、或拆卸重建學生宿舍。</p>
+    <p>截至2026年2月4日，計劃共收到25宗申請，涉及約5100個宿位，並全部確認符合資格。項目大多位於紅磡、觀塘、深水埗及上環等市區，其中兩宗為私人土地興建新宿舍，其餘為現有建築物改裝，以整幢改裝為主。</p>
+    <p>政府另於2026年1月邀請市場就啟德、沙田小瀝源及東涌東三幅已平整用地提交意向書，初步估計合共可提供約4500個宿位。本季度，發展局正式把沙田小瀝源一幅用地列入賣地計劃，預計可提供約600個宿位。</p>
+  </div>
 
-    <!-- Figure 2: Government and market add hostel beds -->
-    <figure class="wide">
-      <iframe class="fig" src="fig2eng.html" title="Government and market add hostel beds" loading="lazy"></iframe>
-    </figure>
+  <!-- 圖二：小房子象形圖 —— 政府與市場在補床位（放在「城中學舍計劃下」段落上方） -->
+  <figure class="wide">
+    <iframe class="fig" src="fig2.html" title="政府與市場在補床位" loading="lazy"></iframe>
+  </figure>
 
-    <p>Under the Urban Student Hostel Scheme, Sze Chun-fai, the under secretary for education, said the scheme allowed operational flexibility: applicants could be private developers, institutions or joint applicants; there were no hard rules on operating models, and operators could recruit residents themselves or partner with different post-secondary institutions.</p>
-    <p>Such public-private collaboration has precedents, but planning and lease controls previously kept projects isolated. In a written reply to Legco on February 4, 2026, the Education Bureau said that as non-local student numbers rose, the bureau and the University Grants Committee encouraged post-secondary institutions to adopt a multi-pronged approach and harness market forces to broaden accommodation options, including partnerships with private organisations to provide places.</p>
+  <div class="col body-text">
+    <p>在「城中學舍計劃」下，教育局副局長施俊輝指出，計劃考慮實際運作彈性，申請人可以是私人發展商、院校，或兩者合作共同申請；宿舍營運模式亦無硬性規定，可選擇自行招收宿生，或與不同專上院校合作。</p>
+    <p>這類公私協作早有先例，但過去受規劃及地契規管，項目多為零散個案。教育局在2026年2月4日提交立法會的書面回覆中表示，隨着非本地學生增加，教育局及大學教育資助委員會鼓勵專上院校多管齊下，結合市場力量擴闊住宿選項，包括專上院校與私人機構協作提供宿位。</p>
   </div>
 
   <div class="col">
     <figure class="pic reveal">
       <div class="img-wrap">
-        <img src="polyu-construction.jpg" alt="Aerial view of the student hostel construction site at Tat Hong Avenue, Kowloon Tong, The Hong Kong Polytechnic University (PolyU)" onerror="this.src='data:image/svg+xml;charset=UTF-8,%3Csvg width=%22600%22 height=%22400%22 xmlns=%22http://www.w3.org/2000/svg%22%3E%3Crect width=%22100%25%22 height=%22100%25%22 fill=%22%23EEF2F6%22/%3E%3Ctext x=%2250%25%22 y=%2248%25%22 font-family=%22sans-serif%22 font-size=%2216%22 fill=%22%235B6573%22 text-anchor=%22middle%22 dominant-baseline=%22middle%22%3EImage placeholder | PolyU Tat Hong Avenue student hostel site%3C/text%3E%3Ctext x=%2250%25%22 y=%2258%25%22 font-family=%22sans-serif%22 font-size=%2212%22 fill=%22%23B5BAC1%22 text-anchor=%22middle%22 dominant-baseline=%22middle%22%3EPlace polyu-construction.jpg in the same folder%3C/text%3E%3C/svg%3E'">
+        <img src="polyu-construction.jpg" alt="香港理工大學九龍塘達康路學生宿舍地盤（空拍）" onerror="this.src='data:image/svg+xml;charset=UTF-8,%3Csvg width=%22600%22 height=%22400%22 xmlns=%22http://www.w3.org/2000/svg%22%3E%3Crect width=%22100%25%22 height=%22100%25%22 fill=%22%23EEF2F6%22/%3E%3Ctext x=%2250%25%22 y=%2248%25%22 font-family=%22sans-serif%22 font-size=%2216%22 fill=%22%235B6573%22 text-anchor=%22middle%22 dominant-baseline=%22middle%22%3E圖片待放入｜理大九龍塘達康路宿舍地盤%3C/text%3E%3Ctext x=%2250%25%22 y=%2258%25%22 font-family=%22sans-serif%22 font-size=%2212%22 fill=%22%23B5BAC1%22 text-anchor=%22middle%22 dominant-baseline=%22middle%22%3E請將 polyu-construction.jpg 放在同一資料夾%3C/text%3E%3C/svg%3E'">
       </div>
       <figcaption>
-        Aerial view of the student hostel construction site at Tat Hong Avenue, Kowloon Tong, The Hong Kong Polytechnic University (PolyU).
-        <span class="credit">Photo: China Road and Bridge Corporation</span>
+        香港理工大學（理大）九龍塘達康路學生宿舍地盤（空拍）。
+        <span class="credit">圖片來源：中國路橋</span>
       </figcaption>
     </figure>
   </div>
 
   <div class="col body-text">
-    <h2 id="sec3" data-sec>University self-built projects and market collaboration advance in parallel</h2>
-    <p>Universities have taken multiple measures to ease hostel pressure. On self-built projects, several are using the Hostel Development Fund to advance on-campus hostels. Examples include CityU’s Tat Hong Avenue project in Kowloon Tong, PolyU’s Ho Man Tin and Tat Hong Avenue projects, CUHK’s various college hostel projects and HKU’s Western Garden project, all expected to provide places over the next few years.</p>
-    <p>Besides self-built projects, some universities are increasing allocable places through rotation arrangements and partnerships with private operators. For example, CUHK continues its hostel rotation system to give more students a chance to experience hostel life; HKBU has partnered with China Resources Longdation, whose Brim Youth student accommodation in Kwai Chung will provide <span class="mark">205</span> places in 2026/27.</p>
+    <h2 id="sec3" data-sec>院校自建項目與市場協作並行推進</h2>
+    <p>多所院校已採取多項措施應對宿位壓力。在自建項目方面，多所院校正運用宿舍發展基金推進校內宿舍建設。例如，香港城市大學九龍塘達康路項目、香港理工大學何文田及九龍塘達康路項目、香港中文大學多個書院宿舍項目，以及香港大學西苑項目等，預計未來數年陸續提供宿位。</p>
+    <p>除自建項目外，部分院校亦透過輪宿安排及與私人營辦商協作，增加可調配宿位。例如，香港中文大學持續推行輪宿制，讓更多學生有機會體驗宿舍生活；香港浸會大學與華潤隆地合作，由後者旗下位於葵涌的博譽學生公寓於2026/27學年提供<span class="mark">205個</span>宿位。</p>
+  </div>
 
-    <!-- Figure 3: High-premium beds cluster in core districts -->
-    <figure class="wide">
-      <iframe class="fig" src="fig3eng.html" title="High-premium beds cluster in core districts" loading="lazy"></iframe>
-    </figure>
+  <!-- 圖三：地圖 —— 高溢價床位集中在核心地段（放在「除自建項目外」段落下方） -->
+  <figure class="wide">
+    <iframe class="fig" src="fig3.html" title="高溢價床位集中在核心地段" loading="lazy"></iframe>
+  </figure>
 
-    <p>Despite universities’ efforts to expand capacity, on-campus places remain oversubscribed against the large intake from expanded enrolment. Because universities must prioritise freshmen, pressure on senior students to secure a hostel place is growing.</p>
-    <p>Li Huailin, a second-year student at the Hong Kong Polytechnic University, said students had to spend a lot of time and energy joining activities to earn “hostel points” and raise their GPA to keep their places, and classmates applying to renew generally had more than 80 hostel points. He observed that Hoi Yuen Hall, which has the most mainland students, had about 300 residents, but only “about 30 to 40” third-year students seemed able to stay.</p>
-    <p>Competition to renew places can even depend on luck. Li Lianglingjia, a third-year student at Hong Kong Baptist University, said renewal quotas might be allocated by a percentage on each floor. “Some classmates with the same hostel points got to stay, while others did not. Those who did not may simply have been on a floor where too many people successfully returned.”</p>
-    <p>Most universities also set up off-campus accommodation information platforms or hotlines for students who are not allocated a place.</p>
+  <div class="col body-text">
+    <p>儘管院校多方擴容，但在擴招帶來的龐大基數下，校內宿位依然供不應求。由於院校須優先保障新生，高年級學生的「保宿」壓力日益加劇。</p>
+    <p>理大二年級生李懷林指出，為保住宿位，學生需付出大量時間和精力參與活動以賺取「宿分」及提升GPA，身邊申請續宿的同學宿分一般都在80分以上。他觀察到，內地生最多的開源堂約有三百多人，但最終能留下來的大三學生「感覺就三四十個人」。</p>
+    <p>續宿競爭甚至帶有運氣成分。浸大三年級生李梁伶佳表示：「有一些相同宿分的同學，部分續住了，部分沒有，很可能沒有的同學就是因為這一層return成功的人太多了」。</p>
+    <p>此外，多數院校亦為未能獲配宿位的學生設立校外住宿資訊平台或諮詢專線。</p>
   </div>
 
   <div class="col body-text">
-    <h2 id="sec4" data-sec>Private student accommodation supply rises, with rents sharply divided</h2>
-    <p>Under relaxed policy, the private market is speeding up. CapitaLand’s deal is not an isolated case. Since 2026, public transactions to convert Hong Kong hotels and commercial buildings into student accommodation have exceeded <span class="mark">HK$8 billion</span>, and Centaline Investment’s One Pace 117 in Tsim Sha Tsui has also entered the market.</p>
+    <h2 id="sec4" data-sec>市場學生公寓供應增加，租金水平分化明顯</h2>
+    <p>政策放寬下，私人市場逐漸加快步伐。凱德這筆交易不是孤例。2026年以來，香港酒店和商廈改建學生公寓的公開交易已超<span class="mark">80億</span>港元，中原投資旗下尖沙咀「一步居·117」亦已投入市場。</p>
   </div>
 
   <div class="col">
     <figure class="pic reveal">
       <div class="img-wrap">
-        <img src="onepace-117.png" alt="Entrance exterior of One Pace 117, a private student accommodation in Tsim Sha Tsui" onerror="this.src='data:image/svg+xml;charset=UTF-8,%3Csvg width=%22600%22 height=%22400%22 xmlns=%22http://www.w3.org/2000/svg%22%3E%3Crect width=%22100%25%22 height=%22100%25%22 fill=%22%23EEF2F6%22/%3E%3Ctext x=%2250%25%22 y=%2248%25%22 font-family=%22sans-serif%22 font-size=%2216%22 fill=%22%235B6573%22 text-anchor=%22middle%22 dominant-baseline=%22middle%22%3EImage placeholder | One Pace 117%3C/text%3E%3Ctext x=%2250%25%22 y=%2258%25%22 font-family=%22sans-serif%22 font-size=%2212%22 fill=%22%23B5BAC1%22 text-anchor=%22middle%22 dominant-baseline=%22middle%22%3EPlace onepace-117.png in the same folder%3C/text%3E%3C/svg%3E'">
+        <img src="onepace-117.png" alt="尖沙咀私營學生公寓一步居117的入口外觀" onerror="this.src='data:image/svg+xml;charset=UTF-8,%3Csvg width=%22600%22 height=%22400%22 xmlns=%22http://www.w3.org/2000/svg%22%3E%3Crect width=%22100%25%22 height=%22100%25%22 fill=%22%23EEF2F6%22/%3E%3Ctext x=%2250%25%22 y=%2248%25%22 font-family=%22sans-serif%22 font-size=%2216%22 fill=%22%235B6573%22 text-anchor=%22middle%22 dominant-baseline=%22middle%22%3E圖片待放入｜一步居·117%3C/text%3E%3Ctext x=%2250%25%22 y=%2258%25%22 font-family=%22sans-serif%22 font-size=%2212%22 fill=%22%23B5BAC1%22 text-anchor=%22middle%22 dominant-baseline=%22middle%22%3E請將 onepace-117.png 放在同一資料夾%3C/text%3E%3C/svg%3E'">
       </div>
       <figcaption>
-        One Pace 117, a private student accommodation in Tsim Sha Tsui.
-        <span class="credit">Photo: Campus One Communities</span>
+        尖沙咀私營學生公寓「一步居·117」。
+        <span class="credit">圖片來源：Campus One Communities</span>
       </figcaption>
     </figure>
   </div>
 
   <div class="col body-text">
-    <p>Such accommodation, purpose-built or converted by private developers or operators and rented to students at market rents, is called purpose-built student accommodation (PBSA), or private student housing. JLL data at the end of April 2026 showed Hong Kong’s major student accommodation had about <span class="mark">6,900</span> rentable beds, with occupancy at 98 to 100 per cent, nearly full; projects under construction and in planning would add about <span class="mark">16,300</span> beds.</p>
-    <p>Whether university hostels or private student accommodation, bed supply is increasing. But disclosed rents show clear divergence in market bed prices.</p>
-
-    <p>Single rooms (one bed) at One Pace 117 in Tsim Sha Tsui cost about <span class="mark">HK$18,000 to nearly HK$20,000</span> a month, while beds in twin rooms cost about HK$9,100. At One Pace 38 in Mid-Levels West, near HKU, single rooms cost about HK$16,000 to HK$18,000 a month, and twin-room beds about HK$11,300 to HK$14,000. At Brim Youth, an off-campus student hostel in Kwai Chung serving CityU and HKBU, single-room beds cost about HK$9,900 to HK$18,000, and twin-room beds about HK$6,800 to HK$7,900. By comparison, a private flat of about 431 sq ft in Kowloon rents for an average of only about <span class="mark">HK$17,000</span> a month — some single beds in student accommodation now cost more than an entire two-bedroom flat.</p>
-    <p>Not all new beds are in the high-price bracket. Centaline Investment’s One Hui Ju Kai Tak focuses on three- and four-person rooms, with beds starting at about HK$6,100 to HK$6,400 a month; some twin-room beds are quoted at around HK$8,500. Still, single rooms in core districts with en-suite bathrooms generally reach HK$14,000 to HK$20,000. A bed in a twin room in a university hostel, when converted to a monthly rent, is usually around <span class="mark">HK$2,500</span> — a significant gap with market student accommodation.</p>
-
-    <!-- Figure 4: One bed costs more than a two-bedroom flat -->
-    <figure class="wide">
-      <iframe class="fig" src="fig4eng.html" title="One bed costs more than a two-bedroom flat" loading="lazy"></iframe>
-    </figure>
-
-    <p>JLL data published in June 2026 showed that, as of the end of April 2026, rents in Hong Kong’s major student accommodation had risen steadily by nearly 10 per cent a year since 2022.</p>
+    <p>這類由私營發展商或營運商專門建造或改裝、並以市場租金租給學生的住宿，稱為「專用學生宿舍」，即私營學生公寓。仲量聯行2026年4月底數據顯示，香港主要學生公寓現有約<span class="mark">6900個</span>可租床位，入住率高達98%至100%，幾近滿租；在建及規劃中的項目另有約<span class="mark">1.63萬個</span>床位。</p>
+    <p>無論是校內宿舍還是私營學生公寓，床位供給都在增加。但已披露租金顯示，市場床位價格明顯分化。</p>
+    <p>尖沙咀「一步居·117」單人房（一個床位）月租約<span class="mark">1.8萬至近2萬</span>港元，雙人房床位約9100港元。鄰近香港大學的西半山「一步居·38」，單人房月租約1.6萬至1.8萬港元，雙人房床位約1.13萬至1.4萬港元。位於葵涌、服務城大及浸大的校外學生宿舍博譽，單人房床位約9900至1.8萬港元，雙人房床位約6800至7900港元。相比之下，九龍區一個約431呎私人住宅單位平均月租僅約<span class="mark">1.7萬</span>港元——部分學生公寓的單人床位，已貴過一整個兩房單位。</p>
+    <p>並非所有新床位都落在高價檔。中原投資旗下九龍城「一匯居·啟德」主打三人及四人房，床位月租約6100至6400港元起；部分雙人房床位也有8500港元左右的報價。不過，核心地段、獨立衛浴的單人房，租金普遍上探至1.4萬至2萬港元區間。大學宿舍折算雙人房床位月租通常在<span class="mark">2500</span>港元左右水準，與市場學生公寓房間價格的差距顯著。</p>
   </div>
 
-  <div class="col body-text">
-    <h2 id="sec5" data-sec>Beyond the overall shortfall, “affordable places” become a separate challenge</h2>
-    <p>How many hostel places is Hong Kong actually short of? Official and market estimates both offer answers, but their scopes differ.</p>
-    <p>A Legco reply on February 4, 2026, citing an earlier study, said Hong Kong was expected to face a shortfall of <span class="mark">120,000</span> student hostel places by 2028. JLL projected that the city’s PBSA bed shortfall would widen from <span class="mark">76,300</span> in 2025/26 to <span class="mark">147,200</span> in 2029/30, almost doubling, a net increase of more than 70,000.</p>
-    <p>The first covers all student hostel places; the second covers only purpose-built student accommodation. Both estimates focus on the numerical bed shortfall and do not reflect differences in the price structure of supply. Private student accommodation is priced at market rents and remains far above the roughly HK$2,500 monthly equivalent for a twin-room bed in a university hostel.</p>
-    <p>In a written Legco reply in October 2026, the Development Bureau said the government had no plans to set a specific target for the number of hostel places or to link annual supply to the number of additional students admitted under the relaxed non-local student cap. The authorities said the Urban Student Hostel Scheme aimed to remove barriers in development control procedures, and whether commercial buildings were eventually converted or redeveloped into student hostels was a commercial decision.</p>
-    <p>This raises another issue: the hostel shortage is not only a lack of beds but also a question of affordability. Adding beds may help narrow the overall supply gap, but more beds alone may not automatically solve students’ ability to pay.</p>
+  <!-- 圖四：散點圖 —— 一個床位貴過兩房（放在「仲量聯行」段落上方） -->
+  <figure class="wide">
+    <iframe class="fig" src="fig4.html" title="一個床位貴過兩房" loading="lazy"></iframe>
+  </figure>
 
-    <h2 id="sec6" data-sec>With limited hostel guarantees, how do students choose?</h2>
-    <p>Hong Kong’s expanded enrolment policy has raised the non-local student cap, but the number of years of guaranteed hostel places has not been extended in tandem. Universities’ on-campus hostel guarantees generally cover only the first year or first two years of undergraduate study; postgraduates have no stable accommodation guarantee and face uncertainty over allocation.</p>
-    <p>As students move to higher years and lose their guarantee, they must look to the off-campus market. Paula Hui, a third-year student at Hong Kong Shue Yan University, recalled that after learning she could not continue living in a hostel, she prioritised student accommodation or long-stay hotels for safety reasons. But after searching online, she found most student accommodation expensive and long-stay hotels relatively remote, so she settled for a private flat that was closer and more reasonably priced.</p>
-    <p>Choosing a private flat often means handling complicated procedures and potential risks alone. Ma Yifan, a student at Hong Kong Baptist University, said renting off campus offered independent space, more privacy and greater comfort, but he had to contact agents himself, sift through complicated information and face certain risks. He also worried about missing the last MTR train when staying late for group work and had safety concerns about travelling late at night.</p>
-    <p>In Hong Kong’s private residential market, many landlords rarely accept short lets when renting to students, with most tenancies starting at one year, leaving students who need short-term accommodation to find other options. Sun Yuqiu, who studies at Hong Kong Baptist University, needed only three months’ accommodation before going on exchange to Germany in the next semester, and eventually chose a long-stay hotel in Shek Mun at <span class="mark">HK$25,000</span> a month for a single room. She said that although the hotel was well equipped, the nearly 50-minute commute each way was too long. “If I needed a full year, I would definitely choose off-campus renting or student accommodation.”</p>
-    <p>To cut accommodation costs, some students look across the border. Li Huailin said that if he failed to get a hostel place later, he would move to Shenzhen. “Rents in Shenzhen are friendlier and living costs are lower. Even if commuting costs more, overall spending would still be much lower.”</p>
-    <p>Student accommodation generally offers flexible leases and full facilities, while private flats usually require long leases and large deposits. Long-stay hotels allow short stays but are priced high. With a hostel shortfall, whether rents are affordable has become a key consideration in students’ housing choices; the accommodation pressure brought by expanded enrolment has also left many students weighing the pros and cons of different options.</p>
+  <div class="col body-text">
+    <p>仲量聯行2026年6月發佈的數據顯示，截至2026年4月底，香港主要學生公寓租金自2022年以來每年穩步上升近一成。</p>
+
+    <h2 id="sec5" data-sec>總缺口之外，「可負擔宿位」另成挑戰</h2>
+    <p>香港到底缺多少宿位？官方與市場機構都作出了判斷，但統計範圍不同。</p>
+    <p>立法會2026年2月4日答覆中引述早前研究報告指出，預計本港至2028年學生宿位短缺將達<span class="mark">12萬個</span>；仲量聯行則預測，全港專用學生宿舍床位缺口將由2025/26學年的<span class="mark">7.63萬個</span>，擴大至2029/30學年的<span class="mark">14.72萬個</span>，幾乎翻倍，淨增逾7萬個。</p>
+    <p>前者是「學生宿位」總範圍；後者則是「專用學生宿舍」範圍。兩份估算均聚焦床位數量缺口，卻未能反映供給的價格結構差異。市場學生公寓以市場租金定價，與大學宿舍折算雙人房床位月租約2500港元的水準相比，仍存在明顯落差。</p>
+    <p>發展局在2026年10月的立法會書面回覆中表示，政府未有打算訂立宿位數量具體指標，或將每年宿位的供應量與放寬非本地生限額的新增學生數量掛鈎。當局指出，「城中學舍計劃」旨在為發展管制程序拆牆鬆綁，最終是否將商廈改裝或重建為學生宿舍屬商業決定。</p>
+    <p>這也帶出另一層問題：宿位短缺不只是床位數量不足，亦牽涉可負擔性。增加總床位或有助收窄整體供應缺口，但單純增加床位，未必能自動解決學生負擔能力的問題。</p>
+
+    <h2 id="sec6" data-sec>有限的宿位保證，學生如何選擇？</h2>
+    <p>香港擴招政策提高了非本地生限額，但宿位保證年限並沒有同步延長。院校的校內宿位保障一般僅覆蓋本科新生首年或首兩年；研究生則沒有穩定的住宿保障，能否分配到宿位存在不確定性。</p>
+    <p>隨着年級升高，失去宿位保障的學生只能將目光投向校外市場。樹仁大學三年級生Paula許回憶，確定無法繼續住宿舍後，出於安全考慮，她曾優先尋找學生公寓或長租酒店。但在網上不斷篩選後發現，大部分學生公寓價格高昂，而長租酒店的地點又相對偏遠，最終她只能退而求其次，選擇了距離相對較近、價格更合適的私人住宅。</p>
+    <p>而選擇私人住宅，往往意味着要獨自承擔繁雜的程序與潛在風險。浸大生馬逸凡指出，校外租房能擁有獨立空間，私隱性更高，住起來更自在，不過過程中需要自己聯繫中介，資訊篩選繁雜，且存在一定風險；此外，如果晚上留校做小組作業，會擔心錯過地鐵，深夜乘車也有安全顧慮。</p>
+    <p>香港私樓市場之中，不少業主租予學生時鮮少接受短租，租約大多一年起，這讓有短期住宿需求的學生需要另尋方案。就讀浸大的孫遇秋，因下學期將前往德國交換，僅需短租三個月，最終選擇了石門的長租酒店，單人間月租達<span class="mark">2.5萬</span>港元。她表示，雖然酒店設施完善，但單程近50分鐘的通勤時間過長，「如果是住一整年的需求，肯定還是會選擇校外租房或學生公寓。」</p>
+    <p>為了降低住宿開支，部分學生將目光投向跨境。李懷林表示，若日後未能獲分配校內宿位，他會選擇搬往深圳居住：「深圳房租友好，物價便宜，即使通勤花費更高，但整體開支仍能省下不少。」</p>
+    <p>學生公寓一般租期靈活、設施完備，私人住宅則普遍要求長租與高額押金，長租酒店雖可短租，但定價偏高。在宿位缺口之下，租金可負擔性與否，已成為學生住宿選擇的重要考量；擴招帶來的住宿壓力，也讓不少學生在各類住宿選項之間反覆權衡利弊。</p>
   </div>
 
   <div class="col notes">
 
-    <h2>How we did this</h2>
+    <h2>資料說明</h2>
 
-    <h3>Sources</h3>
-    <p style="margin-bottom:10px">The sources below are grouped by topic and correspond to the text and charts. Links point to the original sources at the time of verification.</p>
+    <h3>資料來源</h3>
+    <p style="margin-bottom:10px">以下按議題分組，逐條對應正文與圖表。連結為核實時的原始出處。</p>
 
     <ul class="srclist">
-      <li><span class="tag">Policy</span>2025 Policy Address, paragraph 137: cap on self-financing non-local students rises from 40 per cent to 50 per cent (from 2026/27)
+      <li><span class="tag">政策</span>《2025 年施政報告》第 137 段：非本地生自費就學上限由 40% 增至 50%（2026/27 起）
         <br><a href="https://www.policyaddress.gov.hk/2025/tc/p137.html" target="_blank" rel="noopener">policyaddress.gov.hk/2025/tc/p137.html</a></li>
 
-      <li><span class="tag">Policy</span>2023 Policy Address: about 13,500 new hostel places at funded institutions by 2027
+      <li><span class="tag">政策</span>《2023 年施政報告》：2027 年前資助院校新增約 1.35 萬個宿位
         <br><a href="https://www.info.gov.hk/gia/general/202312/06/P2023120600243.htm" target="_blank" rel="noopener">info.gov.hk/gia/general/202312/06/P2023120600243.htm</a></li>
 
-      <li><span class="tag">Official</span>Education Bureau paper to the Legco Panel on Education (February 2025): non-local student numbers
+      <li><span class="tag">官方</span>教育局提交立法會教育事務委員會文件（2025 年 2 月）：非本地生人數
         <br><a href="https://www.legco.gov.hk/yr2025/chinese/panels/ed/ed_ieh/papers/ed_ieh20250218cb3-315-1-c.pdf" target="_blank" rel="noopener">legco.gov.hk/yr2025/chinese/panels/ed/ed_ieh/papers/ed_ieh20250218cb3-315-1-c.pdf</a></li>
 
-      <li><span class="tag">Official</span>Legco Q15: supply of student hostels (February 4, 2026) — HK$10.3 billion fund, eight completed projects about 7,800 places, seven under construction about 6,500 places, Urban Student Hostel Scheme 25 applications about 5,100 places
+      <li><span class="tag">官方</span>立法會十五題：學生宿舍的供應（2026 年 2 月 4 日）——103 億基金、8 個完工約 7,800 個、7 個施工約 6500 個、城中學舍 25 宗約 5100 個
         <br><a href="https://www.info.gov.hk/gia/general/202602/04/P2026020400542.htm" target="_blank" rel="noopener">info.gov.hk/gia/general/202602/04/P2026020400542.htm</a></li>
 
-      <li><span class="tag">Official</span>Development Bureau press release: Hostel Development Fund project progress
+      <li><span class="tag">官方</span>發展局新聞稿：宿舍發展基金項目進度
         <br><a href="https://www.devb.gov.hk/sc/publications_and_press_releases/press/index_id_15418.html" target="_blank" rel="noopener">devb.gov.hk/sc/publications_and_press_releases/press/index_id_15418.html</a></li>
 
-      <li><span class="tag">Official</span>Legco Q21: Urban Student Hostel Scheme (updated October 28, 2026)
+      <li><span class="tag">官方</span>立法會二十一題：城中學舍計劃（2026 年 10 月 28 日更新）
         <br><a href="https://www.info.gov.hk/gia/general/202610/28/P2026102800400.htm" target="_blank" rel="noopener">info.gov.hk/gia/general/202610/28/P2026102800400.htm</a></li>
 
-      <li><span class="tag">Official</span>Urban Student Hostel Scheme website; Government News: scheme consolidates education hub role (August 17, 2025)
+      <li><span class="tag">官方</span>「城中學舍計劃」官網；政府新聞網：計劃鞏固教育樞紐地位（2025 年 8 月 17 日）
         <br><a href="https://www.studenthostel.gov.hk/" target="_blank" rel="noopener">studenthostel.gov.hk</a> ·
         <a href="https://www.news.gov.hk/chi/2025/08/20250817/20250817_110302_057.html" target="_blank" rel="noopener">news.gov.hk</a></li>
 
-      <li><span class="tag">Universities</span>Student numbers and hostel places on the eight universities’ websites: HKU <a href="https://www.cpao.hku.hk/qstats/student-profiles" target="_blank" rel="noopener">CPAS</a>, CUHK <a href="https://www.iso.cuhk.edu.hk/images/publication/facts-and-figures/2024/html5/8/" target="_blank" rel="noopener">Facts &amp; Figures</a>, HKUST <a href="https://shrl.hkust.edu.hk/residential-halls/overview" target="_blank" rel="noopener">SHRL</a>, CityU <a href="https://www.cityu.edu.hk/fnf/facilities.htm" target="_blank" rel="noopener">Facilities</a>, PolyU <a href="https://www.polyu.edu.hk/sao/student-resources-and-support-section/residential-life/" target="_blank" rel="noopener">SAO</a>, Lingnan <a href="https://www.ln.edu.hk/osa/residential-life/student-hostel" target="_blank" rel="noopener">OSA</a>, EdUHK <a href="https://www.eduhk.hk/sao/en/info/student_halls/student_halls_quarters" target="_blank" rel="noopener">SAO</a>, HKBU <a href="https://www.hkbu.edu.hk/en/about/facts-figures.html" target="_blank" rel="noopener">Facts</a></li>
+      <li><span class="tag">院校</span>八校官網學生人數與宿位：港大 <a href="https://www.cpao.hku.hk/qstats/student-profiles" target="_blank" rel="noopener">CPAS</a>、中大 <a href="https://www.iso.cuhk.edu.hk/images/publication/facts-and-figures/2024/html5/8/" target="_blank" rel="noopener">Facts &amp; Figures</a>、科大 <a href="https://shrl.hkust.edu.hk/residential-halls/overview" target="_blank" rel="noopener">SHRL</a>、城大 <a href="https://www.cityu.edu.hk/fnf/facilities.htm" target="_blank" rel="noopener">Facilities</a>、理大 <a href="https://www.polyu.edu.hk/sao/student-resources-and-support-section/residential-life/" target="_blank" rel="noopener">SAO</a>、嶺大 <a href="https://www.ln.edu.hk/osa/residential-life/student-hostel" target="_blank" rel="noopener">OSA</a>、教大 <a href="https://www.eduhk.hk/sao/en/info/student_halls/student_halls_quarters" target="_blank" rel="noopener">SAO</a>、浸大 <a href="https://www.hkbu.edu.hk/en/about/facts-figures.html" target="_blank" rel="noopener">Facts</a></li>
 
-      <li><span class="tag">Universities</span>HKU has about 7,800 hostel places (Wen Wei Po, September 1, 2025); CUHK United College rotation system and non-local student accommodation arrangements
+      <li><span class="tag">院校</span>港大宿位約 7800 個（文匯報，2025 年 9 月 1 日）；中大聯合書院輪宿制與非本地生住宿安排
         <br><a href="https://www.wenweipo.com/a/202509/01/AP68b4e38ae4b0b3fbb35dbe93.html" target="_blank" rel="noopener">wenweipo.com</a> ·
         <a href="https://www.uc.cuhk.edu.hk/sc/student-hostels/" target="_blank" rel="noopener">uc.cuhk.edu.hk</a></li>
 
-      <li><span class="tag">Data</span>Non-local students rose from 54,500 in 2022/23 to 79,300 in 2024/25, up 45.5 per cent (Wen Wei Po, December 30, 2025)
+      <li><span class="tag">數據</span>非本地生由 2022/23 的 54500 人增至 2024/25 的 79300 人，增幅 45.5%（文匯報，2025 年 12 月 30 日）
         <br><a href="https://www.wenweipo.com/a/202512/30/AP6952e4d6e4b03b319788c03f.html" target="_blank" rel="noopener">wenweipo.com</a></li>
 
-      <li><span class="tag">Data</span>Eight universities’ hostel-place-to-student ratios (Midland ICI analysis)
+      <li><span class="tag">數據</span>八校宿位與學生人數比例（美聯工商舖分析）
         <br><a href="https://www.midlandici.com.hk/ics/property/article/detail/47434" target="_blank" rel="noopener">midlandici.com.hk</a></li>
 
-      <li><span class="tag">Market</span>JLL: about 6,900 rentable beds, occupancy 98–100 per cent, about 16,300 under construction and planning, rents up nearly 10 per cent a year since 2022, shortfall 76,300→147,200 (June 2026)
+      <li><span class="tag">市場</span>仲量聯行：約 6900 個可租床位、入住率 98–100%、在建及規劃約 16300 個、租金自 2022 年每年升近一成、缺口 7.63 萬→14.72 萬（2026 年 6 月）
         <br><a href="https://www.jll.com/zh-hk/newsroom/hk-student-bed-shortage-set-to-approach-150000-by-2030" target="_blank" rel="noopener">jll.com/zh-hk</a> ·
         <a href="https://www.jll.com/en-hk/newsroom/hk-student-bed-shortage-set-to-approach-150000-by-2030" target="_blank" rel="noopener">jll.com/en-hk</a></li>
 
-      <li><span class="tag">Market</span>Knight Frank data (PBSA average rents rose about 8 per cent a year in 2023–2025), cited by Hong Kong Business
-        <br><a href="https://hongkongbusiness.hk/residential/in-focus/hong-kong-student-bed-gap-hit-90000-2029" target="_blank" rel="noopener">Hong Kong Business, October 1, 2026</a></li>
+      <li><span class="tag">市場</span>萊坊數據（PBSA 2023–2025 年均租金升約 8%）經香港商業報引述
+        <br><a href="https://hongkongbusiness.hk/residential/in-focus/hong-kong-student-bed-gap-hit-90000-2029" target="_blank" rel="noopener">Hong Kong Business，2026 年 10 月 1 日</a></li>
 
-      <li><span class="tag">Deal</span>CapitaLand acquisition of Ibis Central and Sheung Wan: JSM advisory announcement, MarketScreener completion record, Mingtiandi, Dimsum Daily
+      <li><span class="tag">交易</span>凱德收購宜必思中上環：JSM 顧問公告、MarketScreener 完成交割記錄、Mingtiandi、Dimsum Daily
         <br><a href="https://www.jsm.com/news/2026/09/jsm-advises-capitaland-investment-on-acquisition-of-ibis-hong-kong-central-sheung-wan/" target="_blank" rel="noopener">jsm.com</a> ·
         <a href="https://www.marketscreener.com/news/capitaland-investment-limited-completed-the-acquisition-of-ibis-hong-kong-central-and-sheung-wan-hot-ce785ad9d889f32c" target="_blank" rel="noopener">marketscreener.com</a> ·
         <a href="https://www.mingtiandi.com/real-estate/finance/capitaland-buys-ibis-hotel-in-hong-kong-from-butterfly-hospitality/" target="_blank" rel="noopener">mingtiandi.com</a></li>
 
-      <li><span class="tag">Project</span>Centaline Investment’s One Pace 117 pre-leased 98 per cent, highest building rent HK$91 per sq ft (HK01, August 15, 2025)
+      <li><span class="tag">項目</span>中原投資「一步居·117」預租 98%、建築呎租最高 91 元（香港01，2025 年 8 月 15 日）
         <br><a href="https://www.hk01.com/%E5%9C%B0%E7%94%A2%E6%A8%93%E5%B8%82/60266899/" target="_blank" rel="noopener">hk01.com</a></li>
 
-      <li><span class="tag">Project</span>Centaline’s two projects for the new academic year total 855 beds; Kai Tak rents from HK$6,128 a month (HK01/am730/Sing Tao, June 1, 2026)
+      <li><span class="tag">項目</span>中原新學年兩個項目共 855 個床位、啟德月租最低 6128 元（香港01／am730／星島，2026 年 6 月 1 日）
         <br><a href="https://www.hk01.com/%E5%9C%B0%E7%94%A2%E6%A8%93%E5%B8%82/60355593/" target="_blank" rel="noopener">hk01.com</a> ·
         <a href="https://www.am730.com.hk/article/1033646" target="_blank" rel="noopener">am730.com.hk</a> ·
         <a href="https://www.stheadline.com/realtime-property/3578420/" target="_blank" rel="noopener">stheadline.com</a></li>
 
-      <li><span class="tag">Project</span>HKBU and China Resources Longdation partner on 205 places at Brim Youth (July 10, 2026)
+      <li><span class="tag">項目</span>浸大與華潤隆地合作「博譽」205 個宿位（2026 年 7 月 10 日）
         <br><a href="https://www.hkbu.edu.hk/zh_hk/whats-new/press-release/2026/0710-hkbu-and-cr-longdation-sign-agreement-to-provide-units-at-brim-youth-to-meet-students-housing-demand.html" target="_blank" rel="noopener">hkbu.edu.hk</a></li>
 
-      <li><span class="tag">Rents</span>Rating and Valuation Department property market statistics: private domestic rent index (203.4 in April 2026, up 4.9 per cent year on year; 210.3 in August, up 4.89 per cent in the first eight months)
+      <li><span class="tag">租金</span>差餉物業估價署物業市場統計：私人住宅租金指數（2026 年 4 月 203.4 點、按年升 4.9%；8 月 210.3 點，首 8 個月累升 4.89%）
         <br><a href="https://www.rvd.gov.hk/tc/publications/property_market_statistics.html" target="_blank" rel="noopener">rvd.gov.hk</a> ·
         <a href="https://www.rvd.gov.hk/doc/en/statistics/full.pdf" target="_blank" rel="noopener">rvd.gov.hk/doc/en/statistics/full.pdf</a></li>
 
-      <li><span class="tag">Rents</span>Private flat rents around universities rise: Centaline Research CRI up 27.63 per cent over four years; Sing Tao “private student hostels rent out”; Ming Pao mainland students scramble for rents in Western District
+      <li><span class="tag">租金</span>大學周邊私樓租金上升：中原研究部 CRI 四年累升 27.63%；星島「私營學生宿舍租爆市」；明報西區內地生搶租
         <br><a href="https://hk.centanet.com/info/property-news" target="_blank" rel="noopener">hk.centanet.com</a> ·
         <a href="https://www.stheadline.com/daily-hongkong/3622448/" target="_blank" rel="noopener">stheadline.com</a> ·
         <a href="https://news.mingpao.com/pns/%E7%B6%93%E6%BF%9F/article/20260725/s00004/1784909948764/" target="_blank" rel="noopener">news.mingpao.com</a></li>
 
-      <li><span class="tag">Rents</span>Popular estates see summer rental scramble, expected rise of 5 to 10 per cent (Sing Tao, June 12, 2026); Tseung Kwan O estate rent per sq ft rise (Dimsum Daily)
+      <li><span class="tag">租金</span>熱門屋苑暑期搶租、料升 5%–10%（星島，2026 年 6 月 12 日）；將軍澳屋苑呎租升幅（Dimsum Daily）
         <br><a href="https://www.stheadline.com/realtime-property/3582294/" target="_blank" rel="noopener">stheadline.com</a> ·
         <a href="https://www.dimsumdaily.hk/tseung-kwan-o-flat-rents-beat-market-as-city-hits-record/" target="_blank" rel="noopener">dimsumdaily.hk</a></li>
 
-      <li><span class="tag">Gap</span>Shortfall of 120,000 student hostel places by 2028 (cited by Legco); after the Urban Student Hostel Scheme, 41 further applications for about 10,800 places (Sing Tao, 2026)
+      <li><span class="tag">缺口</span>至 2028 年學生宿位短缺達 12 萬個（立法會引述）；「城中學舍」後續 41 宗申請、約 1.08 萬個宿位（星島，2026 年）
         <br><a href="https://www.info.gov.hk/gia/general/202610/28/P2026102800400.htm" target="_blank" rel="noopener">info.gov.hk</a> ·
         <a href="https://www.stheadline.com/realtime-property/3622521/" target="_blank" rel="noopener">stheadline.com</a></li>
     </ul>
 
-    <h3>Method</h3>
-    <p>Non-local student numbers come from the Education Bureau’s paper to Legco. The on-campus hostel competition ratio is calculated by dividing the student numbers published on the eight universities’ websites (including self-financing and postgraduate programmes) by the number of hostel places, rounded to one decimal place. It differs from the “funded places” measure. Market student accommodation bed numbers and rents are compiled from each project’s public information; when comparing districts, monthly rent per bed is used rather than raw totals. The converted university hostel price is estimated by spreading the annual fee for a twin room at a local university over 12 months. The annual rises in Figure 4 come from three sources with different statistical periods and are for directional comparison only.</p>
+    <h3>研究方法</h3>
+    <p>本研究以教育局提交立法會文件、八大院校官網及發展局公開資料為基礎，整理非本地生人數與資助院校宿位數；市場學生公寓的床位數及租金按各項目公開資料、媒體報道及營運方披露匯總，私人住宅租金則參考差餉物業估價署公開數據。計算方面，校內宿位競爭比例以學生總人數除以宿位數得出，面積按 1 平方米約 10.764 平方呎換算，大學宿舍折算價按各校雙人房宿費按月攤分估算，市場公寓與私宅分別以每床位月租及每單位月租作對照。圖表主要用於呈現床位數量、租金檔次及房型差異，相關數據以 2026 年公開發盤及營運方披露為準，政策與供應數據則以立法會文件及政府部門最新公開回覆為依據；不同來源、不同統計期間的數據僅作方向性對照。</p>
 
-    <h3>Limitations</h3>
+    <h3>限制</h3>
     <ul>
-      <li>Complete official non-local student data are unavailable for 2025/26 to 2028/29, so Figure 1 leaves those years blank.</li>
-      <li>The 5,100 places under the Urban Student Hostel Scheme and 4,500 places on three sites are at application or expression-of-interest stage, not confirmed, and are not counted as committed supply. Note: by the Legco reply of October 28, 2026, applications had risen to 41, covering about 10,800 places, but not all had materialised, so the text retains the February figures and notes this here.</li>
-      <li>The CapitaLand Ibis deal has not completed; only the 550 rooms are known, and bed numbers and rents have not been disclosed.</li>
-      <li>In Figure 2, each small house represents 200 beds. The number of houses for projects under construction is the bed count divided by 200 and rounded, so it may differ slightly from actual bed numbers.</li>
-      <li>Rents in Figure 3 are publicly quoted ranges, not district averages; within the same project, single and shared rooms can differ by more than 100 per cent, so one project should not represent the whole city. The converted university hostel price spreads the twin-room fee over 12 months and excludes utilities and summer arrangements; arrangements vary widely between universities.</li>
-      <li>The hostel competition ratio divides total student numbers by hostel places and does not distinguish undergraduates from postgraduates; postgraduates’ actual chances of allocation are far lower than this average.</li>
-      <li>There is a lack of public microdata on actual occupancy and tenant composition in student accommodation, so no quantitative inference is made about “crowding out local tenants”.</li>
+      <li>2025/26至2028/29學年缺乏官方完整非本地生數據，圖一留空處理。</li>
+      <li>「城中學舍」5100個宿位及三幅用地4500個宿位屬申請或意向階段，未確認落地，不計入已落實供應。註：至 2026 年 10 月 28 日立法會答覆，申請已增至 41 宗、約 1.08 萬個宿位，仍未全部落地，故正文保留 2 月口徑並在此標註。</li>
+      <li>凱德宜必思交易未完成，僅知550間客房，床位與租金未披露。</li>
+      <li>圖二每個小房子代表200個床位，在建項目的房子數為床位數除以200後四捨五入，與實際床位數略有出入。</li>
+      <li>圖三租金為公開報價區間，非全區平均；同一項目的單人房與多人房差距可達一倍以上，不宜以單一項目代表全港水平。大學宿舍折算價為雙人房宿費按月攤分，未計水電及暑期安排，各校差異大。</li>
+      <li>宿位競爭比例以學生總人數除以宿位數，未區分本科生與研究生；研究生實際獲配機會遠低於此平均值。</li>
+      <li>學生公寓實際入住率與租客構成缺乏公開微觀數據，故未就「擠出本地租客」作量化推論。</li>
     </ul>
 
-    <h3>Interviews</h3>
-    <p>The interviews with the seven people below are quoted in the text, with recordings on file. Interview dates are as follows:</p>
+        <h3>訪問</h3>
+    <p>以下七位受訪者按訪問日期及姓氏排序如下：</p>
     <ul class="iv-list">
-      <li><span>Ma Yifan <span class="role">Hong Kong Baptist University</span></span><i>October 28, 2026</i></li>
-      <li><span>Sun Yuqiu <span class="role">Hong Kong Baptist University</span></span><i>October 28, 2026</i></li>
-      <li><span>Li Huailin <span class="role">Hong Kong Polytechnic University</span></span><i>October 28, 2026</i></li>
-      <li><span>Lu Xinyu <span class="role">Chinese University of Hong Kong</span></span><i>October 28, 2026</i></li>
-      <li><span>Ma Cenzhi <span class="role">University of Hong Kong</span></span><i>October 29, 2026</i></li>
-      <li><span>Li Lianglingjia <span class="role">Hong Kong Baptist University</span></span><i>October 29, 2026</i></li>
-      <li><span>Paula Hui <span class="role">Hong Kong Shue Yan University</span></span><i>October 31, 2026</i></li>
+      <li><span>李懷林 <span class="role">香港理工大學學生</span></span><i>2026.10.28</i></li>
+      <li><span>盧芯雨 <span class="role">香港中文大學學生</span></span><i>2026.10.28</i></li>
+      <li><span>馬逸凡 <span class="role">香港浸會大學學生</span></span><i>2026.10.28</i></li>
+      <li><span>孫遇秋 <span class="role">香港浸會大學學生</span></span><i>2026.10.28</i></li>
+      <li><span>李梁伶佳 <span class="role">香港浸會大學學生</span></span><i>2026.10.29</i></li>
+      <li><span>馬涔之 <span class="role">香港大學學生</span></span><i>2026.10.29</i></li>
+      <li><span>Paula 許 <span class="role">香港樹仁大學學生</span></span><i>2026.10.31</i></li>
     </ul>
 
-    <h3>Central number</h3>
-    <p>79,300 non-local students (2024/25), 6.0:1 (PolyU student-to-hostel-place ratio), 2.2:1 (CUHK, lowest among the eight universities), 13,500 (government target for new hostel places) and 23,200 (market-planned beds), all recalculated from the original files.</p>
+        <h3>核心數字</h3>
+    <p>本報導的四個核心數字為：7.93萬名非本地生（2024/25學年）、45.5%（兩年增幅）、1.35萬個（政府目標新增宿位）、2.32萬個（市場規劃床位總數）。</p>
+    <p>由原始檔案重算的步驟：</p>
+    <ul>
+      <li>7.93萬名非本地生：根據教育局提交立法會文件及文匯報（2025年12月30日）引述的數據，2024/25學年全港修讀全日制專上課程的非本地生總數為79,300人。</li>
+      <li>45.5%增幅：以2022/23學年的54,500人為基數，2024/25學年增至79300人。重算步驟為：(79300 - 54500) ÷ 54500 × 100% ≈ 45.5%。</li>
+      <li>1.35萬個政府目標宿位：依據《2023年施政報告》及發展局2026年2月披露的15個宿舍項目進度。8個已完工項目提供約7,800個宿位，7個在建項目涉及約6,500個宿位，兩者加總為14,300個，與政府「約1.35萬個」的目標口徑一致（差異源於四捨五入及統計時間點）。</li>
+      <li>2.32萬個市場規劃床位：依據仲量聯行（JLL）2026年4月底數據，將現有約6900個可租床位與在建及規劃中的約16300個床位相加（6900 + 16300 = 23,200），得出市場規劃床位總數。</li>
+    </ul>
 
-    <h3>AI note</h3>
-    <p>Tools: DeepSeek for building the webpage and charts; GitHub for building the webpage.</p>
-    <p>Not used for: choosing the angle, writing any published text or producing any figure.</p>
+    <h3>AI使用說明</h3>
+    <p>使用工具：使用Deepseek製作網頁和圖表，使用GitHub製作網頁。</p>
+    <p>未用於：選題角度、撰寫任何刊出文字、產生任何數字。</p>
 
   </div>
 
 </main>
 
-<button class="to-top" id="toTop" aria-label="Back to top">↑</button>
+<button class="to-top" id="toTop" aria-label="返回頂部">↑</button>
 
 <script>
 (function(){
-  /* ---------- 1. Subpage height reporting (works with postMessage from each figure page) ---------- */
+  /* ---------- 1. 子頁面回報高度（配合各 fig 頁面底部的 postMessage） ---------- */
   window.addEventListener('message', function(e){
     if(!e.data || e.data.type !== 'fig-height') return;
     var h = Number(e.data.height);
@@ -799,7 +816,7 @@
     });
   });
 
-  /* ---------- 2. Read height directly when same-origin (fallback if postMessage fails) ---------- */
+  /* ---------- 2. 同源時直接讀取高度（postMessage 未生效時的後備） ---------- */
   function fitFrame(f){
     try {
       var d = f.contentDocument || f.contentWindow.document;
@@ -809,7 +826,7 @@
         d.body ? d.body.scrollHeight : 0
       );
       if(h > 200) f.style.height = h + 'px';
-    } catch(e){ /* silent fail on file:// or cross-origin; use inline fallback height */ }
+    } catch(e){ /* file:// 或跨域時靜默失敗，使用內聯兜底高度 */ }
   }
   document.querySelectorAll('iframe.fig').forEach(function(f){
     f.addEventListener('load', function(){
@@ -820,7 +837,7 @@
     });
   });
 
-  /* ---------- 3. Background folding effect ---------- */
+  /* ---------- 3. 背景折疊效果 ---------- */
   var bgHouses = document.getElementById('bgHouses');
   var ticking = false;
   function updateBg() {
@@ -839,7 +856,7 @@
   }, {passive:true});
   updateBg();
 
-  /* ---------- 4. Reading progress bar ---------- */
+  /* ---------- 4. 閱讀進度條 ---------- */
   var progressBar = document.getElementById('progress');
   function updateProgress(){
     var h = document.documentElement;
@@ -850,7 +867,7 @@
   window.addEventListener('scroll', updateProgress, {passive:true});
   updateProgress();
 
-  /* ---------- 5. Back to top ---------- */
+  /* ---------- 5. 返回頂部 ---------- */
   var toTop = document.getElementById('toTop');
   window.addEventListener('scroll', function(){
     toTop.classList.toggle('show', window.scrollY > 600);
@@ -859,7 +876,7 @@
     window.scrollTo({top:0, behavior:'smooth'});
   });
 
-  /* ---------- 6. Scroll reveal ---------- */
+   /* ---------- 6. 滾動揭示 ---------- */
   document.querySelectorAll('.lede, .body-text p, .body-text h2, .stats, .notes h2, .notes h3, .notes p, .notes ul, figure.wide, figure.pic, .tool-block').forEach(function(el){
     el.classList.add('reveal');
   });
@@ -870,10 +887,7 @@
   }, {rootMargin:'0px 0px -10% 0px', threshold:0.05});
   document.querySelectorAll('.reveal').forEach(function(el){ revealIO.observe(el); });
 
-  /* ---------- 7. Animated numbers (with thousands separators) ---------- */
-  function formatThousands(nStr){
-    return nStr.replace(/\B(?=(\d{3})+(?!\d))/g, ',');
-  }
+  /* ---------- 7. 數字滾動 ---------- */
   function animateNum(el){
     if(el.dataset.done) return;
     el.dataset.done = '1';
@@ -885,15 +899,7 @@
     function tick(t){
       var p = Math.min((t - t0) / dur, 1);
       var e = 1 - Math.pow(1 - p, 3);
-      var val = (to * e).toFixed(dec);
-      if(dec === 0){
-        val = formatThousands(String(Math.round(Number(val))));
-      } else {
-        var parts = val.split('.');
-        parts[0] = formatThousands(parts[0]);
-        val = parts.join('.');
-      }
-      el.textContent = val + suffix;
+      el.textContent = (to * e).toFixed(dec) + suffix;
       if(p < 1) requestAnimationFrame(tick);
     }
     requestAnimationFrame(tick);
@@ -908,7 +914,7 @@
   }, {threshold:0.3});
   document.querySelectorAll('.stat').forEach(function(el){ statIO.observe(el); });
 
-  /* ---------- 8. Side navigation active state ---------- */
+  /* ---------- 8. 側邊導航激活 ---------- */
   var secEls = document.querySelectorAll('[data-sec]');
   var navLinks = document.querySelectorAll('.side-nav a');
   var navIO = new IntersectionObserver(function(entries){
@@ -923,7 +929,7 @@
   }, {rootMargin:'-45% 0px -50% 0px'});
   secEls.forEach(function(el){ navIO.observe(el); });
 
-  /* ---------- 9. Resize frames on window resize ---------- */
+  /* ---------- 9. resize 重新適配 ---------- */
   var rt;
   window.addEventListener('resize', function(){
     clearTimeout(rt);
