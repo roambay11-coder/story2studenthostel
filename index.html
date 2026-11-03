@@ -167,16 +167,19 @@
   }
   iframe.fig.loaded{opacity:1;}
 
+  /* 去掉小游戏外层灰底/圆角/阴影，只保留内容与标题 */
   .tool-block{
     position:relative; left:50%; transform:translateX(-50%);
     width:min(860px, calc(100vw - 32px));
     margin:56px 0 40px;
-    background:linear-gradient(180deg,rgba(238,242,246,0.95),rgba(247,249,251,0.95));
-    padding:28px 24px 24px; border-radius:8px;
-    box-shadow:0 2px 12px rgba(0,0,0,0.02);
-    backdrop-filter:blur(4px); z-index:2;
+    background:none;
+    padding:0;
+    border:none;
+    box-shadow:none;
+    backdrop-filter:none;
+    z-index:2;
   }
-  .tool-block .tool-head{max-width:640px; margin:0 auto 20px;}
+  .tool-block .tool-head{max-width:640px; margin:0 auto 20px; padding:0 4px;}
   .tool-block h3{
     font-family:"Noto Serif TC",serif; font-size:21px; line-height:1.5;
     font-weight:700; margin-bottom:8px;
@@ -296,7 +299,7 @@
     .byline{grid-template-columns:1fr;gap:6px;}
     .byline .k{flex:0 0 68px;}
     figure.wide{width:calc(100vw - 20px);margin:36px 0;}
-    .tool-block{width:calc(100vw - 20px);padding:22px 16px;}
+    .tool-block{width:calc(100vw - 20px);padding:0;}
     .tool-block h3{font-size:19px;}
     .notes h2{font-size:19px;}
     .stats{grid-template-columns:repeat(2,1fr);gap:20px 12px;}
